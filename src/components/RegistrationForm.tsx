@@ -116,7 +116,6 @@ const RegistrationForm: React.FC = () => {
       phoneNumber: `'${data.phoneNumber}'`,
     };
   
-    console.log('Payload:', payload); // Cleaner logging
   
     toast.promise(
       fetch(import.meta.env.VITE_GOOGLE_SCRIPTS_URL, {
@@ -128,6 +127,7 @@ const RegistrationForm: React.FC = () => {
         },
       }).then(() => {
         setTimeout(() => setIsSuccessModalOpen(true), 300);
+        form.reset();
       }),
       {
         loading: "Connecting you to Pentagon WiFi...",
