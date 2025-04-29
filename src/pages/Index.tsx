@@ -22,7 +22,7 @@ const Index = () => {
               Connect to Pentagon WiFi
             </h1>
             <p className="text-gray-600 max-w-md mx-auto">
-              Fill out the form below to register for blazing-fast internet service across campus.
+              Fill out the form below to register for blazing-fast internet service.
             </p>
           </div>
           
