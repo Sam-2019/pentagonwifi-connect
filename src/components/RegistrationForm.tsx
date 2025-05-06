@@ -464,25 +464,24 @@ const RegistrationForm: React.FC = () => {
   </div>
 </div>
 
-          {/* Submit Button */}
-          <div className="pt-4">
-            <Button 
-              type="submit" 
-              className="w-full py-6 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
-            >
-              Connect Me
-              <Check className="h-5 w-5 mr-2" />
-            </Button>
-          </div>
-
           <div className="pt-6 border-t border-gray-300 mt-6">
-            <div className="bg-muted p-4 rounded-lg flex flex-col gap-1 text-gray-700 text-sm">
+            <div className="bg-muted p-4 rounded-lg flex flex-col gap-1 text-gray-700 text-base">
               <p><strong>Registration Fee:</strong> GHC 50</p>
               <p><strong>Plan Fee:</strong> GHC {planFee}</p>
               <p className="text-lg font-semibold text-primary mt-1">
                 Total: GHC {totalCost}
               </p>
             </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className="pt-4">
+            <Button 
+              type="submit" 
+              className="w-full py-6 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg">
+              Connect Me
+              <Check className="h-5 w-5 mr-2" />
+            </Button>
           </div>
         </form>
       </Form>
