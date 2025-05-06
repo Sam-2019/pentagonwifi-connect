@@ -454,7 +454,7 @@ const RegistrationForm: React.FC = () => {
 
           {/* Inline confirmation */}
           {field.value && (
-            <p className="text-sm text-red-700 font-medium mt-2">
+            <p className="text-sm text-green-700 font-medium mt-2">
             ✔ You’re applying as a Custodian — welcome aboard!
             </p>
           )}
