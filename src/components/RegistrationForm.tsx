@@ -10,32 +10,22 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { toast } from 'sonner';
-import { Calendar as CalendarIcon, Check, CircleCheck, CircleX, Mail, MapPin, Phone, Signature, User } from "lucide-react";
+import { Calendar as CalendarIcon, Check, CircleCheck, CircleX, Mail, MapPin, Phone, Signature, User, UserPlus, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
 import AnimatedInput from './AnimatedInput';
 import SuccessModal from './SuccessModal';
 
 const formSchema = z.object({
-  fullName: z.string().min(3, {
-    message: "Full name must be at least 3 characters.",
-  }),
-  dateOfBirth: z.date({
-    required_error: "Date of birth is required.",
-  }),
-  phoneNumber: z.string().min(10, {
-    message: "Phone number must be at least 10 digits.",
-  }),
-  email: z.string().email({
-    message: "Invalid email address.",
-  }),
-  blockCourt: z.string({
-    required_error: "Please select a block or court.",
-  }),
-  roomType: z.string({
-    required_error: "Please select a room type.",
-  }),
-  roomNumber: z.string().min(1, {
-    message: "Room number is required.",
+  fullName: z.string().min(3, { message: "Full name must be at least 3 characters." }),
+  dateOfBirth: z.date({ required_error: "Date of birth is required." }),
+  phoneNumber: z.string().min(10, { message: "Phone number must be at least 10 digits." }),
+  email: z.string().email({ message: "Invalid email address." }),
+  blockCourt: z.string({ required_error: "Please select a block or court." }),
+  roomType: z.string({ required_error: "Please select a room type." }),
+  roomNumber: z.string().min(1, { message: "Room number is required." }),
+  // subscriptionPlan: z.enum(["daily", "weekly", "monthly"], { required_error: "Select a plan." }),
+  subscriptionPlan: z.enum(["daily", "weekly", "monthly"], {
+    required_error: "Please select a subscription plan.",
   }),
   isCustodian: z.boolean().default(false),
 });
@@ -57,12 +47,25 @@ const RegistrationForm: React.FC = () => {
       blockCourt: "",
       roomType: "",
       roomNumber: "",
+      subscriptionPlan: undefined,
       isCustodian: false,
     },
   });
   
   const watchIsCustodian = form.watch("isCustodian");
-  
+  const subscriptionPlan = form.watch("subscriptionPlan");
+
+  const planPrices: Record<FormValues["subscriptionPlan"], number> = {
+    daily: 20,
+    weekly: 50,
+    monthly: 100,
+  };
+
+  const registrationFee = 50;
+  const planFee = planPrices[subscriptionPlan] ?? 0;
+  const totalCost = registrationFee + planFee;
+
+
   // Validate full name with regex (letters, spaces, hyphens, and apostrophes)
   const validateName = (name: string) => {
     if (!name) return undefined;
@@ -367,6 +370,38 @@ const RegistrationForm: React.FC = () => {
               </FormItem>
             )}
           />
+
+
+        {/* Subscription Plan */}
+        <FormField
+            control={form.control}
+            name="subscriptionPlan"
+            render={({ field }) => (
+              <FormItem className="form-field-animation">
+                <div className="relative max-w-md">
+                  <div className="flex items-center border-2 rounded-lg overflow-hidden border-gray-200 focus-within:border-primary transition-colors">
+
+                    {/* Icon inside the input box */}
+                    <div className="pl-3 text-gray-500">
+                      <UserPlus className="h-5 w-5" />
+                    </div>
+
+                    {/* Select dropdown */}
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className="w-full border-none shadow-none focus:ring-0 focus:outline-none px-3 py-3 bg-transparent">
+                        <SelectValue placeholder="Select Subscription Plan" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white z-[100]">
+                        <SelectItem value="daily">Daily (GHC 20)</SelectItem>
+                        <SelectItem value="weekly">Weekly (GHC 50)</SelectItem>
+                        <SelectItem value="monthly">Monthly (GHC 100)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </FormItem>
+            )}
+          />
           
           {/* Be a Custodian */}
 <div className="pt-4 border-t border-gray-200">
@@ -438,6 +473,16 @@ const RegistrationForm: React.FC = () => {
               Connect Me
               <Check className="h-5 w-5 mr-2" />
             </Button>
+          </div>
+
+          <div className="pt-6 border-t border-gray-300 mt-6">
+            <div className="bg-muted p-4 rounded-lg flex flex-col gap-1 text-gray-700 text-sm">
+              <p><strong>Registration Fee:</strong> GHC 50</p>
+              <p><strong>Plan Fee:</strong> GHC {planFee}</p>
+              <p className="text-lg font-semibold text-primary mt-1">
+                Total: GHC {totalCost}
+              </p>
+            </div>
           </div>
         </form>
       </Form>
