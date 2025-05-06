@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat' 
 import { z } from "zod";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -37,6 +39,7 @@ const RegistrationForm: React.FC = () => {
   const [isNameValid, setIsNameValid] = useState<boolean | undefined>(undefined);
   const [isPhoneValid, setIsPhoneValid] = useState<boolean | undefined>(undefined);
   const [isRoomNumberValid, setIsRoomNumberValid] = useState<boolean | undefined>(undefined);
+  dayjs.extend(localizedFormat);
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -94,13 +97,13 @@ const RegistrationForm: React.FC = () => {
     
     // Format based on length
     if (digitsOnly.length <= 3) {
-      return `+${digitsOnly}`;
+      return `${digitsOnly}`;
     } else if (digitsOnly.length <= 6) {
-      return `+${digitsOnly.slice(0, 3)} ${digitsOnly.slice(3)}`;
+      return `${digitsOnly.slice(0, 3)} ${digitsOnly.slice(3)}`;
     } else if (digitsOnly.length <= 9) {
-      return `+${digitsOnly.slice(0, 3)} ${digitsOnly.slice(3, 6)} ${digitsOnly.slice(6)}`;
+      return `${digitsOnly.slice(0, 3)} ${digitsOnly.slice(3, 6)} ${digitsOnly.slice(6)}`;
     } else {
-      return `+${digitsOnly.slice(0, 3)} ${digitsOnly.slice(3, 6)} ${digitsOnly.slice(6, 9)} ${digitsOnly.slice(9, 12)}`;
+      return `${digitsOnly.slice(0, 3)} ${digitsOnly.slice(3, 6)} ${digitsOnly.slice(6, 9)} ${digitsOnly.slice(9, 12)}`;
     }
   };
   
@@ -117,8 +120,9 @@ const RegistrationForm: React.FC = () => {
       ...data,
       dateOfBirth: data.dateOfBirth.toISOString().split("T")[0],
       phoneNumber: `'${data.phoneNumber}'`,
+      totalCost: `${totalCost}`,
+      dateTime: `${dayjs(new Date()).format("LLLL")}`
     };
-  
   
     toast.promise(
       fetch(import.meta.env.VITE_GOOGLE_SCRIPTS_URL, {
