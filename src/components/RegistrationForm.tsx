@@ -119,7 +119,7 @@ const RegistrationForm: React.FC = () => {
     const payload = {
       ...data,
       dateOfBirth: data.dateOfBirth.toISOString().split("T")[0],
-      phoneNumber: `'${data.phoneNumber}'`,
+      phoneNumber: `${data.phoneNumber}`,
       totalCost: `${totalCost}`,
       dateTime: `${dayjs(new Date()).format("LLLL")}`
     };
