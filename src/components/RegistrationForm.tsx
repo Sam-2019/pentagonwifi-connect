@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import dayjs from 'dayjs'
-import localizedFormat from 'dayjs/plugin/localizedFormat' 
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 import { z } from "zod";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,6 @@ import { Calendar } from "@/components/ui/calendar";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Switch } from "@/components/ui/switch";
 import { toast } from 'sonner';
 import { Calendar as CalendarIcon, Check, CircleCheck, CircleX, Mail, MapPin, Phone, Signature, User, UserPlus, Wallet } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -25,7 +24,6 @@ const formSchema = z.object({
   blockCourt: z.string({ required_error: "Please select a block or court." }),
   roomType: z.string({ required_error: "Please select a room type." }),
   roomNumber: z.string().min(1, { message: "Room number is required." }),
-  // subscriptionPlan: z.enum(["daily", "weekly", "monthly"], { required_error: "Select a plan." }),
   subscriptionPlan: z.enum(["daily", "weekly", "monthly"], {
     required_error: "Please select a subscription plan.",
   }),
@@ -40,7 +38,7 @@ const RegistrationForm: React.FC = () => {
   const [isPhoneValid, setIsPhoneValid] = useState<boolean | undefined>(undefined);
   const [isRoomNumberValid, setIsRoomNumberValid] = useState<boolean | undefined>(undefined);
   dayjs.extend(localizedFormat);
-  
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,19 +52,34 @@ const RegistrationForm: React.FC = () => {
       isCustodian: false,
     },
   });
-  
+
   const watchIsCustodian = form.watch("isCustodian");
   const subscriptionPlan = form.watch("subscriptionPlan");
 
   const planPrices: Record<FormValues["subscriptionPlan"], number> = {
     daily: 20,
-    weekly: 50,
-    monthly: 100,
+    weekly: 100,
+    monthly: 399,
   };
 
   const registrationFee = 50;
   const planFee = planPrices[subscriptionPlan] ?? 0;
   const totalCost = registrationFee + planFee;
+
+  const dataPlan = {
+    daily: {
+      title: `Daily (GHC ${planPrices.daily})`,
+      value: `Daily-(GHC ${planPrices.daily})`,
+    },
+    weekly: {
+      title: `Weekly (GHC ${planPrices.weekly})`,
+      value: `Weekly-(GHC ${planPrices.weekly})`,
+    },
+    monthly: {
+      title: `Monthly (GHC ${planPrices.monthly})`,
+      value: `Monthly-(GHC ${planPrices.monthly})`,
+    }
+  }
 
 
   // Validate full name with regex (letters, spaces, hyphens, and apostrophes)
@@ -77,7 +90,7 @@ const RegistrationForm: React.FC = () => {
     setIsNameValid(isValid);
     return isValid;
   };
-  
+
   // Validate and format phone number
   const validatePhone = (phoneNumber: string) => {
     if (!phoneNumber) return undefined;
@@ -87,14 +100,14 @@ const RegistrationForm: React.FC = () => {
     setIsPhoneValid(isValid);
     return isValid;
   };
-  
+
   // Format phone number as user types
   const formatPhoneNumber = (value: string) => {
     if (!value) return "";
-    
+
     // Keep only digits
     const digitsOnly = value.replace(/\D/g, '');
-    
+
     // Format based on length
     if (digitsOnly.length <= 3) {
       return `${digitsOnly}`;
@@ -106,7 +119,7 @@ const RegistrationForm: React.FC = () => {
       return `${digitsOnly.slice(0, 3)} ${digitsOnly.slice(3, 6)} ${digitsOnly.slice(6, 9)} ${digitsOnly.slice(9, 12)}`;
     }
   };
-  
+
   // Validate room number (numeric only)
   const validateRoomNumber = (roomNumber: string) => {
     if (!roomNumber) return undefined;
@@ -114,16 +127,17 @@ const RegistrationForm: React.FC = () => {
     setIsRoomNumberValid(isValid);
     return isValid;
   };
-  
+
   const onSubmit = async (data: FormValues) => {
     const payload = {
       ...data,
       dateOfBirth: data.dateOfBirth.toISOString().split("T")[0],
       phoneNumber: `${data.phoneNumber}`,
       totalCost: `${totalCost}`,
-      dateTime: `${dayjs(new Date()).format("LLLL")}`
+      dateTime: `${dayjs(new Date()).format("LLLL")}`,
+      subscriptionPlan: dataPlan[subscriptionPlan].value.toUpperCase()
     };
-  
+
     toast.promise(
       fetch(import.meta.env.VITE_GOOGLE_SCRIPTS_URL, {
         method: "POST",
@@ -143,8 +157,8 @@ const RegistrationForm: React.FC = () => {
       }
     );
   };
-  
-  
+
+
 
   // Auto-capitalize name while typing
   useEffect(() => {
@@ -158,7 +172,7 @@ const RegistrationForm: React.FC = () => {
         validateName(capitalized);
       }
     });
-    
+
     return () => subscription.unsubscribe();
   }, [form]);
 
@@ -191,7 +205,7 @@ const RegistrationForm: React.FC = () => {
               </FormItem>
             )}
           />
-          
+
           {/* Date of Birth */}
           <FormField
             control={form.control}
@@ -231,7 +245,7 @@ const RegistrationForm: React.FC = () => {
               </FormItem>
             )}
           />
-          
+
           {/* Phone Number */}
           <FormField
             control={form.control}
@@ -259,7 +273,7 @@ const RegistrationForm: React.FC = () => {
             )}
           />
           {/* problem with not submitting inside of sheets */}
-            {/* Email */}
+          {/* Email */}
           <FormField
             control={form.control}
             name="email"
@@ -267,17 +281,17 @@ const RegistrationForm: React.FC = () => {
               <FormItem>
                 <FormControl>
                   <AnimatedInput
-                  id="email"
-                  label="Email"
-                  type="email"
-                  value={field.value}
-                  onChange={(e) => {
-                    field.onChange(e);
-                  }}
-                  icon={<Mail className="h-5 w-5" />}
-                  validationIcon={field.value && formSchema.shape.email.safeParse(field.value).success ? <CircleCheck className="h-5 w-5" /> : <CircleX className="h-5 w-5" />}
-                  isValid={field.value && formSchema.shape.email.safeParse(field.value).success}
-                  autoComplete="email"
+                    id="email"
+                    label="Email"
+                    type="email"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                    }}
+                    icon={<Mail className="h-5 w-5" />}
+                    validationIcon={field.value && formSchema.shape.email.safeParse(field.value).success ? <CircleCheck className="h-5 w-5" /> : <CircleX className="h-5 w-5" />}
+                    isValid={field.value && formSchema.shape.email.safeParse(field.value).success}
+                    autoComplete="email"
                   />
                 </FormControl>
               </FormItem>
@@ -286,70 +300,70 @@ const RegistrationForm: React.FC = () => {
 
           {/* Block / Court */}
           <FormField
-  control={form.control}
-  name="blockCourt"
-  render={({ field }) => (
-    <FormItem className="form-field-animation">
-      <div className="relative max-w-md">
-        <div className="flex items-center border-2 rounded-lg overflow-hidden border-gray-200 focus-within:border-primary transition-colors">
-          {/* Icon inside the input box */}
-          <div className="pl-3 text-gray-500">
-            <MapPin className="h-5 w-5 animate-pulse-slow" />
-          </div>
+            control={form.control}
+            name="blockCourt"
+            render={({ field }) => (
+              <FormItem className="form-field-animation">
+                <div className="relative max-w-md">
+                  <div className="flex items-center border-2 rounded-lg overflow-hidden border-gray-200 focus-within:border-primary transition-colors">
+                    {/* Icon inside the input box */}
+                    <div className="pl-3 text-gray-500">
+                      <MapPin className="h-5 w-5 animate-pulse-slow" />
+                    </div>
 
-          {/* Select dropdown */}
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
-            <SelectTrigger className="w-full border-none shadow-none focus:ring-0 focus:outline-none px-3 py-3 bg-transparent">
-              <SelectValue placeholder="Select Block / Court" />
-            </SelectTrigger>
-            <SelectContent className="bg-white z-[100]">
-              <SelectItem value="block-a">Block A</SelectItem>
-              <SelectItem value="block-b">Block B</SelectItem>
-              <SelectItem value="block-c">Block C</SelectItem>
-              <SelectItem value="addis-ababa">Addis-Ababa Court</SelectItem>
-              <SelectItem value="dar-es-salam">Dar es Salam Court</SelectItem>
-              <SelectItem value="kampala">Kampala Court</SelectItem>
-              <SelectItem value="nairobi">Nairobi Court</SelectItem>
-              <SelectItem value="other">Other</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-    </FormItem>
-  )}
-/>
+                    {/* Select dropdown */}
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger className="w-full border-none shadow-none focus:ring-0 focus:outline-none px-3 py-3 bg-transparent">
+                        <SelectValue placeholder="Select Block / Court" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white z-[100]">
+                        <SelectItem value="Block-A">Block A</SelectItem>
+                        <SelectItem value="Block-B">Block B</SelectItem>
+                        <SelectItem value="Block-C">Block C</SelectItem>
+                        <SelectItem value="Addis Ababa Court">Addis Ababa Court</SelectItem>
+                        <SelectItem value="Dar es Salaam Court">Dar es Salaam Court</SelectItem>
+                        <SelectItem value="Kampala Court">Kampala Court</SelectItem>
+                        <SelectItem value="Nairobi Court">Nairobi Court</SelectItem>
+                        <SelectItem value="Other">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </FormItem>
+            )}
+          />
           {/* Room Type */}
-<FormField
-  control={form.control}
-  name="roomType"
-  render={({ field }) => (
-    <FormItem className="form-field-animation">
-      <div className="relative max-w-md">
-        <div className="flex items-center border-2 rounded-lg overflow-hidden border-gray-200 focus-within:border-primary transition-colors">
-          {/* Icon inside the input box */}
-          <div className="pl-3 text-gray-500">
-            <User className="h-5 w-5" />
-          </div>
+          <FormField
+            control={form.control}
+            name="roomType"
+            render={({ field }) => (
+              <FormItem className="form-field-animation">
+                <div className="relative max-w-md">
+                  <div className="flex items-center border-2 rounded-lg overflow-hidden border-gray-200 focus-within:border-primary transition-colors">
+                    {/* Icon inside the input box */}
+                    <div className="pl-3 text-gray-500">
+                      <User className="h-5 w-5" />
+                    </div>
 
-          {/* Select dropdown */}
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
-            <SelectTrigger className="w-full border-none shadow-none focus:ring-0 focus:outline-none px-3 py-3 bg-transparent">
-              <SelectValue placeholder="Select Room Type" />
-            </SelectTrigger>
-            <SelectContent className="bg-white z-[100]">
-              <SelectItem value="one-in-room">1 in a room</SelectItem>
-              <SelectItem value="two-in-room">2 in a room</SelectItem>
-              <SelectItem value="three-in-room">3 in a room</SelectItem>
-              <SelectItem value="four-in-room">4 in a room</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-    </FormItem>
-  )}
-/>
+                    {/* Select dropdown */}
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger className="w-full border-none shadow-none focus:ring-0 focus:outline-none px-3 py-3 bg-transparent">
+                        <SelectValue placeholder="Select Room Type" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white z-[100]">
+                        <SelectItem value="1-in-room">1 in a room</SelectItem>
+                        <SelectItem value="2-in-room">2 in a room</SelectItem>
+                        <SelectItem value="3-in-room">3 in a room</SelectItem>
+                        <SelectItem value="4-in-room">4 in a room</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </FormItem>
+            )}
+          />
 
-          
+
           {/* Room Number */}
           <FormField
             control={form.control}
@@ -376,8 +390,8 @@ const RegistrationForm: React.FC = () => {
           />
 
 
-        {/* Subscription Plan */}
-        <FormField
+          {/* Subscription Plan */}
+          <FormField
             control={form.control}
             name="subscriptionPlan"
             render={({ field }) => (
@@ -396,9 +410,9 @@ const RegistrationForm: React.FC = () => {
                         <SelectValue placeholder="Select Subscription Plan" />
                       </SelectTrigger>
                       <SelectContent className="bg-white z-[100]">
-                        <SelectItem value="daily">Daily (GHC 20)</SelectItem>
-                        <SelectItem value="weekly">Weekly (GHC 50)</SelectItem>
-                        <SelectItem value="monthly">Monthly (GHC 100)</SelectItem>
+                        <SelectItem value="daily">{dataPlan.daily.title}</SelectItem>
+                        <SelectItem value="weekly">{dataPlan.weekly.title}</SelectItem>
+                        <SelectItem value="monthly">{dataPlan.monthly.title}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -406,67 +420,67 @@ const RegistrationForm: React.FC = () => {
               </FormItem>
             )}
           />
-          
+
           {/* Be a Custodian */}
-<div className="pt-4 border-t border-gray-200">
-  <div className="bg-gradient-to-r from-primary/5 to-accent/10 p-5 rounded-lg space-y-5">
-    {/* Headline and Perks */}
-    <div>
-      <h3 className="text-xl font-bold text-primary mb-1">Host. Lead. Connect.</h3>
-      <p className="text-sm text-gray-600 max-w-md">
-        Want more than just connection? Become a <strong>Custodian</strong> and get:
-      </p>
-      <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
-        <li>50% extra data weekly</li>
-        <li>Priority support</li>
-      </ul>
-    </div>
+          <div className="pt-4 border-t border-gray-200">
+            <div className="bg-gradient-to-r from-primary/5 to-accent/10 p-5 rounded-lg space-y-5">
+              {/* Headline and Perks */}
+              <div>
+                <h3 className="text-xl font-bold text-primary mb-1">Host. Lead. Connect.</h3>
+                <p className="text-sm text-gray-600 max-w-md">
+                  Want more than just connection? Become a <strong>Custodian</strong> and get:
+                </p>
+                <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
+                  <li>50% extra data weekly</li>
+                  <li>Priority support</li>
+                </ul>
+              </div>
 
-    {/* Yes/No Decision */}
-    <FormField
-      control={form.control}
-      name="isCustodian"
-      render={({ field }) => (
-        <FormItem className="flex flex-col gap-3">
-          <div className="flex gap-4 flex-col sm:flex-row">
-            {/* YES option */}
-            <button
-              type="button"
-              onClick={() => field.onChange(true)}
-              className={cn(
-                "flex-1 border-2 rounded-lg p-4 text-left transition-all",
-                field.value ? "border-primary bg-white shadow" : "border-gray-200 hover:border-primary/50"
-              )}
-            >
-              <span className="text-md font-semibold text-primary">Yes — I'm Ready to Be a Custodian</span>
-<p className="text-sm text-gray-600 mt-1">Unlock bonus data, support, and exclusive access.</p>
-            </button>
+              {/* Yes/No Decision */}
+              <FormField
+                control={form.control}
+                name="isCustodian"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col gap-3">
+                    <div className="flex gap-4 flex-col sm:flex-row">
+                      {/* YES option */}
+                      <button
+                        type="button"
+                        onClick={() => field.onChange(true)}
+                        className={cn(
+                          "flex-1 border-2 rounded-lg p-4 text-left transition-all",
+                          field.value ? "border-primary bg-white shadow" : "border-gray-200 hover:border-primary/50"
+                        )}
+                      >
+                        <span className="text-md font-semibold text-primary">Yes — I'm Ready to Be a Custodian</span>
+                        <p className="text-sm text-gray-600 mt-1">Unlock bonus data, support, and exclusive access.</p>
+                      </button>
 
-            {/* NO option */}
-            <button
-              type="button"
-              onClick={() => field.onChange(false)}
-              className={cn(
-                "flex-1 border-2 rounded-lg p-4 text-left transition-all",
-                !field.value ? "border-primary bg-white shadow" : "border-gray-200 hover:border-primary/50"
-              )}
-            >
-              <span className="text-md font-semibold text-gray-800">No — I'll Just Stay Connected</span>
-<p className="text-sm text-gray-600 mt-1">I'm happy to connect without extra responsibilities.</p>
-            </button>
+                      {/* NO option */}
+                      <button
+                        type="button"
+                        onClick={() => field.onChange(false)}
+                        className={cn(
+                          "flex-1 border-2 rounded-lg p-4 text-left transition-all",
+                          !field.value ? "border-primary bg-white shadow" : "border-gray-200 hover:border-primary/50"
+                        )}
+                      >
+                        <span className="text-md font-semibold text-gray-800">No — I'll Just Stay Connected</span>
+                        <p className="text-sm text-gray-600 mt-1">I'm happy to connect without extra responsibilities.</p>
+                      </button>
+                    </div>
+
+                    {/* Inline confirmation */}
+                    {field.value && (
+                      <p className="text-sm text-green-700 font-medium mt-2">
+                        ✔ You’re applying as a Custodian — welcome aboard!
+                      </p>
+                    )}
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
-
-          {/* Inline confirmation */}
-          {field.value && (
-            <p className="text-sm text-green-700 font-medium mt-2">
-            ✔ You’re applying as a Custodian — welcome aboard!
-            </p>
-          )}
-        </FormItem>
-      )}
-    />
-  </div>
-</div>
 
           <div className="pt-6 border-t border-gray-300 mt-6">
             <div className="bg-muted p-4 rounded-lg flex flex-col gap-1 text-gray-700 text-base">
@@ -480,8 +494,8 @@ const RegistrationForm: React.FC = () => {
 
           {/* Submit Button */}
           <div className="pt-4">
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               className="w-full py-6 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg">
               Connect Me
               <Check className="h-5 w-5 mr-2" />
@@ -490,10 +504,10 @@ const RegistrationForm: React.FC = () => {
         </form>
       </Form>
       {/* ss */}
-      
-      <SuccessModal 
-        open={isSuccessModalOpen} 
-        onClose={() => setIsSuccessModalOpen(false)} 
+
+      <SuccessModal
+        open={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
       />
     </div>
   );
