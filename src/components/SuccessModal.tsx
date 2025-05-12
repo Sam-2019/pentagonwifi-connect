@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { CircleCheck, Share } from 'lucide-react';
+import { CircleCheck, Share, XIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface SuccessModalProps {
@@ -54,57 +54,63 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ open, onClose }) => {
   }
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent 
-        className="sm:max-w-md flex flex-col items-center text-center p-6 bg-gradient-to-b from-white to-blue-50 border-2 border-primary/20"
-         // <-- This hides the top-right close button (if supported by your dialog lib)
+      <DialogContent
+        className="sm:max-w-md flex flex-col p-6 bg-gradient-to-b from-white to-blue-50 border-2 border-primary/20"
+      // <-- This hides the top-right close button (if supported by your dialog lib)
       >
-        {/* <div className="relative w-24 h-24 flex items-center justify-center">
+        <div className="flex justify-end">
+          <button
+            type='button'
+            onClick={onClose}
+            className="rounded-full p-1 hover:bg-gray-100 focus:outline-none transition duration-200 ease-in-out active:outline-none"
+          >
+            <XIcon className="h-10 w-10 text-gray-400" />
+          </button>
+        </div>
+
+        <div className='items-center text-center animate-fade-in'>
           {checkmarkVisible && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center animate-checkmark">
+            <div className="flex justify-center py-4">
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center animate-checkmark">
                 <CircleCheck className="h-16 w-16 text-primary" />
               </div>
             </div>
           )}
-        </div> */}
 
-        {messageVisible && (
-          <div className="space-y-3 animate-fade-in">
-            <h2 className="text-2xl font-bold text-primary">You're in!</h2>
-            <p className="text-base text-gray-600">
-              Welcome to blazing-fast internet that <span className="text-primary font-semibold">#NeverSleeps</span>.
-              <br />Expect smooth speeds and no drops — ever.
-            </p>
-          </div>
-        )}
+          {messageVisible && (
+            <div className="space-y-3">
+              <h2 className="text-2xl font-bold text-primary">You're in!</h2>
 
-        {actionsVisible && (
-          <div className="mt-6 flex flex-col sm:flex-row gap-3 animate-fade-in">
-            
-            {/* <Button 
-              onClick={handleAddToCalendar} 
-              variant="outline" 
-              className="gap-2 border-primary/30 hover:bg-primary/5"
-            >
-              <Calendar size={18} />
-              Add to Calendar
-            </Button> */}
-            <Button 
-              onClick={handleShareReferral} 
-              className="bg-primary hover:bg-primary/90 gap-2"
-            >
-              <Share size={18} />
-              Share Referral
-            </Button>
-            
-            <Button 
-              onClick={onClose} // ✅ use the passed-in onClose handler
-              className="bg-primary hover:bg-primary/90 gap-2"
-            >
-              Close
-            </Button>
-          </div>
-        )}
+              <p className="text-base text-gray-600">
+                Welcome to blazing-fast internet that
+              </p>
+
+              <p className="text-base text-primary font-semibold">
+                #NeverSleeps.
+              </p>
+
+              <p className="text-base text-gray-600">
+                Expect smooth speeds and no drops — ever.
+              </p>
+            </div>
+          )}
+
+          {actionsVisible && (
+            <div className="mt-6">
+              <Button
+                onClick={handleShareReferral}
+                className="bg-primary hover:bg-primary/90 gap-2 w-full"
+              >
+                <Share size={18} />
+                Share Referral
+              </Button>
+
+
+            </div>
+          )}
+        </div>
+
+
       </DialogContent>
     </Dialog>
   );
