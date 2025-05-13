@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from './ui/form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Datepicker from "react-tailwindcss-datepicker";
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import { blockCourtOptions, roomTypeOptions, planPrices, dataPlanOptions, registrationFee } from '@/lib/utils';
 
@@ -39,12 +40,16 @@ interface Payload {
 
 const RegistrationForm: React.FC = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [datePickerValue, setDatePickerValue] = useState({
+    startDate: null,
+    endDate: null
+  });
   dayjs.extend(localizedFormat);
 
   const schema = yup
     .object({
       fullName: yup.string().required("Name is required.").matches(/^[A-Za-z]+(?:\s[A-Za-z]+){1,3}$/, "Name is invalid."),
-      dateOfBirth: yup.date().typeError("Invalid date").required("Date of birth is required."),
+      dateOfBirth: yup.date().required("Date of birth is required.").typeError("Invalid date"),
       phoneNumber: yup.string().required("Phone number is required.").matches(/^(?:\+?\d{7,15}|0\d{9})$/, "Phone number is invalid"),
       email: yup.string().email().required("Email is required.").matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Email is invalid."),
       blockCourt: yup.string().required("Block / Court is required."),
@@ -66,7 +71,7 @@ const RegistrationForm: React.FC = () => {
     resolver: yupResolver(schema),
     defaultValues: {
       fullName: "",
-      dateOfBirth: new Date(),
+      dateOfBirth: null,
       phoneNumber: "",
       email: "",
       blockCourt: "",
@@ -87,14 +92,12 @@ const RegistrationForm: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     const payload: Payload = {
       ...data,
-      dateOfBirth: `${dayjs(new Date(data.dateOfBirth)).format("dddd, MMMM M, YYYY")}`,
-      phoneNumber: `${data.phoneNumber}`,
+      dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
+      phoneNumber: `'${data.phoneNumber}`,
       totalCost: `${totalCost}`,
       dateTime: `${dayjs(new Date()).format("LLLL")}`,
       subscriptionPlan: data.subscriptionPlan.toUpperCase(),
     };
-
-    console.log("Payload:", payload);
 
     toast.promise(
       fetch(import.meta.env.VITE_GOOGLE_SCRIPTS_URL, {
@@ -107,6 +110,10 @@ const RegistrationForm: React.FC = () => {
       }).then(() => {
         setTimeout(() => setIsSuccessModalOpen(true), 300);
         reset();
+        setDatePickerValue({
+          startDate: null,
+          endDate: null
+        })
       }),
       {
         loading: "Connecting you to Pentagon WiFi...",
@@ -131,13 +138,36 @@ const RegistrationForm: React.FC = () => {
           <p className='text-red-400'>{errors.fullName?.message}</p>
         </div>
 
-        <div className='flex flex-col gap-2'>
+        {/* <div className='flex flex-col gap-2'>
           <label htmlFor="dateOfBirth">Date of Birth</label>
           <input
+            // required
             id="dateOfBirth"
             type='date'
             {...register('dateOfBirth')}
             className='py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none'
+          />
+          <p className='text-red-400'>{errors.dateOfBirth?.message}</p>
+        </div> */}
+
+        <div className='flex flex-col gap-2'>
+          <label htmlFor="dateOfBirth">Date of Birth</label>
+          <FormField
+            control={control}
+            name="dateOfBirth"
+            render={({ field }) => (
+              <Datepicker
+                displayFormat="DD/MM/YYYY"
+                onChange={(newValue) => {
+                  setDatePickerValue(newValue)
+                  field.onChange(newValue.startDate);
+                }}
+                useRange={false}
+                asSingle={true}
+                value={datePickerValue}
+                inputClassName='py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none'
+              />
+            )}
           />
           <p className='text-red-400'>{errors.dateOfBirth?.message}</p>
         </div>
