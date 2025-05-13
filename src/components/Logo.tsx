@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Logo: React.FC<{ className?: string }> = ({ className = "" }) => {
+const Logo: React.FC = () => {
   return (
-    <div className={`flex items-center justify-center ${className}`}>
+    <div className="flex items-center justify-center">
       <img 
-        src="/src/assets/26866c68-f024-4805-84f8-642495567891.png" 
+        src="/src/assets/logo.png" 
         alt="Pentagon WiFi Logo" 
         className="mt-10 transition-transform duration-300 hover:scale-105 object-cover w-48 md:w-48 h-auto"    
       />
