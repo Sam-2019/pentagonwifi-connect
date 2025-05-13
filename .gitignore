@@ -26,4 +26,3 @@ dist-ssr
 # Enviroment variables
 
 .env
-bun.lock
