@@ -54,7 +54,7 @@ const RegistrationForm: React.FC = () => {
       email: yup.string().email().required("Email is required.").matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Email is invalid."),
       blockCourt: yup.string().required("Block / Court is required."),
       roomType: yup.string().required("Room Type is required"),
-      roomNumber: yup.string().required("Room number is required.").matches(/^[abcABC](?!000)\d{3}$/, "Room Number is invalid"),
+      roomNumber: yup.string().required("Room number is required."),
       subscriptionPlan: yup.string().required("Subscription plan is required"),
       isCustodian: yup.bool().default(false).required("Custodian is required"),
     })
