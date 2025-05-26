@@ -29,7 +29,7 @@ const Index = () => {
       </main>
 
       <footer className="w-full py-6 text-center text-sm text-gray-500">
-        <p>© {new Date().getFullYear()} Pentagon WiFi. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} Pentagon WiFi - Powered by Kuanos Cloud. All rights reserved.</p>
       </footer>
     </div>
   );
