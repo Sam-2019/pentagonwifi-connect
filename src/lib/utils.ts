@@ -31,6 +31,6 @@ export const planPrices = {
 export const dataPlanOptions = [
   { value: "", label: "Select an option..." },
   { value: `Daily-(GHC ${planPrices.daily})`, label: `Daily (GHC ${planPrices.daily})` },
-  { value: `Weekly-(GHC ${planPrices.weekly})`, label: `Weekly (GHC ${planPrices.weekly})` },
-  { value: `Monthly-(GHC ${planPrices.monthly})`, label: `Monthly (GHC ${planPrices.monthly})` }
+  // { value: `Weekly-(GHC ${planPrices.weekly})`, label: `Weekly (GHC ${planPrices.weekly})` },
+  // { value: `Monthly-(GHC ${planPrices.monthly})`, label: `Monthly (GHC ${planPrices.monthly})` }
 ]
