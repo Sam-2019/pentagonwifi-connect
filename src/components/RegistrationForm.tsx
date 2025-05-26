@@ -17,6 +17,9 @@ import {
   dataPlanOptions,
   registrationFee,
 } from "@/lib/utils";
+import CheckoutSdk from "@hubteljs/checkout";
+
+const checkout = new CheckoutSdk();
 
 interface FormData {
   fullName: string;
@@ -117,37 +120,68 @@ const RegistrationForm: React.FC = () => {
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
-    const payload: Payload = {
-      ...data,
-      dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
-      phoneNumber: `'${data.phoneNumber}`,
-      totalCost: `${totalCost}`,
-      dateTime: `${dayjs(new Date()).format("LLLL")}`,
-      subscriptionPlan: data.subscriptionPlan.toUpperCase(),
-    };
+    // const payload: Payload = {
+    //   ...data,
+    //   dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
+    //   phoneNumber: `'${data.phoneNumber}`,
+    //   totalCost: `${totalCost}`,
+    //   dateTime: `${dayjs(new Date()).format("LLLL")}`,
+    //   subscriptionPlan: data.subscriptionPlan.toUpperCase(),
+    // };
 
-    toast.promise(
-      fetch(import.meta.env.VITE_GOOGLE_SCRIPTS_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
+    checkout.openModal({
+      purchaseInfo: {
+        amount: 50,
+        purchaseDescription:
+          "Payment of GHS 5.00 for (18013782) (MR SOMUAH STA ADANE-233557913587)",
+        customerPhoneNumber: "233557913587",
+        clientReference: "unique-client-reference-12345",
+      },
+      config: {
+        branding: "enabled",
+        callbackUrl: "",
+        merchantAccount: 11334,
+        basicAuth: "your-basic-auth-here",
+      },
+      callBacks: {
+        onInit: () => console.log("Iframe initialized: "),
+        onPaymentSuccess: (data) => {
+          console.log("Payment succeeded: ", data);
+          // You can close the popup here
+          checkout.closePopUp();
         },
-      }).then(() => {
-        setTimeout(() => setIsSuccessModalOpen(true), 300);
-        reset();
-        setDatePickerValue({
-          startDate: null,
-          endDate: null,
-        });
-      }),
-      {
-        loading: "Connecting you to Pentagon WiFi...",
-        success: "Registration complete!",
-        error: "Registration failed. Please try again.",
-      }
-    );
+        onPaymentFailure: (data) => console.log("Payment failed: ", data),
+        onLoad: () => console.log("Checkout has been loaded: "),
+        onFeesChanged: (fees) =>
+          console.log("Payment channel has changed: ", fees),
+        onResize: (size) =>
+          console.log("Iframe has been resized: ", size?.height),
+        onClose: () => console.log("The modal has closed"),
+      },
+    });
+
+    // toast.promise(
+    //   fetch(import.meta.env.VITE_GOOGLE_SCRIPTS_URL, {
+    //     method: "POST",
+    //     mode: "no-cors",
+    //     body: JSON.stringify(payload),
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   }).then(() => {
+    //     setTimeout(() => setIsSuccessModalOpen(true), 300);
+    //     reset();
+    //     setDatePickerValue({
+    //       startDate: null,
+    //       endDate: null,
+    //     });
+    //   }),
+    //   {
+    //     loading: "Connecting you to Pentagon WiFi...",
+    //     success: "Registration complete!",
+    //     error: "Registration failed. Please try again.",
+    //   }
+    // );
   };
 
   return (
@@ -163,18 +197,6 @@ const RegistrationForm: React.FC = () => {
           />
           <p className="text-red-400">{errors.fullName?.message}</p>
         </div>
-
-        {/* <div className='flex flex-col gap-2'>
-          <label htmlFor="dateOfBirth">Date of Birth</label>
-          <input
-            // required
-            id="dateOfBirth"
-            type='date'
-            {...register('dateOfBirth')}
-            className='py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none'
-          />
-          <p className='text-red-400'>{errors.dateOfBirth?.message}</p>
-        </div> */}
 
         <div className="flex flex-col gap-2">
           <label htmlFor="dateOfBirth">Date of Birth</label>
