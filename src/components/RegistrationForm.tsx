@@ -17,6 +17,14 @@ import {
   dataPlanOptions,
   registrationFee,
 } from "@/lib/utils";
+import { usePaystackPayment } from "react-paystack";
+
+interface PaystackSuccessReference {
+  reference: string;
+  transaction: string;
+  status: string;
+  message: string;
+}
 
 interface FormData {
   fullName: string;
@@ -42,6 +50,10 @@ interface Payload {
   isCustodian: boolean;
   totalCost: string;
   dateTime: string;
+  reference: string;
+  transaction: string;
+  status: string;
+  message: string;
 }
 
 const RegistrationForm: React.FC = () => {
@@ -117,37 +129,104 @@ const RegistrationForm: React.FC = () => {
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
-    const payload: Payload = {
-      ...data,
-      dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
-      phoneNumber: `'${data.phoneNumber}`,
-      totalCost: `${totalCost}`,
-      dateTime: `${dayjs(new Date()).format("LLLL")}`,
-      subscriptionPlan: data.subscriptionPlan.toUpperCase(),
+    const config = {
+      reference: new Date().getTime().toString(),
+      email: data.email.toString(),
+      amount: Number(totalCost),
+      publicKey: import.meta.env.VITE_COLLECTIONS,
+      currency: import.meta.env.VITE_CURRENCY,
+      metadata: {
+        custom_fields: [
+          {
+            display_name: "Full Name",
+            variable_name: "fullName",
+            value: String(data.fullName),
+          },
+          {
+            display_name: "Date of Birth",
+            variable_name: "dateOfBirth",
+            value: String(data.dateOfBirth),
+          },
+          {
+            display_name: "Phone Number",
+            variable_name: "phoneNumber",
+            value: String(data.phoneNumber),
+          },
+          {
+            display_name: "Block / Court",
+            variable_name: "blockCourt",
+            value: String(data.blockCourt),
+          },
+          {
+            display_name: "Room Type",
+            variable_name: "roomType",
+            value: String(data.roomType),
+          },
+          {
+            display_name: "Room Number",
+            variable_name: "roomNumber",
+            value: String(data.roomNumber),
+          },
+          {
+            display_name: "Subscription Plan",
+            variable_name: "subscriptionPlan",
+            value: String(data.subscriptionPlan.toUpperCase()),
+          },
+          {
+            display_name: "Is Custodian",
+            variable_name: "isCustodian",
+            value: String(data.isCustodian),
+          },
+        ],
+      },
     };
 
-    toast.promise(
-      fetch(import.meta.env.VITE_GOOGLE_SCRIPTS_URL, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(() => {
-        setTimeout(() => setIsSuccessModalOpen(true), 300);
-        reset();
-        setDatePickerValue({
-          startDate: null,
-          endDate: null,
-        });
-      }),
-      {
-        loading: "Connecting you to Pentagon WiFi...",
-        success: "Registration complete!",
-        error: "Registration failed. Please try again.",
-      }
-    );
+    const initializePayment = usePaystackPayment(config);
+
+    const onSuccess = (reference: PaystackSuccessReference): void => {
+      const payload: Payload = {
+        ...data,
+        dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
+        phoneNumber: `'${data.phoneNumber}`,
+        totalCost: `${totalCost}`,
+        dateTime: `${dayjs(new Date()).format("LLLL")}`,
+        subscriptionPlan: data.subscriptionPlan.toUpperCase(),
+        reference: reference.reference,
+        transaction: reference.transaction,
+        status: reference.status,
+        message: reference.message,
+      };
+
+      toast.promise(
+        fetch(import.meta.env.VITE_GOOGLE_SCRIPTS_URL, {
+          method: "POST",
+          mode: "no-cors",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then(() => {
+          setTimeout(() => setIsSuccessModalOpen(true), 300);
+          reset();
+          setDatePickerValue({
+            startDate: null,
+            endDate: null,
+          });
+        }),
+        {
+          loading: "Connecting you to Pentagon WiFi...",
+          success: "Registration complete!",
+          error: "Registration failed. Please try again.",
+        }
+      );
+    };
+
+    const onClose = () => {};
+
+    initializePayment({
+      onSuccess,
+      onClose,
+    });
   };
 
   return (
@@ -163,18 +242,6 @@ const RegistrationForm: React.FC = () => {
           />
           <p className="text-red-400">{errors.fullName?.message}</p>
         </div>
-
-        {/* <div className='flex flex-col gap-2'>
-          <label htmlFor="dateOfBirth">Date of Birth</label>
-          <input
-            // required
-            id="dateOfBirth"
-            type='date'
-            {...register('dateOfBirth')}
-            className='py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none'
-          />
-          <p className='text-red-400'>{errors.dateOfBirth?.message}</p>
-        </div> */}
 
         <div className="flex flex-col gap-2">
           <label htmlFor="dateOfBirth">Date of Birth</label>
