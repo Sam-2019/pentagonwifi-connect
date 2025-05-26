@@ -117,6 +117,11 @@ const RegistrationForm: React.FC = () => {
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
+    const googleScriptUrl =
+      import.meta.env.VITE_ENV === "development"
+        ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
+        : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
+
     const payload: Payload = {
       ...data,
       dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
@@ -127,7 +132,7 @@ const RegistrationForm: React.FC = () => {
     };
 
     toast.promise(
-      fetch(import.meta.env.VITE_GOOGLE_SCRIPTS_URL, {
+      fetch(googleScriptUrl, {
         method: "POST",
         mode: "no-cors",
         body: JSON.stringify(payload),
