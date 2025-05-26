@@ -180,18 +180,6 @@ const RegistrationForm: React.FC = () => {
           <p className="text-red-400">{errors.fullName?.message}</p>
         </div>
 
-        {/* <div className='flex flex-col gap-2'>
-          <label htmlFor="dateOfBirth">Date of Birth</label>
-          <input
-            // required
-            id="dateOfBirth"
-            type='date'
-            {...register('dateOfBirth')}
-            className='py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none'
-          />
-          <p className='text-red-400'>{errors.dateOfBirth?.message}</p>
-        </div> */}
-
         <div className="flex flex-col gap-2">
           <label htmlFor="dateOfBirth">Date of Birth</label>
           <FormField
