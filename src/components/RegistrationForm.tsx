@@ -18,9 +18,10 @@ import {
   schema,
   clientReference,
 } from "@/lib/utils";
-import type { FormData, Payload, PaystackSuccessReference } from "@/lib/utils";
+import type { FormData, Payload } from "@/lib/utils";
 
 import { hubtelPay } from "@/hooks/use-hubtel";
+import { paystackPay } from "@/hooks/use-paystack";
 
 const RegistrationForm: React.FC = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -80,10 +81,22 @@ const RegistrationForm: React.FC = () => {
       planFee: planFee,
       amount: totalCost,
       clientReference: clientReference,
+
+      email: payload.email,
+      dateOfBirth: new Date(payload.dateOfBirth),
+      blockCourt: payload.blockCourt,
+      roomType: payload.roomType,
+      roomNumber: payload.roomNumber,
+      isCustodian: payload.isCustodian,
+      dateTime: payload.dateTime,
+      totalCost: totalCost,
     };
 
-    const paymentProvider = hubtelPay(paymentInfo);
-    paymentProvider.check_out();
+    // const paymentProvider = hubtelPay(paymentInfo);
+    // paymentProvider.initialize();
+
+    const paymentProvider = paystackPay(paymentInfo);
+    paymentProvider.initialize();
   };
 
   return (

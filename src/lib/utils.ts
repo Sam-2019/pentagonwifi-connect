@@ -84,6 +84,36 @@ export interface PaymentInfo {
   planFee: number;
   amount: number;
   clientReference: string;
+
+  email?: string;
+  dateOfBirth?: Date;
+  blockCourt?: string;
+  roomType?: string;
+  roomNumber?: string;
+  isCustodian?: boolean;
+  totalCost?: number;
+}
+
+export interface DbPayload {
+  fullName: string;
+  phoneNumber: string;
+  subscriptionPlan: string;
+  planFee: number;
+  amount: number;
+  clientReference: string;
+
+  email?: string;
+  dateOfBirth?: Date;
+  blockCourt?: string;
+  roomType?: string;
+  roomNumber?: string;
+  isCustodian?: boolean;
+  totalCost?: number;
+  
+  status: string;
+  message: string;
+  reference: string;
+  transaction: string;
 }
 
 export const schema = yup

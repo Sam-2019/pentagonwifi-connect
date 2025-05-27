@@ -21,7 +21,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
   };
 
   return {
-    check_out: () => {
+    initialize: () => {
       checkout.openModal({
         purchaseInfo: purchaseInfo,
         config: config,
