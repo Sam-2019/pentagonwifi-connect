@@ -18,8 +18,7 @@ import {
   registrationFee,
 } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
-
-const checkout = new CheckoutSdk();
+import { v4 as uuidv4 } from "uuid";
 
 interface FormData {
   fullName: string;
@@ -48,6 +47,7 @@ interface Payload {
 }
 
 const RegistrationForm: React.FC = () => {
+  const checkout = new CheckoutSdk();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [datePickerValue, setDatePickerValue] = useState({
     startDate: null,
@@ -95,13 +95,13 @@ const RegistrationForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      fullName: "",
-      dateOfBirth: null,
-      phoneNumber: "",
-      email: "",
+      fullName: "Kwame Opam",
+      dateOfBirth: new Date("2025-01-01"),
+      phoneNumber: "0245131563",
+      email: "kwame.opam@gmail.com",
       blockCourt: "",
       roomType: "",
-      roomNumber: "",
+      roomNumber: "A201",
       subscriptionPlan: "",
       isCustodian: false,
     },
@@ -124,35 +124,61 @@ const RegistrationForm: React.FC = () => {
       ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
       : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
 
-    // const payload: Payload = {
-    //   ...data,
-    //   dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
-    //   phoneNumber: `'${data.phoneNumber}`,
-    //   totalCost: `${totalCost}`,
-    //   dateTime: `${dayjs(new Date()).format("LLLL")}`,
-    //   subscriptionPlan: data.subscriptionPlan.toUpperCase(),
-    // };
+    const payload: Payload = {
+      ...data,
+      dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
+      phoneNumber: `'${data.phoneNumber}`,
+      totalCost: `${totalCost}`,
+      dateTime: `${dayjs(new Date()).format("LLLL")}`,
+      subscriptionPlan: data.subscriptionPlan.toUpperCase(),
+    };
+
+    const reference = String(uuidv4());
+    const slicedReference = reference.slice(0, 8);
+    const clientReference = `PWT-${slicedReference}`;
 
     checkout.openModal({
       purchaseInfo: {
-        amount: 50,
-        purchaseDescription:
-          "Payment of GHS 5.00 for (18013782) (MR SOMUAH STA ADANE-233557913587)",
-        customerPhoneNumber: "233557913587",
-        clientReference: "unique-client-reference-12345",
+        amount: totalCost,
+        purchaseDescription: `Payment of GHS ${planFee} PENTAGONWIFI ${data.subscriptionPlan.toUpperCase()} data package for (${data.fullName.toUpperCase()}-${
+          data.phoneNumber
+        })`,
+        customerPhoneNumber: `'${data.phoneNumber}`,
+        clientReference: clientReference,
       },
       config: {
         branding: "enabled",
-        callbackUrl: "",
-        merchantAccount: 11334,
-        basicAuth: "your-basic-auth-here",
+        callbackUrl: import.meta.env.VITE_CALLBACK_URL,
+        merchantAccount: import.meta.env.VITE_MERCHANT,
+        basicAuth: import.meta.env.VITE_BASIC_AUTH,
       },
       callBacks: {
         onInit: () => console.log("Iframe initialized: "),
         onPaymentSuccess: (data) => {
           console.log("Payment succeeded: ", data);
-          // You can close the popup here
           checkout.closePopUp();
+          toast.promise(
+            fetch(googleScriptUrl, {
+              method: "POST",
+              mode: "no-cors",
+              body: JSON.stringify(payload),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).then(() => {
+              setTimeout(() => setIsSuccessModalOpen(true), 300);
+              reset();
+              setDatePickerValue({
+                startDate: null,
+                endDate: null,
+              });
+            }),
+            {
+              loading: "Connecting you to Pentagon WiFi...",
+              success: "Registration complete!",
+              error: "Registration failed. Please try again.",
+            }
+          );
         },
         onPaymentFailure: (data) => console.log("Payment failed: ", data),
         onLoad: () => console.log("Checkout has been loaded: "),
@@ -163,29 +189,6 @@ const RegistrationForm: React.FC = () => {
         onClose: () => console.log("The modal has closed"),
       },
     });
-
-    // toast.promise(
-    //   fetch(googleScriptUrl, {
-    //     method: "POST",
-    //     mode: "no-cors",
-    //     body: JSON.stringify(payload),
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   }).then(() => {
-    //     setTimeout(() => setIsSuccessModalOpen(true), 300);
-    //     reset();
-    //     setDatePickerValue({
-    //       startDate: null,
-    //       endDate: null,
-    //     });
-    //   }),
-    //   {
-    //     loading: "Connecting you to Pentagon WiFi...",
-    //     success: "Registration complete!",
-    //     error: "Registration failed. Please try again.",
-    //   }
-    // );
   };
 
   return (
