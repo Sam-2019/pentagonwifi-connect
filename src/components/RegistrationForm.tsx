@@ -76,10 +76,7 @@ const RegistrationForm: React.FC = () => {
         ),
       blockCourt: yup.string().required("Block / Court is required."),
       roomType: yup.string().required("Room Type is required"),
-      roomNumber: yup
-        .string()
-        .required("Room number is required.")
-        .matches(/^[abcABC](?!000)\d{3}$/, "Room Number is invalid"),
+      roomNumber: yup.string().required("Room number is required."),
       subscriptionPlan: yup.string().required("Subscription plan is required"),
       isCustodian: yup.bool().default(false).required("Custodian is required"),
     })
@@ -120,10 +117,9 @@ const RegistrationForm: React.FC = () => {
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
-    const googleScriptUrl =
-      import.meta.env.VITE_ENV === "development"
-        ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
-        : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
+    const googleScriptUrl = import.meta.env.DEV
+      ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
+      : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
 
     const payload: Payload = {
       ...data,
@@ -395,6 +391,12 @@ const RegistrationForm: React.FC = () => {
             Connect Me
             <Check className="h-5 w-5 mr-2" />
           </Button>
+        </div>
+
+        <div className="flex flex-row justify-center text-center mt-2 text-gray-500">
+          <span> * </span>
+          <p className="text-sm px-2">Terms & Conditions Apply</p>
+          <span> * </span>
         </div>
       </form>
 
