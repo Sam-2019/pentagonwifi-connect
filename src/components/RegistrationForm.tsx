@@ -16,14 +16,13 @@ import {
   dataPlanOptions,
   registrationFee,
   schema,
+  clientReference,
 } from "@/lib/utils";
-import CheckoutSdk from "@hubteljs/checkout";
-import { v4 as uuidv4 } from "uuid";
+import type { FormData, Payload, PaystackSuccessReference } from "@/lib/utils";
 
-import type { FormData, Payload } from "@/lib/utils";
+import { hubtelPay } from "@/hooks/use-hubtel";
 
 const RegistrationForm: React.FC = () => {
-  const checkout = new CheckoutSdk();
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [datePickerValue, setDatePickerValue] = useState({
     startDate: null,
@@ -55,7 +54,6 @@ const RegistrationForm: React.FC = () => {
 
   const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
 
-  // Calculate the total cost based on the selected subscription plan & the registration fee
   const planFee = subscriptionPlan.includes("Daily")
     ? planPrices.daily
     : subscriptionPlan.includes("Weekly")
@@ -66,10 +64,6 @@ const RegistrationForm: React.FC = () => {
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
-    const googleScriptUrl = import.meta.env.DEV
-      ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
-      : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
-
     const payload: Payload = {
       ...data,
       dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
@@ -79,69 +73,24 @@ const RegistrationForm: React.FC = () => {
       subscriptionPlan: data.subscriptionPlan.toUpperCase(),
     };
 
-    const reference = String(uuidv4());
-    const slicedReference = reference.slice(0, 8);
-    const clientReference = `PWT-${slicedReference}`;
+    const paymentInfo = {
+      fullName: payload.fullName,
+      phoneNumber: payload.phoneNumber,
+      subscriptionPlan: payload.subscriptionPlan,
+      planFee: planFee,
+      amount: totalCost,
+      clientReference: clientReference,
+    };
 
-    checkout.openModal({
-      purchaseInfo: {
-        amount: totalCost,
-        purchaseDescription: `Payment of GHS ${planFee} PENTAGONWIFI ${data.subscriptionPlan.toUpperCase()} data package for (${data.fullName.toUpperCase()}-${
-          data.phoneNumber
-        })`,
-        customerPhoneNumber: `'${data.phoneNumber}`,
-        clientReference: clientReference,
-      },
-      config: {
-        branding: "enabled",
-        callbackUrl: import.meta.env.VITE_CALLBACK_URL,
-        merchantAccount: import.meta.env.VITE_MERCHANT,
-        basicAuth: import.meta.env.VITE_BASIC_AUTH,
-      },
-      callBacks: {
-        onInit: () => console.log("Iframe initialized: "),
-        onPaymentSuccess: (data) => {
-          console.log("Payment succeeded: ", data);
-          checkout.closePopUp();
-          toast.promise(
-            fetch(googleScriptUrl, {
-              method: "POST",
-              mode: "no-cors",
-              body: JSON.stringify(payload),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }).then(() => {
-              setTimeout(() => setIsSuccessModalOpen(true), 300);
-              reset();
-              setDatePickerValue({
-                startDate: null,
-                endDate: null,
-              });
-            }),
-            {
-              loading: "Connecting you to Pentagon WiFi...",
-              success: "Registration complete!",
-              error: "Registration failed. Please try again.",
-            }
-          );
-        },
-        onPaymentFailure: (data) => console.log("Payment failed: ", data),
-        onLoad: () => console.log("Checkout has been loaded: "),
-        onFeesChanged: (fees) =>
-          console.log("Payment channel has changed: ", fees),
-        onResize: (size) =>
-          console.log("Iframe has been resized: ", size?.height),
-        onClose: () => console.log("The modal has closed"),
-      },
-    });
+    const paymentProvider = hubtelPay(paymentInfo);
+    paymentProvider.check_out();
   };
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm shadow-lg rounded-xl p-6 md:p-8 border border-blue-100 sm">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="fullName">Name</label>
+          <label htmlFor="fullName">Full Name</label>
           <input
             id="fullName"
             type="text"

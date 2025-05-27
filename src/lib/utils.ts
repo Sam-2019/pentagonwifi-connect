@@ -1,12 +1,14 @@
-import { clsx, type ClassValue } from "clsx";;
-import { twMerge } from "tailwind-merge";;
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export const registrationFee = 50;
+
 export const blockCourtOptions = [
   { value: "", label: "Select an option..." },
   { value: "Block-A", label: "Block-A" },
@@ -68,6 +70,22 @@ export interface Payload {
   dateTime: string;
 }
 
+export interface PaystackSuccessReference {
+  reference: string;
+  transaction: string;
+  status: string;
+  message: string;
+}
+
+export interface PaymentInfo {
+  fullName: string;
+  phoneNumber: string;
+  subscriptionPlan: string;
+  planFee: number;
+  amount: number;
+  clientReference: string;
+}
+
 export const schema = yup
   .object({
     fullName: yup
@@ -97,3 +115,28 @@ export const schema = yup
     isCustodian: yup.bool().default(false).required("Custodian is required"),
   })
   .required();
+
+const reference = String(uuidv4());
+const slicedReference = reference.slice(0, 8);
+export const clientReference = `PWT-${slicedReference}`;
+
+export const googleScriptUrl = import.meta.env.DEV
+  ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
+  : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
+
+const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
+
+function switchPaymentProvider(provider: string) {
+  switch (provider) {
+    case "paystack":
+      return hubtelPay;
+    case "hubtel":
+      return paystackPay;
+    default:
+      throw new Error("Invalid payment provider");
+  }
+}
+
+const hubtelPay = () => {};
+
+const paystackPay = () => {};
