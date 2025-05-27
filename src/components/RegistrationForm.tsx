@@ -3,7 +3,6 @@ import { toast } from "sonner";
 import { Check } from "lucide-react";
 import React, { useState } from "react";
 import SuccessModal from "./SuccessModal";
-import PaymentModal from "./PaymentModal";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from "./ui/form";
@@ -18,11 +17,14 @@ import {
   registrationFee,
   schema,
 } from "@/lib/utils";
+import CheckoutSdk from "@hubteljs/checkout";
+import { v4 as uuidv4 } from "uuid";
 
 import type { FormData, Payload } from "@/lib/utils";
 
 const RegistrationForm: React.FC = () => {
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const checkout = new CheckoutSdk();
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [datePickerValue, setDatePickerValue] = useState({
     startDate: null,
     endDate: null,
@@ -39,13 +41,13 @@ const RegistrationForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      fullName: "",
-      dateOfBirth: null,
-      phoneNumber: "",
-      email: "",
+      fullName: "Kwame Opam",
+      dateOfBirth: new Date("2025-01-01"),
+      phoneNumber: "0245131563",
+      email: "kwame.opam@gmail.com",
       blockCourt: "",
       roomType: "",
-      roomNumber: "",
+      roomNumber: "A201",
       subscriptionPlan: "",
       isCustodian: false,
     },
@@ -77,28 +79,62 @@ const RegistrationForm: React.FC = () => {
       subscriptionPlan: data.subscriptionPlan.toUpperCase(),
     };
 
-    toast.promise(
-      fetch(googleScriptUrl, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
+    const reference = String(uuidv4());
+    const slicedReference = reference.slice(0, 8);
+    const clientReference = `PWT-${slicedReference}`;
+
+    checkout.openModal({
+      purchaseInfo: {
+        amount: totalCost,
+        purchaseDescription: `Payment of GHS ${planFee} PENTAGONWIFI ${data.subscriptionPlan.toUpperCase()} data package for (${data.fullName.toUpperCase()}-${
+          data.phoneNumber
+        })`,
+        customerPhoneNumber: `'${data.phoneNumber}`,
+        clientReference: clientReference,
+      },
+      config: {
+        branding: "enabled",
+        callbackUrl: import.meta.env.VITE_CALLBACK_URL,
+        merchantAccount: import.meta.env.VITE_MERCHANT,
+        basicAuth: import.meta.env.VITE_BASIC_AUTH,
+      },
+      callBacks: {
+        onInit: () => console.log("Iframe initialized: "),
+        onPaymentSuccess: (data) => {
+          console.log("Payment succeeded: ", data);
+          checkout.closePopUp();
+          toast.promise(
+            fetch(googleScriptUrl, {
+              method: "POST",
+              mode: "no-cors",
+              body: JSON.stringify(payload),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).then(() => {
+              setTimeout(() => setIsSuccessModalOpen(true), 300);
+              reset();
+              setDatePickerValue({
+                startDate: null,
+                endDate: null,
+              });
+            }),
+            {
+              loading: "Connecting you to Pentagon WiFi...",
+              success: "Registration complete!",
+              error: "Registration failed. Please try again.",
+            }
+          );
         },
-      }).then(() => {
-        setTimeout(() => setIsPaymentModalOpen(true), 300);
-        reset();
-        setDatePickerValue({
-          startDate: null,
-          endDate: null,
-        });
-      }),
-      {
-        loading: "Connecting you to Pentagon WiFi...",
-        success: "Registration complete!",
-        error: "Registration failed. Please try again.",
-      }
-    );
+        onPaymentFailure: (data) => console.log("Payment failed: ", data),
+        onLoad: () => console.log("Checkout has been loaded: "),
+        onFeesChanged: (fees) =>
+          console.log("Payment channel has changed: ", fees),
+        onResize: (size) =>
+          console.log("Iframe has been resized: ", size?.height),
+        onClose: () => console.log("The modal has closed"),
+      },
+    });
   };
 
   return (
@@ -335,10 +371,9 @@ const RegistrationForm: React.FC = () => {
         </div>
       </form>
 
-      <PaymentModal
-        open={isPaymentModalOpen}
-        onClose={() => setIsPaymentModalOpen(false)}
-        amount={`GHC ${totalCost}`}
+      <SuccessModal
+        open={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
       />
     </div>
   );

@@ -1,5 +1,5 @@
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from "clsx";;
+import { twMerge } from "tailwind-merge";;
 import * as yup from "yup";
 
 export function cn(...inputs: ClassValue[]) {
@@ -31,6 +31,7 @@ export const planPrices = {
   weekly: 100,
   monthly: 399,
 };
+
 export const dataPlanOptions = [
   { value: "", label: "Select an option..." },
   {
