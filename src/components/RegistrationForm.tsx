@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import * as yup from "yup";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
 import React, { useState } from "react";
@@ -16,33 +15,10 @@ import {
   planPrices,
   dataPlanOptions,
   registrationFee,
+  schema,
 } from "@/lib/utils";
 
-interface FormData {
-  fullName: string;
-  dateOfBirth: Date;
-  phoneNumber: string;
-  email: string;
-  blockCourt: string;
-  roomType: string;
-  roomNumber: string;
-  subscriptionPlan: string;
-  isCustodian: boolean;
-}
-
-interface Payload {
-  fullName: string;
-  dateOfBirth: string;
-  phoneNumber: string;
-  email: string;
-  blockCourt: string;
-  roomType: string;
-  roomNumber: string;
-  subscriptionPlan: string;
-  isCustodian: boolean;
-  totalCost: string;
-  dateTime: string;
-}
+import type { FormData, Payload } from "@/lib/utils";
 
 const RegistrationForm: React.FC = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -51,36 +27,6 @@ const RegistrationForm: React.FC = () => {
     endDate: null,
   });
   dayjs.extend(localizedFormat);
-
-  const schema = yup
-    .object({
-      fullName: yup
-        .string()
-        .required("Name is required.")
-        .matches(/^[A-Za-z]+(?:\s[A-Za-z]+){1,3}$/, "Name is invalid."),
-      dateOfBirth: yup
-        .date()
-        .required("Date of birth is required.")
-        .typeError("Invalid date"),
-      phoneNumber: yup
-        .string()
-        .required("Phone number is required.")
-        .matches(/^(?:\+?\d{7,15}|0\d{9})$/, "Phone number is invalid"),
-      email: yup
-        .string()
-        .email()
-        .required("Email is required.")
-        .matches(
-          /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-          "Email is invalid."
-        ),
-      blockCourt: yup.string().required("Block / Court is required."),
-      roomType: yup.string().required("Room Type is required"),
-      roomNumber: yup.string().required("Room number is required."),
-      subscriptionPlan: yup.string().required("Subscription plan is required"),
-      isCustodian: yup.bool().default(false).required("Custodian is required"),
-    })
-    .required();
 
   const {
     register,
@@ -167,18 +113,6 @@ const RegistrationForm: React.FC = () => {
           />
           <p className="text-red-400">{errors.fullName?.message}</p>
         </div>
-
-        {/* <div className='flex flex-col gap-2'>
-          <label htmlFor="dateOfBirth">Date of Birth</label>
-          <input
-            // required
-            id="dateOfBirth"
-            type='date'
-            {...register('dateOfBirth')}
-            className='py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none'
-          />
-          <p className='text-red-400'>{errors.dateOfBirth?.message}</p>
-        </div> */}
 
         <div className="flex flex-col gap-2">
           <label htmlFor="dateOfBirth">Date of Birth</label>
