@@ -3,6 +3,7 @@ import { toast } from "sonner";
 import { Check } from "lucide-react";
 import React, { useState } from "react";
 import SuccessModal from "./SuccessModal";
+import PaymentModal from "./PaymentModal";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from "./ui/form";
@@ -21,7 +22,7 @@ import {
 import type { FormData, Payload } from "@/lib/utils";
 
 const RegistrationForm: React.FC = () => {
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [datePickerValue, setDatePickerValue] = useState({
     startDate: null,
     endDate: null,
@@ -85,7 +86,7 @@ const RegistrationForm: React.FC = () => {
           "Content-Type": "application/json",
         },
       }).then(() => {
-        setTimeout(() => setIsSuccessModalOpen(true), 300);
+        setTimeout(() => setIsPaymentModalOpen(true), 300);
         reset();
         setDatePickerValue({
           startDate: null,
@@ -235,8 +236,8 @@ const RegistrationForm: React.FC = () => {
                 <strong>Custodian</strong> and get:
               </p>
               <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
-                <li>50% extra data weekly</li>
                 <li>Priority support</li>
+                <li>Weekly 60mins unlimited data</li>
               </ul>
             </div>
 
@@ -334,9 +335,9 @@ const RegistrationForm: React.FC = () => {
         </div>
       </form>
 
-      <SuccessModal
-        open={isSuccessModalOpen}
-        onClose={() => setIsSuccessModalOpen(false)}
+      <PaymentModal
+        open={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
       />
     </div>
   );
