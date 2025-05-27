@@ -338,6 +338,7 @@ const RegistrationForm: React.FC = () => {
       <PaymentModal
         open={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
+        amount={`GHC ${totalCost}`}
       />
     </div>
   );

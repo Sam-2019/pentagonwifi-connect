@@ -7,9 +7,14 @@ import { toast } from "sonner";
 interface PaymentModalProps {
   open: boolean;
   onClose: () => void;
+  amount?: String; // Optional amount prop, if needed for future use
 }
 
-const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose }) => {
+const PaymentModal: React.FC<PaymentModalProps> = ({
+  open,
+  onClose,
+  amount,
+}) => {
   const [checkmarkVisible, setCheckmarkVisible] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
   const [actionsVisible, setActionsVisible] = useState(false);
@@ -61,15 +66,12 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose }) => {
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent
-        className="sm:max-w-md flex flex-col p-6 bg-gradient-to-b from-white to-blue-50 border-2 border-primary/20"
-        // <-- This hides the top-right close button (if supported by your dialog lib)
-      >
+      <DialogContent className="sm:max-w-md flex flex-col bg-gradient-to-b from-white to-blue-50 border-2 border-primary/20">
         <div className="flex justify-end">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-1 hover:bg-gray-100 focus:outline-none transition duration-200 ease-in-out active:outline-none"
+            className="rounded-full hover:bg-gray-100 focus:outline-none transition duration-200 ease-in-out active:outline-none"
           >
             <XIcon className="h-10 w-10 text-gray-400" />
           </button>
@@ -86,51 +88,44 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose }) => {
 
           {messageVisible && (
             <div className="space-y-3">
-              <h2 className="text-2xl font-bold text-primary">Registration Complete!</h2>
+              <h2 className="text-2xl font-bold text-primary">
+                Registration Complete!
+              </h2>
 
               {/* <p className="text-base text-gray-600">
-               Tap button below to proceed to make <br/>payment to activate your service.
-              </p> */}
-
-              <p className="text-base text-gray-600">
-               Now proceed to make payment to enjoy <span className="text-lg text-primary font-semibold"> #InternetNeverSleeps.</span>
-              </p>
-
-              {/* <p className="text-base text-gray-600">
-                Welcome to blazing-fast internet that
-              </p> */}
-
-              {/* <p className="text-base text-gray-600">
-                Please make your payment by
-                <br />
-                dialing the short code below:
-              </p>
-
-              <p className="text-base text-gray-600">
-                Dial:{" "}
-                <span>
-                  <a href="tel:*713*1939#">*713*1939#</a>
-                </span>
-              </p> */}
-
-              {/* <p className="text-base text-primary font-semibold">
-                #NeverSleeps.
-              </p> */}
-
-              {/* <p className="text-base text-gray-600">
-                Expect smooth speeds and no drops — ever.
+                Now proceed to make payment of{" "}
+                <span className="text-xl font-semibold">{amount} </span>to
+                activate the service.
               </p> */}
             </div>
           )}
           {actionsVisible && (
             <div className="flex flex-col gap-2 mt-4">
-              <Button
-                role="link"
-                onClick={payNow}
-                className="bg-primary hover:bg-primary/90 gap-2 w-full"
-              >
-                Tap To Pay
-              </Button>
+              <div>
+                <div className="text-gray-600 text-base">
+                  Pay <span className="text-xl font-semibold">{amount}</span>{" "}
+                  via USSD code
+                </div>
+
+                <p className="text-gray-600 text-base">
+                  below to activate the service
+                </p>
+
+                <p className="text-gray-600 text-3xl font-semibold mt-5">
+                  *713*1939#
+                </p>
+
+                <div className="text-base text-gray-600 my-1">or</div>
+
+                <Button
+                  role="link"
+                  onClick={payNow}
+                  className="bg-primary hover:bg-primary/90 gap-2 w-full mt-1"
+                >
+                  Tap To Pay
+                </Button>
+              </div>
+
               <Button
                 onClick={handleShareReferral}
                 className="bg-transaperent hover:bg-primary/90 gap-2 w-full text-primary"
@@ -140,6 +135,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ open, onClose }) => {
               </Button>
             </div>
           )}
+
+          {/* <span className="text-lg text-gray-600 font-semibold">
+            #InternetNeverSleeps
+          </span> */}
         </div>
       </DialogContent>
     </Dialog>
