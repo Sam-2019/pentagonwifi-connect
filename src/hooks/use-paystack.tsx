@@ -87,7 +87,7 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
       },
       setIsSuccessModalOpen: (value: boolean) => void,
       reset: () => void,
-      setDatePickerValue: (value: { startDate: null; endDate: null }) => void
+      setDatePickerValue?: (value: { startDate: null; endDate: null }) => void
     ) => {
       initializePayment({
         onSuccess: (reference: PaystackSuccessReference) =>

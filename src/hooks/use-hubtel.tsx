@@ -31,7 +31,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
       },
       setIsSuccessModalOpen: (value: boolean) => void,
       reset: () => void,
-      setDatePickerValue: (value: {
+      setDatePickerValue?: (value: {
         startDate: Date | null;
         endDate: Date | null;
       }) => void
