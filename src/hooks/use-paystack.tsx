@@ -44,11 +44,10 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
   ): void => {
     console.log("Payment successful: ", reference);
     const stringifyReference = JSON.stringify(reference);
-    const parseReference = JSON.parse(stringifyReference);
 
     const purchaseInfo: DbPayload = {
       ...paymentInfo,
-      providerResponse: parseReference,
+      providerResponse: stringifyReference,
     };
 
     toast.promise(

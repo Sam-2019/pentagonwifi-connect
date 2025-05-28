@@ -44,11 +44,11 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
           onPaymentSuccess: (data) => {
             console.log("Payment successful: ", data.data);
             const reference = data.data;
-            const parseReference = JSON.parse(reference);
+            const stringifyReference = JSON.stringify(reference);
 
             const purchaseInfo: DbPayload = {
               ...paymentInfo,
-              providerResponse: parseReference,
+              providerResponse: stringifyReference,
             };
 
             checkout.closePopUp();

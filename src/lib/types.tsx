@@ -8,6 +8,8 @@ export interface FormData {
   roomNumber: string;
   subscriptionPlan: string;
   isCustodian: boolean;
+  userName?: string;
+  password?: string;
 }
 
 export interface Payload {
@@ -46,6 +48,7 @@ export interface PaymentInfo {
   roomNumber: string;
   isCustodian: boolean;
   dateTime: string;
+  credentials: string;
 }
 
 export interface DbPayload {
@@ -63,6 +66,6 @@ export interface DbPayload {
   roomNumber: string;
   isCustodian: boolean;
   dateTime: string;
-  providerResponse: object;
-
+  providerResponse: string;
+  credentials: string;
 }
