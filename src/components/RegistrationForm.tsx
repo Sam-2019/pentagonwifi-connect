@@ -30,7 +30,6 @@ const RegistrationForm: React.FC = () => {
     startDate: null,
     endDate: null,
   });
-  const [totalPayable, setTotalPayable] = useState(0);
 
   dayjs.extend(localizedFormat);
 
