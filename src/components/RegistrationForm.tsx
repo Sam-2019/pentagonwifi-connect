@@ -247,7 +247,7 @@ const RegistrationForm: React.FC = () => {
           <div className="bg-gradient-to-r from-cyan-100 to-blue-200 p-5 rounded-lg space-y-5">
             <div>
               <h3 className="text-xl font-bold text-primary mb-1">
-                Create Your Unique Login Credentials
+                Create Your Unique Login Credential
               </h3>
               <p className="text-sm text-gray-600 ">
                 These credentials will be used to set up your personal profile
@@ -331,7 +331,7 @@ const RegistrationForm: React.FC = () => {
               </p>
               <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
                 <li>Priority support</li>
-                <li>Weekly 60mins unlimited data</li>
+                <li>Enjoy 60 mins of unlimited data every week—absolutely free!</li>
               </ul>
             </div>
 
