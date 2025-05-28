@@ -51,6 +51,8 @@ export interface FormData {
   roomNumber: string;
   subscriptionPlan: string;
   isCustodian: boolean;
+  userName: string;
+  password: string;
 }
 
 export interface Payload {
@@ -65,6 +67,7 @@ export interface Payload {
   isCustodian: boolean;
   totalCost: string;
   dateTime: string;
+  credentials: string,
 }
 
 export const schema = yup

@@ -73,13 +73,20 @@ const RegistrationForm: React.FC = () => {
       ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
       : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
 
+    const credentials = {
+      userName: data.userName,
+      password: data.password,
+    };
+    const stringifyCredentials = JSON.stringify(credentials);
+
     const payload: Payload = {
       ...data,
       dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
-      phoneNumber: `'${data.phoneNumber}`,
+      phoneNumber: `${data.phoneNumber}`,
       totalCost: `${totalCost}`,
       dateTime: `${dayjs(new Date()).format("LLLL")}`,
       subscriptionPlan: data.subscriptionPlan.toUpperCase(),
+      credentials: stringifyCredentials,
     };
 
     toast.promise(
