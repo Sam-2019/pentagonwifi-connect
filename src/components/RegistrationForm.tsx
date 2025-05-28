@@ -68,41 +68,41 @@ const RegistrationForm: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
 
-    const payload: Payload = {
-      ...data,
-      dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
-      phoneNumber: `'${data.phoneNumber}`,
-      totalCost: `${totalCost}`,
-      dateTime: `${dayjs(new Date()).format("LLLL")}`,
-      subscriptionPlan: data.subscriptionPlan.toUpperCase(),
-    };
-
     const paymentInfo = {
-      fullName: payload.fullName,
-      phoneNumber: payload.phoneNumber,
-      subscriptionPlan: payload.subscriptionPlan,
+      fullName: data.fullName,
+      phoneNumber: data.phoneNumber,
+      subscriptionPlan: data.subscriptionPlan.toUpperCase(),
       planFee: planFee,
-      amount: totalCost,
-      clientReference: clientReference,
-
-      email: payload.email,
-      dateOfBirth: new Date(payload.dateOfBirth),
-      blockCourt: payload.blockCourt,
-      roomType: payload.roomType,
-      roomNumber: payload.roomNumber,
-      isCustodian: payload.isCustodian,
-      dateTime: payload.dateTime,
+      registrationFee: registrationFee,
       totalCost: totalCost,
+      clientReference: clientReference,
+      email: data.email,
+      dateOfBirth: new Date(data.dateOfBirth),
+      blockCourt: data.blockCourt,
+      roomType: data.roomType,
+      roomNumber: data.roomNumber,
+      isCustodian: data.isCustodian,
+      dateTime: new Date(),
     };
 
     if (current_payment_provider === hubtel) {
       const paymentProvider = hubtelPay(paymentInfo);
-      paymentProvider.initialize();
+      paymentProvider.initialize(
+        toast,
+        setIsSuccessModalOpen,
+        reset,
+        setDatePickerValue
+      );
       return;
     }
 
     const paymentProvider = paystackPay(paymentInfo);
-    paymentProvider.initialize();
+    paymentProvider.initialize(
+      toast,
+      setIsSuccessModalOpen,
+      reset,
+      setDatePickerValue
+    );
   };
 
   return (
