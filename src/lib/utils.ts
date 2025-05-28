@@ -3,10 +3,19 @@ import { twMerge } from "tailwind-merge";
 import * as yup from "yup";
 import { v4 as uuidv4 } from "uuid";
 
+export const dateOptions = {
+  year: "numeric" as const,
+  month: "2-digit" as const,
+  day: "2-digit" as const,
+  hour: "2-digit" as const,
+  minute: "2-digit" as const,
+  second: "2-digit" as const,
+  hour12: false,
+};
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
-
 
 export const blockCourtOptions = [
   { value: "", label: "Select an option..." },
@@ -44,7 +53,6 @@ export const dataPlanOptions = [
   // { value: `Weekly-(GHC ${planPrices.weekly})`, label: `Weekly (GHC ${planPrices.weekly})` },
   // { value: `Monthly-(GHC ${planPrices.monthly})`, label: `Monthly (GHC ${planPrices.monthly})` }
 ];
-
 
 export const schema = yup
   .object({
