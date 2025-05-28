@@ -19,7 +19,7 @@ import {
   clientReference,
   hubtel,
 } from "@/lib/utils";
-import type { FormData, Payload } from "@/lib/utils";
+import type { FormData, Payload } from "@/lib/types";
 
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { paystackPay } from "@/hooks/use-paystack";
