@@ -18,9 +18,9 @@ import {
   schema,
   clientReference,
   hubtel,
+  dateOptions,
 } from "@/lib/utils";
-import type { FormData, Payload } from "@/lib/types";
-
+import type { FormData } from "@/lib/types";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { paystackPay } from "@/hooks/use-paystack";
 
@@ -68,6 +68,11 @@ const RegistrationForm: React.FC = () => {
   const onSubmit = async (data: FormData) => {
     const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
 
+    const date = new Date();
+    const formattedDate = new Intl.DateTimeFormat("en-US", dateOptions).format(
+      date
+    );
+
     const paymentInfo = {
       fullName: data.fullName,
       phoneNumber: data.phoneNumber,
@@ -82,7 +87,7 @@ const RegistrationForm: React.FC = () => {
       roomType: data.roomType,
       roomNumber: data.roomNumber,
       isCustodian: data.isCustodian,
-      dateTime: new Date(),
+      dateTime: formattedDate,
     };
 
     if (current_payment_provider === hubtel) {
