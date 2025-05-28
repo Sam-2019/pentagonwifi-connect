@@ -1,4 +1,4 @@
-import { PaymentInfo, PaystackSuccessReference, DbPayload } from "@/lib/utils";
+import { PaymentInfo, PaystackSuccessReference, DbPayload } from "@/lib/types";
 import { usePaystackPayment } from "react-paystack";
 
 export const paystackPay = (paymentInfo: PaymentInfo) => {

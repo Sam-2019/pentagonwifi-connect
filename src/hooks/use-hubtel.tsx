@@ -1,4 +1,4 @@
-import { PaymentInfo } from "@/lib/utils";
+import { PaymentInfo } from "@/lib/types";
 import CheckoutSdk from "@hubteljs/checkout";
 
 export const hubtelPay = (paymentInfo: PaymentInfo) => {
