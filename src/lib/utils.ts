@@ -109,7 +109,7 @@ export interface DbPayload {
   roomNumber?: string;
   isCustodian?: boolean;
   totalCost?: number;
-  
+
   status: string;
   message: string;
   reference: string;
@@ -154,19 +154,5 @@ export const googleScriptUrl = import.meta.env.DEV
   ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
   : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
 
-const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
-
-function switchPaymentProvider(provider: string) {
-  switch (provider) {
-    case "paystack":
-      return hubtelPay;
-    case "hubtel":
-      return paystackPay;
-    default:
-      throw new Error("Invalid payment provider");
-  }
-}
-
-const hubtelPay = () => {};
-
-const paystackPay = () => {};
+export const hubtel = "hubtel";
+export const paystack = "paystack";
