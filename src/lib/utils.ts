@@ -1,12 +1,22 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import * as yup from "yup";
+import { v4 as uuidv4 } from "uuid";
+
+export const dateOptions = {
+  year: "numeric" as const,
+  month: "2-digit" as const,
+  day: "2-digit" as const,
+  hour: "2-digit" as const,
+  minute: "2-digit" as const,
+  second: "2-digit" as const,
+  hour12: false,
+};
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const registrationFee = 50;
 export const blockCourtOptions = [
   { value: "", label: "Select an option..." },
   { value: "Block-A", label: "Block-A" },
@@ -26,11 +36,13 @@ export const roomTypeOptions = [
   { value: "4-in-a-room", label: "4 in a room" },
 ];
 
+export const registrationFee = 50;
 export const planPrices = {
   daily: 20,
   weekly: 100,
   monthly: 399,
 };
+
 export const dataPlanOptions = [
   { value: "", label: "Select an option..." },
   {
@@ -40,35 +52,6 @@ export const dataPlanOptions = [
   // { value: `Weekly-(GHC ${planPrices.weekly})`, label: `Weekly (GHC ${planPrices.weekly})` },
   // { value: `Monthly-(GHC ${planPrices.monthly})`, label: `Monthly (GHC ${planPrices.monthly})` }
 ];
-
-export interface FormData {
-  fullName: string;
-  dateOfBirth: Date;
-  phoneNumber: string;
-  email: string;
-  blockCourt: string;
-  roomType: string;
-  roomNumber: string;
-  subscriptionPlan: string;
-  isCustodian: boolean;
-  userName: string;
-  password: string;
-}
-
-export interface Payload {
-  fullName: string;
-  dateOfBirth: string;
-  phoneNumber: string;
-  email: string;
-  blockCourt: string;
-  roomType: string;
-  roomNumber: string;
-  subscriptionPlan: string;
-  isCustodian: boolean;
-  totalCost: string;
-  dateTime: string;
-  credentials: string,
-}
 
 export const schema = yup
   .object({
@@ -104,3 +87,14 @@ export const schema = yup
   password: yup.string().required("Password is required."),
   })
   .required();
+
+const reference = String(uuidv4());
+const slicedReference = reference.slice(0, 8);
+export const clientReference = `PWT-${slicedReference}`;
+
+export const googleScriptUrl = import.meta.env.DEV
+  ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
+  : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
+
+export const hubtel = import.meta.env.VITE_HUBTEL;
+export const paystack = import.meta.env.VITE_PAYSTACK;

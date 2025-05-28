@@ -3,7 +3,6 @@ import { toast } from "sonner";
 import { Check } from "lucide-react";
 import React, { useState } from "react";
 import SuccessModal from "./SuccessModal";
-import PaymentModal from "./PaymentModal";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from "./ui/form";
@@ -17,12 +16,16 @@ import {
   dataPlanOptions,
   registrationFee,
   schema,
+  clientReference,
+  hubtel,
+  dateOptions,
 } from "@/lib/utils";
-
-import type { FormData, Payload } from "@/lib/utils";
+import type { FormData } from "@/lib/types";
+import { hubtelPay } from "@/hooks/use-hubtel";
+import { paystackPay } from "@/hooks/use-paystack";
 
 const RegistrationForm: React.FC = () => {
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [datePickerValue, setDatePickerValue] = useState({
     startDate: null,
     endDate: null,
@@ -41,13 +44,13 @@ const RegistrationForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      fullName: "",
-      dateOfBirth: null,
-      phoneNumber: "",
-      email: "",
+      fullName: "Kwame Opam",
+      dateOfBirth: new Date("2025-01-01"),
+      phoneNumber: "0245131563",
+      email: "kwame.opam@gmail.com",
       blockCourt: "",
       roomType: "",
-      roomNumber: "",
+      roomNumber: "A201",
       subscriptionPlan: "",
       isCustodian: false,
       userName: "",
@@ -57,7 +60,6 @@ const RegistrationForm: React.FC = () => {
 
   const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
 
-  // Calculate the total cost based on the selected subscription plan & the registration fee
   const planFee = subscriptionPlan.includes("Daily")
     ? planPrices.daily
     : subscriptionPlan.includes("Weekly")
@@ -68,48 +70,54 @@ const RegistrationForm: React.FC = () => {
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
-    setTotalPayable(totalCost);
-    const googleScriptUrl = import.meta.env.DEV
-      ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
-      : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
+    const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
+
+    const date = new Date();
+    const formattedDate = new Intl.DateTimeFormat("en-US", dateOptions).format(
+      date
+    );
 
     const credentials = {
       userName: data.userName,
       password: data.password,
     };
-    const stringifyCredentials = JSON.stringify(credentials);
 
-    const payload: Payload = {
-      ...data,
-      dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
-      phoneNumber: `${data.phoneNumber}`,
-      totalCost: `${totalCost}`,
-      dateTime: `${dayjs(new Date()).format("LLLL")}`,
+    const stringifyCredentials = JSON.stringify(credentials);
+    const paymentInfo = {
+      fullName: data.fullName,
+      phoneNumber: data.phoneNumber,
       subscriptionPlan: data.subscriptionPlan.toUpperCase(),
+      planFee: planFee,
+      registrationFee: registrationFee,
+      totalCost: totalCost,
+      clientReference: clientReference,
+      email: data.email,
+      dateOfBirth: new Date(data.dateOfBirth),
+      blockCourt: data.blockCourt,
+      roomType: data.roomType,
+      roomNumber: data.roomNumber,
+      isCustodian: data.isCustodian,
       credentials: stringifyCredentials,
+      dateTime: formattedDate,
     };
 
-    toast.promise(
-      fetch(googleScriptUrl, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(() => {
-        setTimeout(() => setIsPaymentModalOpen(true), 300);
-        reset();
-        setDatePickerValue({
-          startDate: null,
-          endDate: null,
-        });
-      }),
-      {
-        loading: "Connecting you to Pentagon WiFi...",
-        success: "Registration complete!",
-        error: "Registration failed. Please try again.",
-      }
+    if (current_payment_provider === hubtel) {
+      const paymentProvider = hubtelPay(paymentInfo);
+      paymentProvider.initialize(
+        toast,
+        setIsSuccessModalOpen,
+        reset,
+        setDatePickerValue
+      );
+      return;
+    }
+
+    const paymentProvider = paystackPay(paymentInfo);
+    paymentProvider.initialize(
+      toast,
+      setIsSuccessModalOpen,
+      reset,
+      setDatePickerValue
     );
   };
 
@@ -117,7 +125,7 @@ const RegistrationForm: React.FC = () => {
     <div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm shadow-lg rounded-xl p-6 md:p-8 border border-blue-100 sm">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="fullName">Name</label>
+          <label htmlFor="fullName">Full Name</label>
           <input
             id="fullName"
             type="text"
@@ -422,10 +430,9 @@ const RegistrationForm: React.FC = () => {
         </div>
       </form>
 
-      <PaymentModal
-        open={isPaymentModalOpen}
-        onClose={() => setIsPaymentModalOpen(false)}
-        amount={`GHC ${totalPayable}`}
+      <SuccessModal
+        open={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
       />
     </div>
   );
