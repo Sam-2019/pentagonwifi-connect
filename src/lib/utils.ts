@@ -154,5 +154,5 @@ export const googleScriptUrl = import.meta.env.DEV
   ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
   : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
 
-export const hubtel = "hubtel";
-export const paystack = "paystack";
+export const hubtel = import.meta.env.VITE_HUBTEL;
+export const paystack = import.meta.env.VITE_PAYSTACK;
