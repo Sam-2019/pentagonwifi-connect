@@ -23,6 +23,7 @@ import {
 import type { FormData } from "@/lib/types";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { paystackPay } from "@/hooks/use-paystack";
+import TermsC from "./TermsC";
 
 const RegistrationForm: React.FC = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -331,7 +332,9 @@ const RegistrationForm: React.FC = () => {
               </p>
               <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
                 <li>Priority support</li>
-                <li>Enjoy 60 mins of unlimited data every week—absolutely free!</li>
+                <li>
+                  Enjoy 60 mins of unlimited data every week—absolutely free!
+                </li>
               </ul>
             </div>
 
@@ -422,11 +425,7 @@ const RegistrationForm: React.FC = () => {
           </Button>
         </div>
 
-        <div className="flex flex-row justify-center text-center mt-2 text-gray-500">
-          <span> * </span>
-          <p className="text-sm px-2">Terms & Conditions Apply</p>
-          <span> * </span>
-        </div>
+        <TermsC />
       </form>
 
       <SuccessModal
