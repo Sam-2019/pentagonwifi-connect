@@ -324,7 +324,7 @@ const RegistrationForm: React.FC = () => {
               </p>
               <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
                 <li>Priority support</li>
-                <li>Weekly 60mins unlimited data</li>
+                <li>Enjoy 60 mins of unlimited data every week—absolutely free!</li>
               </ul>
             </div>
 
