@@ -53,8 +53,8 @@ const RegistrationForm: React.FC = () => {
       roomNumber: "A201",
       subscriptionPlan: "",
       isCustodian: false,
-      userName: "",
-      password: "",
+      userName: "1111",
+      password: "1111",
     },
   });
 
