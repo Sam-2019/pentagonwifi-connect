@@ -1,4 +1,5 @@
 import { PaymentInfo, PaystackSuccessReference, DbPayload } from "@/lib/types";
+import { googleScriptUrl } from "@/lib/utils";
 import { usePaystackPayment } from "react-paystack";
 
 export const paystackPay = (paymentInfo: PaymentInfo) => {
@@ -29,24 +30,75 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
     },
   };
 
-  const onSuccess = (reference: PaystackSuccessReference): void => {
+  const onSuccess = (
+    toast: {
+      promise: (
+        promise: Promise<any>,
+        options: { loading: string; success: string; error: string }
+      ) => void;
+    },
+    setIsSuccessModalOpen: (value: boolean) => void,
+    reset: () => void,
+    setDatePickerValue: (value: { startDate: null; endDate: null }) => void,
+    reference: PaystackSuccessReference
+  ): void => {
     console.log("Payment successful: ", reference);
-    const payload: DbPayload = {
+    const stringifyReference = JSON.stringify(reference);
+    const parseReference = JSON.parse(stringifyReference);
+
+    const purchaseInfo: DbPayload = {
       ...paymentInfo,
-      reference: reference.reference,
-      transaction: reference.transaction,
-      status: reference.status,
-      message: reference.message,
+      providerResponse: parseReference,
     };
+
+    toast.promise(
+      fetch(googleScriptUrl, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify(purchaseInfo),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => {
+        setTimeout(() => setIsSuccessModalOpen(true), 300);
+        reset();
+        setDatePickerValue({
+          startDate: null,
+          endDate: null,
+        });
+      }),
+      {
+        loading: "Connecting you to Pentagon WiFi...",
+        success: "Registration complete!",
+        error: "Registration failed. Please try again.",
+      }
+    );
   };
 
   const onClose = () => {};
   const initializePayment = usePaystackPayment(config);
 
   return {
-    initialize: () => {
+    initialize: (
+      toast: {
+        promise: (
+          promise: Promise<any>,
+          options: { loading: string; success: string; error: string }
+        ) => void;
+      },
+      setIsSuccessModalOpen: (value: boolean) => void,
+      reset: () => void,
+      setDatePickerValue: (value: { startDate: null; endDate: null }) => void
+    ) => {
       initializePayment({
-        onSuccess,
+        onSuccess: (reference: PaystackSuccessReference) =>
+          onSuccess(
+            toast,
+            setIsSuccessModalOpen,
+            reset,
+            setDatePickerValue,
+            reference
+          ),
         onClose,
       });
     },
