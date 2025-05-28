@@ -27,6 +27,8 @@ const RegistrationForm: React.FC = () => {
     startDate: null,
     endDate: null,
   });
+  const [totalPayable, setTotalPayable] = useState(0);
+
   dayjs.extend(localizedFormat);
 
   const {
@@ -64,6 +66,7 @@ const RegistrationForm: React.FC = () => {
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
+    setTotalPayable(totalCost);
     const googleScriptUrl = import.meta.env.DEV
       ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
       : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
@@ -338,7 +341,7 @@ const RegistrationForm: React.FC = () => {
       <PaymentModal
         open={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
-        amount={`GHC ${totalCost}`}
+        amount={`GHC ${totalPayable}`}
       />
     </div>
   );
