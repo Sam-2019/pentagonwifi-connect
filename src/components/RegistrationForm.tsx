@@ -73,6 +73,12 @@ const RegistrationForm: React.FC = () => {
       date
     );
 
+    const credentials = {
+      userName: data.userName,
+      password: data.password,
+    };
+
+    const stringifyCredentials = JSON.stringify(credentials);
     const paymentInfo = {
       fullName: data.fullName,
       phoneNumber: data.phoneNumber,
@@ -87,6 +93,7 @@ const RegistrationForm: React.FC = () => {
       roomType: data.roomType,
       roomNumber: data.roomNumber,
       isCustodian: data.isCustodian,
+      credentials: stringifyCredentials,
       dateTime: formattedDate,
     };
 
