@@ -50,6 +50,8 @@ const RegistrationForm: React.FC = () => {
       roomNumber: "",
       subscriptionPlan: "",
       isCustodian: false,
+      userName: "",
+      password: "",
     },
   });
 
@@ -225,7 +227,82 @@ const RegistrationForm: React.FC = () => {
           <p className="text-red-400">{errors.subscriptionPlan?.message}</p>
         </div>
 
-        <div className="mt-4 border-t" />
+        <div className="mt-4 mb-2 border-t" />
+
+        <div className=" border-gray-200">
+          <div className="bg-gradient-to-r from-cyan-100 to-blue-200 p-5 rounded-lg space-y-5">
+            <div>
+              <h3 className="text-xl font-bold text-primary mb-1">
+                Create Your Unique Login Credentials
+              </h3>
+              <p className="text-sm text-gray-600 ">
+                These credentials will be used to set up your personal profile
+                and will allow you to log in to the portal for internet access.
+              </p>
+              <br />
+
+              <p className="text-sm text-gray-600 max-w-md">Do’s:</p>
+              <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
+                <li>Create a strong password</li>
+                <li>Choose a username that is easy for you to remember.</li>
+                <li>
+                  Keep your credentials confidential—never share them with
+                  others.
+                </li>
+                <li>
+                  Store your credentials safely (use a password manager or write
+                  them in a secure place).
+                </li>
+              </ul>
+
+              <br />
+
+              <p className="text-sm text-gray-600 max-w-md">Don’ts:</p>
+              <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
+                <li>Don’t share your username or password with anyone.</li>
+                <li>Don’t reuse passwords you’ve used for other accounts.</li>
+                <li>
+                  Don’t use simple or predictable patterns (like “abcd1234” or
+                  “qwerty”).
+                </li>
+                <li>
+                  Don’t use obvious passwords (like "password123", "admin", or
+                  your name/birthday).
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              {/* username */}
+              <div className="flex flex-col gap-2 w-full">
+                {/* <label htmlFor="userName">Username</label> */}
+                <input
+                  id="userName"
+                  type="text"
+                  placeholder="Username"
+                  {...register("userName")}
+                  className="py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+                />
+                <p className="text-red-400">{errors.userName?.message}</p>
+              </div>
+
+              {/* password */}
+              <div className="flex flex-col gap-2 w-full">
+                {/* <label htmlFor="password">Password</label> */}
+                <input
+                  id="passwordr"
+                  type="password"
+                  placeholder="Password"
+                  {...register("password")}
+                  className="py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+                />
+                <p className="text-red-400">{errors.password?.message}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-2 mb-4 border-t" />
 
         <div className=" border-gray-200">
           <div className="bg-gradient-to-r from-primary/5 to-accent/10 p-5 rounded-lg space-y-5">
