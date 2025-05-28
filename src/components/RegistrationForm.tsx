@@ -17,6 +17,7 @@ import {
   registrationFee,
   schema,
   clientReference,
+  hubtel,
 } from "@/lib/utils";
 import type { FormData, Payload } from "@/lib/utils";
 
@@ -65,6 +66,8 @@ const RegistrationForm: React.FC = () => {
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
+    const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
+
     const payload: Payload = {
       ...data,
       dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
@@ -92,8 +95,11 @@ const RegistrationForm: React.FC = () => {
       totalCost: totalCost,
     };
 
-    // const paymentProvider = hubtelPay(paymentInfo);
-    // paymentProvider.initialize();
+    if (current_payment_provider === hubtel) {
+      const paymentProvider = hubtelPay(paymentInfo);
+      paymentProvider.initialize();
+      return;
+    }
 
     const paymentProvider = paystackPay(paymentInfo);
     paymentProvider.initialize();
