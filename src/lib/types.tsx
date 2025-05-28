@@ -45,7 +45,7 @@ export interface PaymentInfo {
   roomType: string;
   roomNumber: string;
   isCustodian: boolean;
-  dateTime: Date;
+  dateTime: string;
 }
 
 export interface DbPayload {
@@ -62,8 +62,7 @@ export interface DbPayload {
   roomType: string;
   roomNumber: string;
   isCustodian: boolean;
-  dateTime: Date;
-
+  dateTime: string;
   providerResponse: object;
-  
+
 }
