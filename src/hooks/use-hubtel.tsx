@@ -1,5 +1,5 @@
 import { DbPayload, PaymentInfo } from "@/lib/types";
-import { googleScriptUrl } from "@/lib/utils";
+import { googleScriptUrl, hubtel } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
 
 export const hubtelPay = (paymentInfo: PaymentInfo) => {
@@ -48,6 +48,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 
             const purchaseInfo: DbPayload = {
               ...paymentInfo,
+              provider: hubtel.toUpperCase(),
               providerResponse: stringifyReference,
             };
 

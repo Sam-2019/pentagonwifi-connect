@@ -1,5 +1,5 @@
 import { PaymentInfo, PaystackSuccessReference, DbPayload } from "@/lib/types";
-import { googleScriptUrl } from "@/lib/utils";
+import { googleScriptUrl, paystack } from "@/lib/utils";
 import { usePaystackPayment } from "react-paystack";
 
 export const paystackPay = (paymentInfo: PaymentInfo) => {
@@ -47,6 +47,7 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 
     const purchaseInfo: DbPayload = {
       ...paymentInfo,
+      provider: paystack.toUpperCase(),
       providerResponse: stringifyReference,
     };
 

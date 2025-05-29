@@ -66,6 +66,7 @@ export interface DbPayload {
   roomNumber: string;
   isCustodian: boolean;
   dateTime: string;
+  provider: string;
   providerResponse: string;
   credentials: string;
 }
