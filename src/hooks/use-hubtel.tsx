@@ -48,7 +48,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 
             const purchaseInfo: DbPayload = {
               ...paymentInfo,
-              provider: hubtel.toUpperCase(),
+              provider: hubtel,
               providerResponse: stringifyReference,
             };
 

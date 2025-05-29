@@ -47,7 +47,7 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 
     const purchaseInfo: DbPayload = {
       ...paymentInfo,
-      provider: paystack.toUpperCase(),
+      provider: paystack,
       providerResponse: stringifyReference,
     };
 
