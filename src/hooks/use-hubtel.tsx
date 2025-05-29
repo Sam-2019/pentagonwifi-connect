@@ -43,13 +43,13 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
           onInit: () => console.log("Iframe initialized: "),
           onPaymentSuccess: (data) => {
             console.log("Payment successful: ", data.data);
-            const reference = data.data;
-            const stringifyReference = JSON.stringify(reference);
+            const response = data.data;
+            const stringifyResponse = JSON.stringify(response);
 
             const purchaseInfo: DbPayload = {
               ...paymentInfo,
               provider: hubtel,
-              providerResponse: stringifyReference,
+              providerResponse: stringifyResponse,
             };
 
             checkout.closePopUp();
