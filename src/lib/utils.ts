@@ -58,7 +58,7 @@ export const schema = yup
     fullName: yup
       .string()
       .required("Name is required.")
-      .matches(/^[A-Za-z]+(?:\s[A-Za-z]+){1,3}$/, "Name is invalid."),
+      .matches(/^(?:[A-Za-z][A-Za-z'-]*\s+){1,}[A-Za-z][A-Za-z'-]*$/, "Name is invalid."),
     dateOfBirth: yup
       .date()
       .required("Date of birth is required.")
