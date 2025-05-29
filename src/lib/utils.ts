@@ -84,10 +84,10 @@ export const schema = yup
     subscriptionPlan: yup.string().required("Subscription plan is required"),
     isCustodian: yup.bool().default(false).required("Custodian is required"),
     userName: yup
-      .string()
-      .required("Username is required.")
-      .matches(/^[a-zA-Z0-9._-]{3,}$/, "Username is invalid."),
-    password: yup.string().required("Password is required."),
+    .string()
+    .required("Username is required.")
+    .matches(/^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/, "Username is invalid."),
+  password: yup.string().required("Password is required."),
   })
   .required();
 
