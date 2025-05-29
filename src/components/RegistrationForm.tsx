@@ -267,6 +267,10 @@ const RegistrationForm: React.FC = () => {
                   others.
                 </li>
                 <li>
+                  Your username must include the last 4 digits of your phone
+                  number.
+                </li>
+                <li>
                   Store your credentials safely (use a password manager or write
                   them in a secure place).
                 </li>
