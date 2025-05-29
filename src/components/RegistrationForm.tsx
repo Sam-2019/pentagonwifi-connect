@@ -257,6 +257,10 @@ const RegistrationForm: React.FC = () => {
                   others.
                 </li>
                 <li>
+                  Your username must include the last 4 digits of your phone
+                  number.
+                </li>
+                <li>
                   Store your credentials safely (use a password manager or write
                   them in a secure place).
                 </li>
@@ -324,7 +328,9 @@ const RegistrationForm: React.FC = () => {
               </p>
               <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
                 <li>Priority support</li>
-                <li>Enjoy 60 mins of unlimited data every week—absolutely free!</li>
+                <li>
+                  Enjoy 60 mins of unlimited data every week—absolutely free!
+                </li>
               </ul>
             </div>
 
