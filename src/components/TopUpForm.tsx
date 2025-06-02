@@ -96,6 +96,7 @@ const TopUp: React.FC = () => {
       isCustodian: data.isCustodian,
       credentials: stringifyCredentials,
       dateTime: formattedDate,
+      provider: current_payment_provider,
     };
 
     if (current_payment_provider === hubtel) {
