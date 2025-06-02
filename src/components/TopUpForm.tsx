@@ -81,8 +81,6 @@ const TopUpForm: React.FC = () => {
       clientReference: "N/A",
     };
 
-    console.log("Payload to send:", payload);
-
     toast.promise(
       fetch(googleScriptUrl, {
         method: "POST",
