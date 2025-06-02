@@ -1,11 +1,14 @@
-import RegistrationForm from "@/components/RegistrationForm";
 import LightningBackground from "@/components/WaveBackground";
 import Logo from "@/components/Logo";
-import { QrCode } from "lucide-react";
+
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ScanMeModal from "@/components/ScanMe";
+import { QrCode } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const Index = () => {
+const Root = () => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onClose = () => {
@@ -15,31 +18,35 @@ const Index = () => {
     setIsModalOpen(true);
   };
 
+  const onClick = () => {
+    navigate("/topup");
+  };
+
   return (
     <div>
       <LightningBackground />
-      <header className="w-full mx-auto py-7 bg-white shadow-sm">
-        <Logo />
+      <header className="w-full mx-auto py-7 bg-white shadow-sm flex items-center justify-between px-4 md:px-8 sticky top-0 z-50">
+        <Link to="/" className="flex items-center gap-2">
+          <Logo />
+        </Link>
+
+        <Button
+          type="button"
+          className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg"
+          onClick={onClick}
+        >
+          Topup
+        </Button>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center">
-        <div className="text-center mt-10">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3">
-            Connect to Pentagon WiFi
-          </h1>
-          <p className="text-gray-600 mb-6">
-            Fill out the form below to register for blazing-fast internet
-            service.
-          </p>
-        </div>
-
-        <div className="w-full rounded-lg md:p-0 p-4">
-          <RegistrationForm />
-        </div>
-      </main>
+      <Outlet />
 
       <div className="fixed bottom-4 right-4 hidden md:block">
-        <button className=" rounded-full shadow-lg" onClick={onOpen}>
+        <button
+          type="button"
+          className=" rounded-full shadow-lg"
+          onClick={onOpen}
+        >
           <QrCode className="h-20 w-20 text-blue-900 mx-auto p-3" />
         </button>
       </div>
@@ -56,4 +63,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default Root;

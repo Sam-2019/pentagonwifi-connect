@@ -6,6 +6,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const topup = "Top Up";
+export const registration = "Registration";
+
 export const registrationFee = 50;
 export const blockCourtOptions = [
   { value: "", label: "Select an option..." },
@@ -31,6 +34,7 @@ export const planPrices = {
   weekly: 100,
   monthly: 399,
 };
+
 export const dataPlanOptions = [
   { value: "", label: "Select an option..." },
   {
@@ -55,6 +59,13 @@ export interface FormData {
   password: string;
 }
 
+export interface TopUpFormData {
+  userName: string;
+  phoneNumber: string;
+  email: string;
+  subscriptionPlan: string;
+}
+
 export interface Payload {
   fullName: string;
   dateOfBirth: string;
@@ -67,7 +78,10 @@ export interface Payload {
   isCustodian: boolean;
   totalCost: string;
   dateTime: string;
-  credentials: string,
+  credentials: string;
+  registrationType: string;
+  provider: string;
+  clientReference: string;
 }
 
 export const schema = yup
@@ -90,7 +104,7 @@ export const schema = yup
       .required("Email is required.")
       .matches(
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        "Email is invalid."
+        "Email is invalid.",
       ),
     blockCourt: yup.string().required("Block / Court is required."),
     roomType: yup.string().required("Room Type is required"),
@@ -98,9 +112,41 @@ export const schema = yup
     subscriptionPlan: yup.string().required("Subscription plan is required"),
     isCustodian: yup.bool().default(false).required("Custodian is required"),
     userName: yup
-    .string()
-    .required("Username is required.")
-    .matches(/^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/, "Username is invalid."),
-  password: yup.string().required("Password is required."),
+      .string()
+      .required("Username is required.")
+      .matches(
+        /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
+        "Username is invalid.",
+      ),
+    password: yup.string().required("Password is required."),
   })
   .required();
+
+export const topupSchema = yup
+  .object({
+    phoneNumber: yup
+      .string()
+      .required("Phone number is required.")
+      .matches(/^(?:\+?\d{7,15}|0\d{9})$/, "Phone number is invalid"),
+    email: yup
+      .string()
+      .email()
+      .required("Email is required.")
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Email is invalid.",
+      ),
+    subscriptionPlan: yup.string().required("Subscription plan is required"),
+    userName: yup
+      .string()
+      .required("Username is required.")
+      .matches(
+        /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
+        "Username is invalid.",
+      ),
+  })
+  .required();
+
+export const googleScriptUrl = import.meta.env.DEV
+  ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
+  : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { CircleCheck, Share, XIcon } from "lucide-react";
@@ -7,12 +8,14 @@ import { toast } from "sonner";
 interface PaymentModalProps {
   open: boolean;
   onClose: () => void;
-  amount?: String; // Optional amount prop, if needed for future use
+  registrationType: string;
+  amount?: string; // Optional amount prop, if needed for future use
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = ({
   open,
   onClose,
+  registrationType,
   amount,
 }) => {
   const [checkmarkVisible, setCheckmarkVisible] = useState(false);
@@ -89,7 +92,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
           {messageVisible && (
             <div className="space-y-3">
               <h2 className="text-2xl font-bold text-primary">
-                Registration Complete!
+                {registrationType} Complete!
               </h2>
 
               {/* <p className="text-base text-gray-600">
@@ -117,13 +120,13 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
                 <div className="text-base text-gray-600 my-1">or</div>
 
-                <Button
-                  role="link"
-                  onClick={payNow}
-                  className="bg-primary hover:bg-primary/90 gap-2 w-full mt-1"
+                <a
+                  href="tel:*713*1939#"
+                  className="inline-flex items-center justify-center bg-primary hover:bg-primary/90 gap-2 w-full mt-1 rounded-md px-4 py-2 text-white font-medium transition duration-200 ease-in-out"
+                  style={{ textDecoration: "none" }}
                 >
                   Tap To Pay
-                </Button>
+                </a>
               </div>
 
               <Button

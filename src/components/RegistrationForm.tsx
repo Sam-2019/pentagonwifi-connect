@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
-import React, { useState } from "react";
-import SuccessModal from "./SuccessModal";
+import type React from "react";
+import { useState } from "react";
 import PaymentModal from "./PaymentModal";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -17,9 +17,11 @@ import {
   dataPlanOptions,
   registrationFee,
   schema,
+  registration,
+  googleScriptUrl,
 } from "@/lib/utils";
-
 import type { FormData, Payload } from "@/lib/utils";
+import TermCondition from "./TermCondition";
 
 const RegistrationForm: React.FC = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -61,17 +63,14 @@ const RegistrationForm: React.FC = () => {
   const planFee = subscriptionPlan.includes("Daily")
     ? planPrices.daily
     : subscriptionPlan.includes("Weekly")
-    ? planPrices.weekly
-    : subscriptionPlan.includes("Monthly")
-    ? planPrices.monthly
-    : 0;
+      ? planPrices.weekly
+      : subscriptionPlan.includes("Monthly")
+        ? planPrices.monthly
+        : 0;
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
     setTotalPayable(totalCost);
-    const googleScriptUrl = import.meta.env.DEV
-      ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
-      : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
 
     const credentials = {
       userName: data.userName,
@@ -87,6 +86,9 @@ const RegistrationForm: React.FC = () => {
       dateTime: `${dayjs(new Date()).format("LLLL")}`,
       subscriptionPlan: data.subscriptionPlan.toUpperCase(),
       credentials: stringifyCredentials,
+      registrationType: registration,
+      provider: "N/A",
+      clientReference: "N/A",
     };
 
     toast.promise(
@@ -109,7 +111,7 @@ const RegistrationForm: React.FC = () => {
         loading: "Connecting you to Pentagon WiFi...",
         success: "Registration complete!",
         error: "Registration failed. Please try again.",
-      }
+      },
     );
   };
 
@@ -421,16 +423,13 @@ const RegistrationForm: React.FC = () => {
           </Button>
         </div>
 
-        <div className="flex flex-row justify-center text-center mt-2 text-gray-500">
-          <span> * </span>
-          <p className="text-sm px-2">Terms & Conditions Apply</p>
-          <span> * </span>
-        </div>
+        <TermCondition />
       </form>
 
       <PaymentModal
         open={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
+        registrationType={registration}
         amount={`GHC ${totalPayable}`}
       />
     </div>
