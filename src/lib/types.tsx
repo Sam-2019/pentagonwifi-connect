@@ -19,11 +19,15 @@ export interface Payload {
   email: string;
   blockCourt: string;
   roomType: string;
+  registrationType: string;
+  clientReference: string;
+  provider: string;
   roomNumber: string;
   subscriptionPlan: string;
   isCustodian: boolean;
   totalCost: string;
   dateTime: string;
+  credentials: string;
 }
 
 export interface PaystackSuccessReference {
@@ -70,4 +74,11 @@ export interface DbPayload {
   credentials: string;
   provider: string;
   providerResponse: string;
+}
+
+export interface TopUpFormData {
+  userName: string;
+  phoneNumber: string;
+  email: string;
+  subscriptionPlan: string;
 }

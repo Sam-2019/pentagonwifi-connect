@@ -3,7 +3,6 @@ import { toast } from "sonner";
 import { Check } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
-import SuccessModal from "./SuccessModal";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -11,22 +10,17 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 import {
   planPrices,
   dataPlanOptions,
-  schema,
-  clientReference,
-  hubtel,
-  dateOptions,
+  topupSchema,
+  topup,
+  googleScriptUrl,
 } from "@/lib/utils";
-import type { FormData } from "@/lib/types";
-import { hubtelPay } from "@/hooks/use-hubtel";
-import { paystackPay } from "@/hooks/use-paystack";
-import TermsC from "./TermsC";
+import type { Payload, TopUpFormData } from "@/lib/types";
+import TermCondition from "./TermCondition";
+import PaymentModal from "./PaymentModal";
 
-const TopUp: React.FC = () => {
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-  const [datePickerValue, setDatePickerValue] = useState({
-    startDate: null,
-    endDate: null,
-  });
+const TopUpForm: React.FC = () => {
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [totalPayable, setTotalPayable] = useState(0);
 
   dayjs.extend(localizedFormat);
 
@@ -35,22 +29,14 @@ const TopUp: React.FC = () => {
     handleSubmit,
     watch,
     reset,
-    control,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(topupSchema),
     defaultValues: {
-      fullName: "Kwame Opam",
-      dateOfBirth: new Date("2025-01-01"),
-      phoneNumber: "0245131563",
-      email: "kwame.opam@gmail.com",
-      blockCourt: "",
-      roomType: "",
-      roomNumber: "A201",
+      userName: "",
+      phoneNumber: "",
+      email: "",
       subscriptionPlan: "",
-      isCustodian: false,
-      userName: "1111",
-      password: "1111",
     },
   });
 
@@ -59,69 +45,76 @@ const TopUp: React.FC = () => {
   const planFee = subscriptionPlan.includes("Daily")
     ? planPrices.daily
     : subscriptionPlan.includes("Weekly")
-    ? planPrices.weekly
-    : subscriptionPlan.includes("Monthly")
-    ? planPrices.monthly
-    : 0;
+      ? planPrices.weekly
+      : subscriptionPlan.includes("Monthly")
+        ? planPrices.monthly
+        : 0;
 
   const registrationFee = 0;
   const totalCost = registrationFee + planFee;
 
-  const onSubmit = async (data: FormData) => {
-    const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
-
-    const date = new Date();
-    const formattedDate = new Intl.DateTimeFormat("en-US", dateOptions).format(
-      date
-    );
+  const onSubmit = async (data: TopUpFormData) => {
+    setTotalPayable(totalCost);
 
     const credentials = {
       userName: data.userName,
-      password: data.password,
+      password: "",
     };
-
     const stringifyCredentials = JSON.stringify(credentials);
-    const paymentInfo = {
-      fullName: data.fullName,
-      phoneNumber: data.phoneNumber,
-      subscriptionPlan: data.subscriptionPlan.toUpperCase(),
-      planFee: planFee,
-      registrationFee: registrationFee,
-      totalCost: totalCost,
-      clientReference: clientReference,
-      email: data.email,
-      dateOfBirth: new Date(data.dateOfBirth),
-      blockCourt: data.blockCourt,
-      roomType: data.roomType,
-      roomNumber: data.roomNumber,
-      isCustodian: data.isCustodian,
+
+    const payload: Payload = {
+      ...data,
+      fullName: "N/A",
+      dateOfBirth: null,
+      blockCourt: "N/A",
+      roomType: "N/A",
+      roomNumber: "N/A",
+      isCustodian: false,
       credentials: stringifyCredentials,
-      dateTime: formattedDate,
-      provider: current_payment_provider,
+      email: `${data.email}`,
+      phoneNumber: `${data.phoneNumber}`,
+      totalCost: `${totalCost}`,
+      dateTime: `${dayjs(new Date()).format("LLLL")}`,
+      subscriptionPlan: data.subscriptionPlan.toUpperCase(),
+      registrationType: topup,
+      provider: "N/A",
+      clientReference: "N/A",
     };
 
-    if (current_payment_provider === hubtel) {
-      const paymentProvider = hubtelPay(paymentInfo);
-      paymentProvider.initialize(toast, setIsSuccessModalOpen, reset);
-      return;
-    }
+    console.log("Payload to send:", payload);
 
-    const paymentProvider = paystackPay(paymentInfo);
-    paymentProvider.initialize(toast, setIsSuccessModalOpen, reset);
+    toast.promise(
+      fetch(googleScriptUrl, {
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then(() => {
+        setTimeout(() => setIsPaymentModalOpen(true), 300);
+        reset();
+      }),
+      {
+        loading: "Connecting you to Pentagon WiFi...",
+        success: "Topup complete!",
+        error: "Topup failed. Please try again.",
+      },
+    );
   };
 
   return (
     <div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm shadow-lg rounded-xl p-6 md:p-8 border border-blue-100 sm">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="fullName">User Name</label>
+          <label htmlFor="userName">User Name</label>
           <input
-            id="fullName"
+            id="userName"
             type="text"
-            {...register("fullName")}
+            {...register("userName")}
             className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
           />
-          <p className="text-red-400">{errors.fullName?.message}</p>
+          <p className="text-red-400">{errors.userName?.message}</p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
@@ -189,15 +182,18 @@ const TopUp: React.FC = () => {
             <Check className="h-5 w-5 mr-2" />
           </Button>
         </div>
-        <TermsC />
+
+        <TermCondition />
       </form>
 
-      <SuccessModal
-        open={isSuccessModalOpen}
-        onClose={() => setIsSuccessModalOpen(false)}
+      <PaymentModal
+        open={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        registrationType={topup}
+        amount={`GHC ${totalPayable}`}
       />
     </div>
   );
 };
 
-export default TopUp;
+export default TopUpForm;

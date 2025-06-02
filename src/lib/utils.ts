@@ -17,6 +17,9 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const topup = "Top Up";
+export const registration = "Registration";
+
 export const blockCourtOptions = [
   { value: "", label: "Select an option..." },
   { value: "Block-A", label: "Block-A" },
@@ -84,16 +87,43 @@ export const schema = yup
     subscriptionPlan: yup.string().required("Subscription plan is required"),
     isCustodian: yup.bool().default(false).required("Custodian is required"),
     userName: yup
-    .string()
-    .required("Username is required.")
-    .matches(/^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/, "Username is invalid."),
-  password: yup.string().required("Password is required."),
+      .string()
+      .required("Username is required.")
+      .matches(
+        /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
+        "Username is invalid.",
+      ),
+    password: yup.string().required("Password is required."),
   })
   .required();
 
 const reference = String(uuidv4());
 const slicedReference = reference.slice(0, 8);
 export const clientReference = `PWT-${slicedReference}`;
+export const topupSchema = yup
+  .object({
+    phoneNumber: yup
+      .string()
+      .required("Phone number is required.")
+      .matches(/^(?:\+?\d{7,15}|0\d{9})$/, "Phone number is invalid"),
+    email: yup
+      .string()
+      .email()
+      .required("Email is required.")
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Email is invalid.",
+      ),
+    subscriptionPlan: yup.string().required("Subscription plan is required"),
+    userName: yup
+      .string()
+      .required("Username is required.")
+      .matches(
+        /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
+        "Username is invalid.",
+      ),
+  })
+  .required();
 
 export const googleScriptUrl = import.meta.env.DEV
   ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
