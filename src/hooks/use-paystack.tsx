@@ -47,7 +47,6 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 
     const purchaseInfo: DbPayload = {
       ...paymentInfo,
-      provider: paystack,
       providerResponse: stringifyResponse,
     };
 

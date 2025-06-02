@@ -63,10 +63,10 @@ const RegistrationForm: React.FC = () => {
   const planFee = subscriptionPlan.includes("Daily")
     ? planPrices.daily
     : subscriptionPlan.includes("Weekly")
-    ? planPrices.weekly
-    : subscriptionPlan.includes("Monthly")
-    ? planPrices.monthly
-    : 0;
+      ? planPrices.weekly
+      : subscriptionPlan.includes("Monthly")
+        ? planPrices.monthly
+        : 0;
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: FormData) => {
@@ -99,6 +99,7 @@ const RegistrationForm: React.FC = () => {
       isCustodian: data.isCustodian,
       credentials: stringifyCredentials,
       dateTime: formattedDate,
+      provider: current_payment_provider,
     };
 
     if (current_payment_provider === hubtel) {
@@ -349,11 +350,10 @@ const RegistrationForm: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => field.onChange(true)}
-                      className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
-                        field.value
+                      className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${field.value
                           ? "border-primary bg-white shadow"
                           : "border-gray-200 hover:border-primary/50"
-                      }`}
+                        }`}
                     >
                       <span className="text-md font-semibold text-primary">
                         Yes — I'm Ready to Be a Custodian
@@ -367,11 +367,10 @@ const RegistrationForm: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => field.onChange(false)}
-                      className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
-                        !field.value
+                      className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${!field.value
                           ? "border-primary bg-white shadow"
                           : "border-gray-200 hover:border-primary/50"
-                      }`}
+                        }`}
                     >
                       <span className="text-md font-semibold text-gray-800">
                         No — I'll Just Stay Connected
