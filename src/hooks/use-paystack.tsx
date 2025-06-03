@@ -1,5 +1,5 @@
 import type { PaymentInfo, PaystackSuccessReference, DbPayload } from "@/lib/types";
-import { googleScriptUrl, paystack } from "@/lib/utils";
+import { googleScriptUrl } from "@/lib/utils";
 import { usePaystackPayment } from "react-paystack";
 
 export const paystackPay = (paymentInfo: PaymentInfo) => {
