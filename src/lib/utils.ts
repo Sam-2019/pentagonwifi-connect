@@ -58,7 +58,10 @@ export const schema = yup
     fullName: yup
       .string()
       .required("Name is required.")
-      .matches(/^(?:[A-Za-z][A-Za-z'-]*\s+){1,}[A-Za-z][A-Za-z'-]*$/, "Name is invalid."),
+      .matches(
+        /^(?:[A-Za-z][A-Za-z'-]*\s+){1,}[A-Za-z][A-Za-z'-]*$/,
+        "Name is invalid.",
+      ),
     dateOfBirth: yup
       .date()
       .required("Date of birth is required.")
@@ -73,7 +76,7 @@ export const schema = yup
       .required("Email is required.")
       .matches(
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        "Email is invalid."
+        "Email is invalid.",
       ),
     blockCourt: yup.string().required("Block / Court is required."),
     roomType: yup.string().required("Room Type is required"),
@@ -81,10 +84,10 @@ export const schema = yup
     subscriptionPlan: yup.string().required("Subscription plan is required"),
     isCustodian: yup.bool().default(false).required("Custodian is required"),
     userName: yup
-    .string()
-    .required("Username is required.")
-    .matches(/^[a-zA-Z0-9._-]{3,}$/, "Username is invalid."),
-  password: yup.string().required("Password is required."),
+      .string()
+      .required("Username is required.")
+      .matches(/^[a-zA-Z0-9._-]{3,}$/, "Username is invalid."),
+    password: yup.string().required("Password is required."),
   })
   .required();
 
@@ -98,3 +101,7 @@ export const googleScriptUrl = import.meta.env.DEV
 
 export const hubtel = import.meta.env.VITE_HUBTEL;
 export const paystack = import.meta.env.VITE_PAYSTACK;
+
+export const baseUrl = import.meta.env.DEV
+  ? import.meta.env.VITE_BASE_DEV_URL
+  : import.meta.env.VITE_BASE_PROD_URL;

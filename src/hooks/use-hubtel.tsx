@@ -1,5 +1,5 @@
 import type { DbPayload, PaymentInfo } from "@/lib/types";
-import { googleScriptUrl } from "@/lib/utils";
+import { baseUrl } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
 
 export const hubtelPay = (paymentInfo: PaymentInfo) => {
@@ -53,7 +53,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 
             checkout.closePopUp();
             toast.promise(
-              fetch(googleScriptUrl, {
+              fetch(`${baseUrl}/api/register/sale`, {
                 method: "POST",
                 mode: "no-cors",
                 body: JSON.stringify(dbInfo),
@@ -92,7 +92,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
               ...paymentInfo,
               providerResponse: "N/A",
             };
-            fetch(googleScriptUrl, {
+            fetch(`${baseUrl}/api/register/sale/intent`, {
               method: "POST",
               mode: "no-cors",
               body: JSON.stringify(dbInfo),
