@@ -36,9 +36,9 @@ export const roomTypeOptions = [
   { value: "4-in-a-room", label: "4 in a room" },
 ];
 
-export const registrationFee = 50;
+export const registrationFee = 0;
 export const planPrices = {
-  daily: 20,
+  daily: 1,
   weekly: 100,
   monthly: 399,
 };

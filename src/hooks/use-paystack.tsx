@@ -1,4 +1,4 @@
-import { PaymentInfo, PaystackSuccessReference, DbPayload } from "@/lib/types";
+import type { PaymentInfo, PaystackSuccessReference, DbPayload } from "@/lib/types";
 import { googleScriptUrl, paystack } from "@/lib/utils";
 import { usePaystackPayment } from "react-paystack";
 
@@ -33,7 +33,7 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
   const onSuccess = (
     toast: {
       promise: (
-        promise: Promise<any>,
+        promise: Promise<unknown>,
         options: { loading: string; success: string; error: string }
       ) => void;
     },
@@ -81,7 +81,7 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
     initialize: (
       toast: {
         promise: (
-          promise: Promise<any>,
+          promise: Promise<unknown>,
           options: { loading: string; success: string; error: string }
         ) => void;
       },

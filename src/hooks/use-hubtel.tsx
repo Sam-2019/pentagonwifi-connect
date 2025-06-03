@@ -1,5 +1,5 @@
-import { DbPayload, PaymentInfo } from "@/lib/types";
-import { googleScriptUrl, hubtel } from "@/lib/utils";
+import type { DbPayload, PaymentInfo } from "@/lib/types";
+import { googleScriptUrl } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
 
 export const hubtelPay = (paymentInfo: PaymentInfo) => {
@@ -25,8 +25,8 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
     initialize: (
       toast: {
         promise: (
-          promise: Promise<any>,
-          options: { loading: string; success: string; error: string }
+          promise: Promise<unknown>,
+          options: { loading: string; success: string; error: string },
         ) => void;
       },
       setIsSuccessModalOpen: (value: boolean) => void,
@@ -34,7 +34,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
       setDatePickerValue?: (value: {
         startDate: Date | null;
         endDate: Date | null;
-      }) => void
+      }) => void,
     ) => {
       checkout.openModal({
         purchaseInfo: purchaseInfo,
@@ -46,7 +46,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
             const response = data.data;
             const stringifyResponse = JSON.stringify(response);
 
-            const purchaseInfo: DbPayload = {
+            const dbInfo: DbPayload = {
               ...paymentInfo,
               providerResponse: stringifyResponse,
             };
@@ -56,7 +56,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
               fetch(googleScriptUrl, {
                 method: "POST",
                 mode: "no-cors",
-                body: JSON.stringify(purchaseInfo),
+                body: JSON.stringify(dbInfo),
                 headers: {
                   "Content-Type": "application/json",
                 },
@@ -72,16 +72,35 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
                 loading: "Connecting you to Pentagon WiFi...",
                 success: "Registration complete!",
                 error: "Registration failed. Please try again.",
-              }
+              },
             );
           },
-          onPaymentFailure: (data) => console.log("Payment failed: ", data),
-          onLoad: () => console.log("Checkout has been loaded: "),
-          onFeesChanged: (fees) =>
-            console.log("Payment channel has changed: ", fees),
-          onResize: (size) =>
-            console.log("Iframe has been resized: ", size?.height),
-          onClose: () => console.log("The modal has closed"),
+          onPaymentFailure: (data) => {
+            console.log("Payment failed: ", data);
+          },
+          onLoad: () => {
+            console.log("Checkout has been loaded: ");
+          },
+          onFeesChanged: (fees) => {
+            console.log("Payment channel has changed: ", fees);
+          },
+          onResize: (size) => {
+            console.log("Iframe has been resized: ", size?.height);
+          },
+          onClose: () => {
+            const dbInfo: DbPayload = {
+              ...paymentInfo,
+              providerResponse: "N/A",
+            };
+            fetch(googleScriptUrl, {
+              method: "POST",
+              mode: "no-cors",
+              body: JSON.stringify(dbInfo),
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }).then(() => {});
+          },
         },
       });
     },
