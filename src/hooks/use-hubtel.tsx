@@ -55,7 +55,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
             toast.promise(
               fetch(`${baseUrl}/api/register/sale`, {
                 method: "POST",
-                mode: "no-cors",
+                mode: "cors",
                 body: JSON.stringify(dbInfo),
                 headers: {
                   "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
             };
             fetch(`${baseUrl}/api/register/sale/intent`, {
               method: "POST",
-              mode: "no-cors",
+              mode: "cors",
               body: JSON.stringify(dbInfo),
               headers: {
                 "Content-Type": "application/json",

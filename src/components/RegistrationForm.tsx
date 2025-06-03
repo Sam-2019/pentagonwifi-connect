@@ -75,7 +75,7 @@ const RegistrationForm: React.FC = () => {
 
     const date = new Date();
     const formattedDate = new Intl.DateTimeFormat("en-US", dateOptions).format(
-      date
+      date,
     );
 
     const credentials = {
@@ -109,7 +109,7 @@ const RegistrationForm: React.FC = () => {
         toast,
         setIsSuccessModalOpen,
         reset,
-        setDatePickerValue
+        setDatePickerValue,
       );
       return;
     }
@@ -119,7 +119,7 @@ const RegistrationForm: React.FC = () => {
       toast,
       setIsSuccessModalOpen,
       reset,
-      setDatePickerValue
+      setDatePickerValue,
     );
   };
 
@@ -351,10 +351,11 @@ const RegistrationForm: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => field.onChange(true)}
-                      className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${field.value
+                      className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
+                        field.value
                           ? "border-primary bg-white shadow"
                           : "border-gray-200 hover:border-primary/50"
-                        }`}
+                      }`}
                     >
                       <span className="text-md font-semibold text-primary">
                         Yes — I'm Ready to Be a Custodian
@@ -368,10 +369,11 @@ const RegistrationForm: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => field.onChange(false)}
-                      className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${!field.value
+                      className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
+                        !field.value
                           ? "border-primary bg-white shadow"
                           : "border-gray-200 hover:border-primary/50"
-                        }`}
+                      }`}
                     >
                       <span className="text-md font-semibold text-gray-800">
                         No — I'll Just Stay Connected
