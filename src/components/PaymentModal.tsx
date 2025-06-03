@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import type React from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { CircleCheck, Share, XIcon } from "lucide-react";
@@ -7,7 +8,7 @@ import { toast } from "sonner";
 interface PaymentModalProps {
   open: boolean;
   onClose: () => void;
-  amount?: String; // Optional amount prop, if needed for future use
+  amount?: string; // Optional amount prop, if needed for future use
 }
 
 const PaymentModal: React.FC<PaymentModalProps> = ({
@@ -30,11 +31,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
         clearTimeout(messageTimer);
         clearTimeout(actionsTimer);
       };
-    } else {
+    }
       setCheckmarkVisible(false);
       setMessageVisible(false);
       setActionsVisible(false);
-    }
   }, [open]);
 
   function handleShareReferral(
@@ -117,13 +117,13 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
                 <div className="text-base text-gray-600 my-1">or</div>
 
-                <Button
-                  role="link"
-                  onClick={payNow}
-                  className="bg-primary hover:bg-primary/90 gap-2 w-full mt-1"
+                <a
+                  href="tel:*713*1939#"
+                  className="bg-primary hover:bg-primary/90 gap-2 w-full mt-1 inline-flex justify-center items-center rounded-md px-4 py-2 text-white font-medium transition-colors focus:outline-none"
+                  style={{ textDecoration: "none" }}
                 >
                   Tap To Pay
-                </Button>
+                </a>
               </div>
 
               <Button

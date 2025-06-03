@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { CircleCheck, Share, XIcon } from 'lucide-react';
@@ -25,11 +26,10 @@ const SuccessModal: React.FC<SuccessModalProps> = ({ open, onClose }) => {
         clearTimeout(messageTimer);
         clearTimeout(actionsTimer);
       };
-    } else {
+    }
       setCheckmarkVisible(false);
       setMessageVisible(false);
       setActionsVisible(false);
-    }
   }, [open]);
 
   function handleShareReferral(event: React.MouseEvent<HTMLButtonElement>): void {

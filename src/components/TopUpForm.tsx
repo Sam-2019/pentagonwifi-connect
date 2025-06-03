@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 import SuccessModal from "./SuccessModal";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";

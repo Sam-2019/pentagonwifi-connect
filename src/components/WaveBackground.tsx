@@ -1,5 +1,6 @@
 
-import React, { useEffect, useRef } from 'react';
+import type React from 'react';
+import { useEffect, useRef } from 'react';
 
 const LightningBackground: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
