@@ -22,7 +22,7 @@ import {
 	hubtel,
 	dateOptions,
 } from "@/lib/utils";
-import type { FormData } from "@/lib/types";
+import type { FormData, PaymentInfo } from "@/lib/types";
 import TermCondition from "./TermCondition";
 import { paystackPay } from "@/hooks/use-paystack";
 import { hubtelPay } from "@/hooks/use-hubtel";
@@ -86,7 +86,7 @@ const RegistrationForm: React.FC = () => {
 		};
 
 		const stringifyCredentials = JSON.stringify(credentials);
-		const paymentInfo = {
+		const paymentInfo: PaymentInfo = {
 			fullName: data.fullName,
 			phoneNumber: data.phoneNumber,
 			subscriptionPlan: data.subscriptionPlan.toUpperCase(),
@@ -103,6 +103,7 @@ const RegistrationForm: React.FC = () => {
 			credentials: stringifyCredentials,
 			dateTime: formattedDate,
 			provider: current_payment_provider,
+			registrationType: registration,
 		};
 
 		if (current_payment_provider === hubtel) {
