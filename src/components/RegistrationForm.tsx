@@ -303,7 +303,7 @@ const RegistrationForm: React.FC = () => {
               <div className="flex flex-col gap-2 w-full">
                 {/* <label htmlFor="password">Password</label> */}
                 <input
-                  id="passwordr"
+                  id="password"
                   type="password"
                   placeholder="Password"
                   {...register("password")}
