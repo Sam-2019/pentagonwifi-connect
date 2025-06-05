@@ -99,7 +99,6 @@ const RegistrationForm: React.FC = () => {
 			planFee: planFee,
 			registrationFee: registrationFee,
 			totalCost: totalCost,
-			clientReference: clientReference,
 			email: data.email,
 			dateOfBirth: new Date(data.dateOfBirth),
 			blockCourt: data.blockCourt,

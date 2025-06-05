@@ -44,7 +44,6 @@ export interface PaymentInfo {
 	planFee: number;
 	registrationFee: number;
 	totalCost: number;
-	clientReference: string;
 	email: string;
 	dateOfBirth: Date;
 	blockCourt: string;
@@ -76,6 +75,7 @@ export interface DbPayload {
 	provider: string;
 	providerResponse: string;
 	registrationType: string;
+	purchaseInfo: string;
 }
 
 export interface TopUpFormData {

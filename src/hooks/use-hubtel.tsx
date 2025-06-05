@@ -5,6 +5,11 @@ import { v4 as uuidv4 } from "uuid";
 
 export const hubtelPay = (paymentInfo: PaymentInfo) => {
 	const checkout = new CheckoutSdk();
+
+	const reference = String(uuidv4());
+	const slicedReference = reference.slice(0, 8);
+	const clientReference = `PWT-${slicedReference}`;
+
 	const purchaseInfo = {
 		amount: paymentInfo.totalCost,
 		purchaseDescription: `Payment of GHS ${
@@ -13,8 +18,10 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 			paymentInfo.phoneNumber
 		})`,
 		customerPhoneNumber: `'${paymentInfo.phoneNumber}`,
-		clientReference: paymentInfo.clientReference,
+		clientReference: clientReference,
 	};
+
+	const stringifyPurchaseInfo = JSON.stringify(purchaseInfo);
 
 	const config = {
 		callbackUrl: import.meta.env.VITE_CALLBACK_URL,
@@ -50,6 +57,8 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 
 						const dbInfo: DbPayload = {
 							...paymentInfo,
+							purchaseInfo: stringifyPurchaseInfo,
+							clientReference: clientReference,
 							providerResponse: stringifyResponse,
 						};
 						checkout.closePopUp();
@@ -65,9 +74,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 								setTimeout(() => setIsSuccessModalOpen(true), 300);
 								reset();
 								setClientReference("");
-								const reference = String(uuidv4());
-								const slicedReference = reference.slice(0, 8);
-								setClientReference(`PWT-${slicedReference}`);
+
 								setDatePickerValue({
 									startDate: null,
 									endDate: null,
@@ -95,6 +102,8 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 					onClose: () => {
 						const dbInfo: DbPayload = {
 							...paymentInfo,
+							purchaseInfo: stringifyPurchaseInfo,
+							clientReference: clientReference,
 							providerResponse: "N/A",
 						};
 						fetch(`${baseUrl}/api/register/sale/intent`, {
@@ -104,12 +113,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 							headers: {
 								"Content-Type": "application/json",
 							},
-						}).then(() => {
-							setClientReference("");
-							const reference = String(uuidv4());
-							const slicedReference = reference.slice(0, 8);
-							setClientReference(`PWT-${slicedReference}`);
-						});
+						}).then(() => {});
 					},
 				},
 			});
