@@ -79,16 +79,12 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 
   return {
     initialize: (
-      toast: {
-        promise: (
-          promise: Promise<unknown>,
-          options: { loading: string; success: string; error: string }
-        ) => void;
-      },
-      setIsSuccessModalOpen: (value: boolean) => void,
-      reset: () => void,
-      setDatePickerValue?: (value: { startDate: null; endDate: null }) => void
-    ) => {
+toast: {
+	promise: (
+		promise: Promise<unknown>,
+		options: { loading: string; success: string; error: string; }
+	) => void;
+}, setIsSuccessModalOpen: (value: boolean) => void, reset: () => void, setDatePickerValue?: (value: { startDate: null; endDate: null; }) => void, setClientReference?: unknown    ) => {
       initializePayment({
         onSuccess: (reference: PaystackSuccessReference) =>
           onSuccess(

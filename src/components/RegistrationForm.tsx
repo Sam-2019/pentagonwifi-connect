@@ -33,6 +33,7 @@ const RegistrationForm: React.FC = () => {
 		startDate: null,
 		endDate: null,
 	});
+	const [clientReference, setClientReference] = useState("");
 
 	dayjs.extend(localizedFormat);
 
@@ -75,7 +76,9 @@ const RegistrationForm: React.FC = () => {
 	const onSubmit = async (data: FormData) => {
 		const reference = String(uuidv4());
 		const slicedReference = reference.slice(0, 8);
-		const clientReference = `PWT-${slicedReference}`;
+		setClientReference(`PWT-${slicedReference}`);
+
+
 		const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
 
 		const date = new Date();
@@ -115,7 +118,8 @@ const RegistrationForm: React.FC = () => {
 				toast,
 				setIsSuccessModalOpen,
 				reset,
-				setDatePickerValue,
+				setClientReference,
+				setDatePickerValue
 			);
 			return;
 		}
@@ -126,6 +130,7 @@ const RegistrationForm: React.FC = () => {
 			setIsSuccessModalOpen,
 			reset,
 			setDatePickerValue,
+			setClientReference
 		);
 	};
 
