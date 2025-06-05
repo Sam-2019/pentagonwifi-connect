@@ -5,10 +5,15 @@ import type {
 } from "@/lib/types";
 import { googleScriptUrl } from "@/lib/utils";
 import { usePaystackPayment } from "react-paystack";
+import { v4 as uuidv4 } from "uuid";
 
 export const paystackPay = (paymentInfo: PaymentInfo) => {
+	const reference = String(uuidv4());
+	const slicedReference = reference.slice(0, 8);
+	const clientReference = `PWT-${slicedReference}`;
+
 	const config = {
-		reference: paymentInfo.clientReference,
+		reference: clientReference,
 		email: paymentInfo.email,
 		amount: paymentInfo.totalCost,
 		publicKey: import.meta.env.VITE_STACK_COLLECTIONS,
@@ -34,6 +39,8 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 		},
 	};
 
+	const stringifyPurchaseInfo = JSON.stringify(config);
+
 	const onSuccess = (
 		toast: {
 			promise: (
@@ -51,6 +58,8 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 
 		const purchaseInfo: DbPayload = {
 			...paymentInfo,
+			clientReference: clientReference,
+			purchaseInfo: stringifyPurchaseInfo,
 			providerResponse: stringifyResponse,
 		};
 
@@ -92,7 +101,6 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 			setIsSuccessModalOpen: (value: boolean) => void,
 			reset: () => void,
 			setDatePickerValue?: (value: { startDate: null; endDate: null }) => void,
-			setClientReference?: (value: string) => void,
 		) => {
 			initializePayment({
 				onSuccess: (reference: PaystackSuccessReference) =>

@@ -39,7 +39,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 			},
 			setIsSuccessModalOpen: (value: boolean) => void,
 			reset: () => void,
-			setClientReference: (value: string) => void,
+
 			setDatePickerValue?: (value: {
 				startDate: Date | null;
 				endDate: Date | null;
@@ -73,7 +73,6 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 							}).then(() => {
 								setTimeout(() => setIsSuccessModalOpen(true), 300);
 								reset();
-								setClientReference("");
 
 								setDatePickerValue({
 									startDate: null,

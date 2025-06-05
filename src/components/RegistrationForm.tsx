@@ -74,11 +74,6 @@ const RegistrationForm: React.FC = () => {
 	const totalCost = registrationFee + planFee;
 
 	const onSubmit = async (data: FormData) => {
-		const reference = String(uuidv4());
-		const slicedReference = reference.slice(0, 8);
-		setClientReference(`PWT-${slicedReference}`);
-
-
 		const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
 
 		const date = new Date();
@@ -117,8 +112,7 @@ const RegistrationForm: React.FC = () => {
 				toast,
 				setIsSuccessModalOpen,
 				reset,
-				setClientReference,
-				setDatePickerValue
+				setDatePickerValue,
 			);
 			return;
 		}
@@ -129,7 +123,6 @@ const RegistrationForm: React.FC = () => {
 			setIsSuccessModalOpen,
 			reset,
 			setDatePickerValue,
-			setClientReference
 		);
 	};
 
