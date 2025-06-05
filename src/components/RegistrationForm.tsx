@@ -18,7 +18,6 @@ import {
 	registrationFee,
 	schema,
 	registration,
-	clientReference,
 	hubtel,
 	dateOptions,
 } from "@/lib/utils";
@@ -26,6 +25,7 @@ import type { FormData, PaymentInfo } from "@/lib/types";
 import TermCondition from "./TermCondition";
 import { paystackPay } from "@/hooks/use-paystack";
 import { hubtelPay } from "@/hooks/use-hubtel";
+import { v4 as uuidv4 } from "uuid";
 
 const RegistrationForm: React.FC = () => {
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -73,6 +73,9 @@ const RegistrationForm: React.FC = () => {
 	const totalCost = registrationFee + planFee;
 
 	const onSubmit = async (data: FormData) => {
+		const reference = String(uuidv4());
+		const slicedReference = reference.slice(0, 8);
+		const clientReference = `PWT-${slicedReference}`;
 		const current_payment_provider = import.meta.env.VITE_PAYMENT_PROVIDER;
 
 		const date = new Date();

@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import * as yup from "yup";
-import { v4 as uuidv4 } from "uuid";
+
 
 export const dateOptions = {
   year: "numeric" as const,
@@ -97,9 +97,6 @@ export const schema = yup
   })
   .required();
 
-const reference = String(uuidv4());
-const slicedReference = reference.slice(0, 8);
-export const clientReference = `PWT-${slicedReference}`;
 export const topupSchema = yup
   .object({
     phoneNumber: yup
@@ -125,13 +122,13 @@ export const topupSchema = yup
   })
   .required();
 
-export const googleScriptUrl = import.meta.env.DEV
+export const googleScriptUrl = import.meta.env.VITE_NODE_ENV === "development"
   ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
   : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
 
 export const hubtel = import.meta.env.VITE_HUBTEL;
 export const paystack = import.meta.env.VITE_PAYSTACK;
 
-export const baseUrl = import.meta.env.DEV
+export const baseUrl = import.meta.env.VITE_NODE_ENV === "development"
   ? import.meta.env.VITE_BASE_DEV_URL
   : import.meta.env.VITE_BASE_PROD_URL;
