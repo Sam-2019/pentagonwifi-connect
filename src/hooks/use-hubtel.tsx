@@ -1,6 +1,7 @@
 import type { DbPayload, PaymentInfo } from "@/lib/types";
 import { baseUrl } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
+import { v4 as uuidv4 } from "uuid";
 
 export const hubtelPay = (paymentInfo: PaymentInfo) => {
 	const checkout = new CheckoutSdk();
@@ -31,7 +32,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 			},
 			setIsSuccessModalOpen: (value: boolean) => void,
 			reset: () => void,
-			setClientReference: (value: "") => void,
+			setClientReference: (value: string) => void,
 			setDatePickerValue?: (value: {
 				startDate: Date | null;
 				endDate: Date | null;
@@ -64,6 +65,9 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 								setTimeout(() => setIsSuccessModalOpen(true), 300);
 								reset();
 								setClientReference("");
+								const reference = String(uuidv4());
+								const slicedReference = reference.slice(0, 8);
+								setClientReference(`PWT-${slicedReference}`);
 								setDatePickerValue({
 									startDate: null,
 									endDate: null,
@@ -102,6 +106,9 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 							},
 						}).then(() => {
 							setClientReference("");
+							const reference = String(uuidv4());
+							const slicedReference = reference.slice(0, 8);
+							setClientReference(`PWT-${slicedReference}`);
 						});
 					},
 				},
