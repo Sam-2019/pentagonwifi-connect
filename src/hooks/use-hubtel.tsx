@@ -9,14 +9,28 @@ export const hubtelPay = (paymentInfo: PaymentInfo) => {
 	const reference = String(uuidv4());
 	const slicedReference = reference.slice(0, 8);
 	const clientReference = `PWT-${slicedReference}`;
+	const credentials = JSON.parse(paymentInfo.credentials);
+	const userName = credentials.userName;
+
+	const registrationType = paymentInfo.registrationType;
+	const purchaseDescription = `Payment of GHS ${
+		paymentInfo.planFee
+	} PENTAGONWIFI ${paymentInfo.subscriptionPlan.toUpperCase()} data package for (${paymentInfo.fullName.toUpperCase()}-${
+		paymentInfo.phoneNumber
+	})`;
+
+	const topupDescription = `Top-up of GHS ${
+		paymentInfo.planFee
+	} PENTAGONWIFI ${paymentInfo.subscriptionPlan.toUpperCase()} data package for (${userName}-${
+		paymentInfo.phoneNumber
+	})`;
 
 	const purchaseInfo = {
 		amount: paymentInfo.totalCost,
-		purchaseDescription: `Payment of GHS ${
-			paymentInfo.planFee
-		} PENTAGONWIFI ${paymentInfo.subscriptionPlan.toUpperCase()} data package for (${paymentInfo.fullName.toUpperCase()}-${
-			paymentInfo.phoneNumber
-		})`,
+		purchaseDescription:
+			registrationType === "registration"
+				? purchaseDescription
+				: topupDescription,
 		customerPhoneNumber: `'${paymentInfo.phoneNumber}`,
 		clientReference: clientReference,
 	};
