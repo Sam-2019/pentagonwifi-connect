@@ -20,7 +20,7 @@ import {
 	registration,
 	hubtel,
 	dateOptions,
-	writeToDB,
+	writeRegistration,
 } from "@/lib/utils";
 import type { FormData, PaymentInfo } from "@/lib/types";
 import TermCondition from "./TermCondition";
@@ -108,34 +108,52 @@ const RegistrationForm: React.FC = () => {
 			registrationType: registration,
 		};
 
-		const response = writeToDB(paymentInfo);
-		response
-			.then((res) => {
-				setRegID(res);
-			})
-			.catch((err) => console.log(err))
-			.finally(() => {
-				if (current_payment_provider === hubtel) {
-					const paymentProvider = hubtelPay(paymentInfo, regID);
-					paymentProvider.initialize(
-						toast,
-						setIsSuccessModalOpen,
-						reset,
-						setDatePickerValue,
-						setRegID,
-					);
-					return;
-				}
+		toast.promise(
+			writeRegistration(paymentInfo).then(() => {
+				setTimeout(() => setIsSuccessModalOpen(true), 300);
+				reset();
+				setRegID("");
 
-				const paymentProvider = paystackPay(paymentInfo, regID);
-				paymentProvider.initialize(
-					toast,
-					setIsSuccessModalOpen,
-					reset,
-					setDatePickerValue,
-					setRegID,
-				);
-			});
+				setDatePickerValue({
+					startDate: null,
+					endDate: null,
+				});
+			}),
+			{
+				loading: "Connecting you to Pentagon WiFi...",
+				success: "Registration complete!",
+				error: "Registration failed. Please try again.",
+			},
+		);
+
+		// const response = writeRegistration(paymentInfo);
+		// response
+		// 	.then((res) => {
+		// 		setRegID(res);
+		// 	})
+		// 	.catch((err) => console.log(err))
+		// 	.finally(() => {
+		// 		if (current_payment_provider === hubtel) {
+		// 			const paymentProvider = hubtelPay(paymentInfo, regID);
+		// 			paymentProvider.initialize(
+		// 				toast,
+		// 				setIsSuccessModalOpen,
+		// 				reset,
+		// 				setDatePickerValue,
+		// 				setRegID,
+		// 			);
+		// 			return;
+		// 		}
+
+		// 		const paymentProvider = paystackPay(paymentInfo, regID);
+		// 		paymentProvider.initialize(
+		// 			toast,
+		// 			setIsSuccessModalOpen,
+		// 			reset,
+		// 			setDatePickerValue,
+		// 			setRegID,
+		// 		);
+		// 	});
 	};
 
 	return (
