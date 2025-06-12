@@ -79,7 +79,7 @@ export interface SalesPayload {
 	registrationType: string;
 	purchaseInfo: string;
 	transactionId: string;
-	externalTransactionId: string;
+	externalTransactionId?: string;
 }
 
 export interface PendingRegistrationPayload {
