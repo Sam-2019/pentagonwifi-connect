@@ -2,7 +2,6 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import * as yup from "yup";
 
-
 export const dateOptions = {
   year: "numeric" as const,
   month: "2-digit" as const,
@@ -63,7 +62,7 @@ export const schema = yup
       .required("Name is required.")
       .matches(
         /^(?:[A-Za-z][A-Za-z'-]*\s+){1,}[A-Za-z][A-Za-z'-]*$/,
-        "Name is invalid.",
+        "Name is invalid."
       ),
     dateOfBirth: yup
       .date()
@@ -79,7 +78,7 @@ export const schema = yup
       .required("Email is required.")
       .matches(
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        "Email is invalid.",
+        "Email is invalid."
       ),
     blockCourt: yup.string().required("Block / Court is required."),
     roomType: yup.string().required("Room Type is required"),
@@ -91,7 +90,7 @@ export const schema = yup
       .required("Username is required.")
       .matches(
         /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
-        "Username is invalid.",
+        "Username is invalid."
       ),
     password: yup.string().required("Password is required."),
   })
@@ -109,7 +108,7 @@ export const topupSchema = yup
       .required("Email is required.")
       .matches(
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        "Email is invalid.",
+        "Email is invalid."
       ),
     subscriptionPlan: yup.string().required("Subscription plan is required"),
     userName: yup
@@ -117,18 +116,35 @@ export const topupSchema = yup
       .required("Username is required.")
       .matches(
         /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
-        "Username is invalid.",
+        "Username is invalid."
       ),
   })
   .required();
 
-export const googleScriptUrl = import.meta.env.VITE_NODE_ENV === "development"
-  ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
-  : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
+export const googleScriptUrl =
+  import.meta.env.VITE_NODE_ENV === "development"
+    ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
+    : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
 
 export const hubtel = import.meta.env.VITE_HUBTEL;
 export const paystack = import.meta.env.VITE_PAYSTACK;
 
-export const baseUrl = import.meta.env.VITE_NODE_ENV === "development"
-  ? import.meta.env.VITE_BASE_DEV_URL
-  : import.meta.env.VITE_BASE_PROD_URL;
+export const baseUrl =
+  import.meta.env.VITE_NODE_ENV === "development"
+    ? import.meta.env.VITE_BASE_DEV_URL
+    : import.meta.env.VITE_BASE_PROD_URL;
+
+export const writeToDB = async (payload) => {
+  fetch(`${baseUrl}/api/register`, {
+    method: "POST",
+    mode: "cors",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then((res) => {
+    console.log(res);
+    console.log("Data sent");
+    return res;
+  });
+};
