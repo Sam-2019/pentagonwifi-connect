@@ -1,13 +1,9 @@
-import type {
-	PaymentInfo,
-	PaystackSuccessReference,
-	DbPayload,
-} from "@/lib/types";
+import type { PaymentInfo, PaystackSuccessReference, SalesPayload } from "@/lib/types";
 import { googleScriptUrl } from "@/lib/utils";
 import { usePaystackPayment } from "react-paystack";
 import { v4 as uuidv4 } from "uuid";
 
-export const paystackPay = (paymentInfo: PaymentInfo) => {
+export const paystackPay = (paymentInfo: PaymentInfo, regID: string) => {
 	const reference = String(uuidv4());
 	const slicedReference = reference.slice(0, 8);
 	const clientReference = `PWT-${slicedReference}`;
@@ -51,16 +47,20 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 		setIsSuccessModalOpen: (value: boolean) => void,
 		reset: () => void,
 		setDatePickerValue: (value: { startDate: null; endDate: null }) => void,
+		setRegID: (value: string) => void,
 		reference: PaystackSuccessReference,
 	): void => {
 		console.log("Payment successful: ", reference);
 		const stringifyResponse = JSON.stringify(reference);
 
-		const purchaseInfo: DbPayload = {
+		const purchaseInfo: SalesPayload = {
 			...paymentInfo,
+			regID: regID,
 			clientReference: clientReference,
 			purchaseInfo: stringifyPurchaseInfo,
 			providerResponse: stringifyResponse,
+			transactionId: reference.transaction,
+			externalTransactionId: null,
 		};
 
 		toast.promise(
@@ -74,6 +74,7 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 			}).then(() => {
 				setTimeout(() => setIsSuccessModalOpen(true), 300);
 				reset();
+				setRegID("");
 				setDatePickerValue({
 					startDate: null,
 					endDate: null,
@@ -100,7 +101,8 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 			},
 			setIsSuccessModalOpen: (value: boolean) => void,
 			reset: () => void,
-			setDatePickerValue?: (value: { startDate: null; endDate: null }) => void,
+			setDatePickerValue: (value: { startDate: null; endDate: null }) => void,
+			setRegID: (value: string) => void,
 		) => {
 			initializePayment({
 				onSuccess: (reference: PaystackSuccessReference) =>
@@ -109,6 +111,7 @@ export const paystackPay = (paymentInfo: PaymentInfo) => {
 						setIsSuccessModalOpen,
 						reset,
 						setDatePickerValue,
+						setRegID,
 						reference,
 					),
 				onClose,
