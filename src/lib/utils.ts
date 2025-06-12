@@ -1,6 +1,10 @@
 import * as yup from "yup";
 import { twMerge } from "tailwind-merge";
-import type { PaymentInfo } from "./types";
+import type {
+	PaymentInfo,
+	SalesPayload,
+	PendingRegistrationPayload,
+} from "./types";
 import { clsx, type ClassValue } from "clsx";
 
 export const dateOptions = {
@@ -135,7 +139,7 @@ export const baseUrl =
 		? import.meta.env.VITE_BASE_DEV_URL
 		: import.meta.env.VITE_BASE_PROD_URL;
 
-export const writeToDB = async (payload: PaymentInfo) => {
+export const writeRegistration = async (payload: PaymentInfo) => {
 	return fetch(`${baseUrl}/api/register`, {
 		method: "POST",
 		mode: "cors",
@@ -146,5 +150,33 @@ export const writeToDB = async (payload: PaymentInfo) => {
 	}).then(async (res) => {
 		const { data } = await res.json();
 		return data.regID;
+	});
+};
+
+export const writeSale = async (payload: SalesPayload) => {
+	fetch(`${baseUrl}/api/register/sale`, {
+		method: "POST",
+		mode: "cors",
+		body: JSON.stringify(payload),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).then(async (res) => {
+		const { data } = await res.json();
+	});
+};
+
+export const writePendingRegistration = async (
+	payload: PendingRegistrationPayload,
+) => {
+	fetch(`${baseUrl}/api/register/sale/intent`, {
+		method: "POST",
+		mode: "cors",
+		body: JSON.stringify(payload),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).then(async (res) => {
+		const { data } = await res.json();
 	});
 };

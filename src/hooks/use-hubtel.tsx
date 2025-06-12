@@ -3,7 +3,7 @@ import type {
 	PendingRegistrationPayload,
 	SalesPayload,
 } from "@/lib/types";
-import { baseUrl } from "@/lib/utils";
+import { writePendingRegistration, writeSale } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
 import { v4 as uuidv4 } from "uuid";
 
@@ -88,14 +88,7 @@ export const hubtelPay = (paymentInfo: PaymentInfo, regID: string) => {
 						};
 						checkout.closePopUp();
 						toast.promise(
-							fetch(`${baseUrl}/api/register/sale`, {
-								method: "POST",
-								mode: "cors",
-								body: JSON.stringify(dbInfo),
-								headers: {
-									"Content-Type": "application/json",
-								},
-							}).then(() => {
+							writeSale(dbInfo).then(() => {
 								setTimeout(() => setIsSuccessModalOpen(true), 300);
 								reset();
 								setRegID("");
@@ -132,14 +125,12 @@ export const hubtelPay = (paymentInfo: PaymentInfo, regID: string) => {
 							clientReference: clientReference,
 							providerResponse: "N/A",
 						};
-						fetch(`${baseUrl}/api/register/sale/intent`, {
-							method: "POST",
-							mode: "cors",
-							body: JSON.stringify(dbInfo),
-							headers: {
-								"Content-Type": "application/json",
-							},
-						}).then(() => {});
+
+						const response = writePendingRegistration(dbInfo);
+						response
+							.then((res) => {})
+							.catch((err) => console.log(err))
+							.finally(() => {});
 					},
 				},
 			});
