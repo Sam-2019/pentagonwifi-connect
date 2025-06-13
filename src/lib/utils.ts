@@ -140,7 +140,7 @@ export const baseUrl =
 		: import.meta.env.VITE_BASE_PROD_URL;
 
 export const writeRegistration = async (payload: PendingPaymentPayload) => {
-	return fetch(`${baseUrl}/api/register`, {
+	return fetch(`${baseUrl}/api/registeration`, {
 		method: "POST",
 		mode: "cors",
 		body: JSON.stringify(payload),
@@ -154,7 +154,7 @@ export const writeRegistration = async (payload: PendingPaymentPayload) => {
 };
 
 export const writeSale = async (payload: SalesPayload) => {
-	fetch(`${baseUrl}/api/register/sale`, {
+	fetch(`${baseUrl}/api/sale`, {
 		method: "POST",
 		mode: "cors",
 		body: JSON.stringify(payload),
@@ -169,7 +169,7 @@ export const writeSale = async (payload: SalesPayload) => {
 export const writePendingRegistration = async (
 	payload: PendingRegistrationPayload,
 ) => {
-	fetch(`${baseUrl}/api/register/sale/intent`, {
+	fetch(`${baseUrl}/api/pending-registration`, {
 		method: "POST",
 		mode: "cors",
 		body: JSON.stringify(payload),
@@ -184,6 +184,15 @@ export const writePendingRegistration = async (
 export const findRegistrant = async (
 	payload: PendingRegistrationPayload,
 ) => {
-
+	fetch(`${baseUrl}/api/registration`, {
+		method: "GET",
+		mode: "cors",
+		body: JSON.stringify(payload),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).then(async (res) => {
+		const { data } = await res.json();
+	});
 };
 
