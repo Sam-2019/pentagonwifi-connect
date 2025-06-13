@@ -57,6 +57,26 @@ export interface PaymentInfo {
 	registrationType: string;
 }
 
+export interface UserInfo {
+	regID: string;
+	fullName: string;
+	phoneNumber: string;
+	subscriptionPlan: string;
+	planFee: number;
+	registrationFee: number;
+	totalCost: number;
+	email: string;
+	dateOfBirth: Date;
+	blockCourt: string;
+	roomType: string;
+	roomNumber: string;
+	isCustodian: boolean;
+	dateTime: string;
+	credentials: string;
+	provider: string;
+	registrationType: string;
+}
+
 export interface SalesPayload {
 	regID: string;
 	fullName: string;
@@ -100,7 +120,6 @@ export interface PendingRegistrationPayload {
 	dateTime: string;
 	credentials: string;
 	provider: string;
-	providerResponse: string;
 	registrationType: string;
 	purchaseInfo: string;
 }
@@ -110,4 +129,26 @@ export interface TopUpFormData {
 	phoneNumber: string;
 	email: string;
 	subscriptionPlan: string;
+}
+
+export interface PendingPaymentPayload {
+	regID: string;
+	fullName: string;
+	phoneNumber: string;
+	subscriptionPlan: string;
+	planFee: number;
+	registrationFee: number;
+	totalCost: number;
+	clientReference: string;
+	email: string;
+	dateOfBirth: Date;
+	blockCourt: string;
+	roomType: string;
+	roomNumber: string;
+	isCustodian: boolean;
+	dateTime: string;
+	credentials: string;
+	provider: string;
+	registrationType: string;
+	purchaseInfo: string;
 }

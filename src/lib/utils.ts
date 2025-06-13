@@ -1,9 +1,9 @@
 import * as yup from "yup";
 import { twMerge } from "tailwind-merge";
 import type {
-	PaymentInfo,
 	SalesPayload,
 	PendingRegistrationPayload,
+	PendingPaymentPayload,
 } from "./types";
 import { clsx, type ClassValue } from "clsx";
 
@@ -139,7 +139,7 @@ export const baseUrl =
 		? import.meta.env.VITE_BASE_DEV_URL
 		: import.meta.env.VITE_BASE_PROD_URL;
 
-export const writeRegistration = async (payload: PaymentInfo) => {
+export const writeRegistration = async (payload: PendingPaymentPayload) => {
 	return fetch(`${baseUrl}/api/register`, {
 		method: "POST",
 		mode: "cors",
