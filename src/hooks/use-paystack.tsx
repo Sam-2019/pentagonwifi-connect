@@ -1,11 +1,14 @@
 import type {
-  PaymentInfo,
   PaystackSuccessReference,
   PendingPaymentPayload,
   SalesPayload,
   UserInfo,
 } from "@/lib/types";
-import { googleScriptUrl, writeRegistration } from "@/lib/utils";
+import {
+  writePendingRegistration,
+  writeRegistration,
+  writeSale,
+} from "@/lib/utils";
 import { usePaystackPayment } from "react-paystack";
 import { v4 as uuidv4 } from "uuid";
 
@@ -43,6 +46,21 @@ export const paystackPay = (userInfo: UserInfo) => {
 
   const stringifyPurchaseInfo = JSON.stringify(config);
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const initializePayment = usePaystackPayment(config);
+
+  const checkoutInfo: PendingPaymentPayload = {
+    ...userInfo,
+    purchaseInfo: stringifyPurchaseInfo,
+    clientReference: clientReference,
+  };
+
+  const response = writeRegistration(checkoutInfo);
+  response
+    .then((res) => {})
+    .catch((err) => console.log(err))
+    .finally(() => {});
+
   const onSuccess = (
     toast: {
       promise: (
@@ -58,24 +76,15 @@ export const paystackPay = (userInfo: UserInfo) => {
     console.log("Payment successful: ", reference);
     const stringifyResponse = JSON.stringify(reference);
 
-    const purchaseInfo: SalesPayload = {
-      ...userInfo,
-      clientReference: clientReference,
-      purchaseInfo: stringifyPurchaseInfo,
+    const saleInfo: SalesPayload = {
+      ...checkoutInfo,
       providerResponse: stringifyResponse,
       transactionId: reference.transaction,
       externalTransactionId: null,
     };
 
     toast.promise(
-      fetch(googleScriptUrl, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify(purchaseInfo),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(() => {
+      writeSale(saleInfo).then(() => {
         setTimeout(() => setIsSuccessModalOpen(true), 300);
         reset();
         setDatePickerValue({
@@ -91,21 +100,13 @@ export const paystackPay = (userInfo: UserInfo) => {
     );
   };
 
-  const onClose = () => {};
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const initializePayment = usePaystackPayment(config);
-
-  const checkoutInfo: PendingPaymentPayload = {
-    ...userInfo,
-    purchaseInfo: stringifyPurchaseInfo,
-    clientReference: clientReference,
+  const onClose = () => {
+    const response = writePendingRegistration(checkoutInfo);
+    response
+      .then((res) => {})
+      .catch((err) => console.log(err))
+      .finally(() => {});
   };
-
-  const response = writeRegistration(checkoutInfo);
-  response
-    .then((res) => {})
-    .catch((err) => console.log(err))
-    .finally(() => {});
 
   return {
     initialize: (
