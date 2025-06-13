@@ -180,3 +180,10 @@ export const writePendingRegistration = async (
 		const { data } = await res.json();
 	});
 };
+
+export const findRegistrant = async (
+	payload: PendingRegistrationPayload,
+) => {
+
+};
+
