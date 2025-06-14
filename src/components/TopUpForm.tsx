@@ -18,7 +18,6 @@ import TermCondition from "./TermCondition";
 import PaymentModal from "./PaymentModal";
 import { paystackPay } from "@/hooks/use-paystack";
 import { hubtelPay } from "@/hooks/use-hubtel";
-import { dummyUser } from "../../trash/dummyUser";
 
 const TopUpForm: React.FC = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -33,10 +32,10 @@ const TopUpForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(topupSchema),
     defaultValues: {
-      userName: dummyUser.userName,
-      phoneNumber: dummyUser.phoneNumber,
-      email: dummyUser.email,
-      subscriptionPlan: dummyUser.subscriptionPlan,
+      userName: "",
+      phoneNumber: "",
+      email: "",
+      subscriptionPlan: "",
     },
   });
 

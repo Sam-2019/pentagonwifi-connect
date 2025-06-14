@@ -23,7 +23,6 @@ import TermCondition from "./TermCondition";
 import { paystackPay } from "@/hooks/use-paystack";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { v4 as uuidv4 } from "uuid";
-import { dummyUser } from "../../trash/dummyUser";
 
 const RegistrationForm: React.FC = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -42,17 +41,17 @@ const RegistrationForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      fullName: dummyUser.fullName,
-      dateOfBirth: new Date(),
-      phoneNumber: dummyUser.phoneNumber,
-      email: dummyUser.email,
-      blockCourt: dummyUser.blockCourt,
-      roomType: dummyUser.roomType,
-      roomNumber: dummyUser.roomNumber,
-      subscriptionPlan: dummyUser.subscriptionPlan,
-      isCustodian: dummyUser.isCustodian,
-      userName: dummyUser.userName,
-      password: dummyUser.password,
+      fullName: "",
+      dateOfBirth: null,
+      phoneNumber: "",
+      email: "",
+      blockCourt: "",
+      roomType: "",
+      roomNumber: "",
+      subscriptionPlan: "",
+      isCustodian: false,
+      userName: "",
+      password: "",
     },
   });
 
