@@ -1,4 +1,5 @@
 import type {
+  FailedRegistrationPayload,
   PendingPaymentPayload,
   SalesPayload,
   UserInfo,
@@ -7,6 +8,7 @@ import {
   toastError,
   toastLoading,
   toastSuccess,
+  writeFailedRegistration,
   writePendingRegistration,
   writeRegistration,
   writeSale,
@@ -121,6 +123,28 @@ export const hubtelPay = (userInfo: UserInfo) => {
           },
           onPaymentFailure: (data) => {
             console.log("Payment failed: ", data);
+
+            const response = data.data;
+            const stringifyResponse = JSON.stringify(response);
+            const failureInfo: FailedRegistrationPayload = {
+              ...checkoutInfo,
+              providerResponse: stringifyResponse,
+            };
+            checkout.closePopUp();
+
+            // toast.promise(
+            //   writeFailedRegistration(failureInfo).then(() => {}),
+            //   {
+            //     loading: toastLoading,
+            //     success: toastError,
+            //     error: toastError,
+            //   }
+            // );
+
+            writeFailedRegistration(failureInfo)
+              .then((res) => console.log(res))
+              .catch((err) => console.log(err))
+              .finally(() => {});
           },
           onLoad: () => {
             console.log("Checkout has been loaded: ");
@@ -132,8 +156,7 @@ export const hubtelPay = (userInfo: UserInfo) => {
             console.log("Iframe has been resized: ", size?.height);
           },
           onClose: () => {
-            const response = writePendingRegistration(checkoutInfo);
-            response
+            writePendingRegistration(checkoutInfo)
               .then((res) => {})
               .catch((err) => console.log(err))
               .finally(() => {});
