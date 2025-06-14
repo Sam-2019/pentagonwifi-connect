@@ -77,7 +77,6 @@ export interface Payload {
 	subscriptionPlan: string;
 	isCustodian: boolean;
 	totalCost: string;
-	dateTime: string;
 	credentials: string;
 	registrationType: string;
 	provider: string;

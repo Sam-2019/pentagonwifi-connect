@@ -80,18 +80,17 @@ const RegistrationForm: React.FC = () => {
 		};
 		const stringifyCredentials = JSON.stringify(credentials);
 
-		const payload: Payload = {
-			...data,
-			dateOfBirth: `${dayjs(data.dateOfBirth).format("dddd, MMMM D, YYYY")}`,
-			phoneNumber: `${data.phoneNumber}`,
-			totalCost: `${totalCost}`,
-			dateTime: `${dayjs(new Date()).format("LLLL")}`,
-			subscriptionPlan: data.subscriptionPlan.toUpperCase(),
-			credentials: stringifyCredentials,
-			registrationType: registration,
-			provider: "N/A",
-			clientReference: "N/A",
-		};
+    const payload: Payload = {
+      ...data,
+      dateOfBirth: String(data.dateOfBirth.toISOString()),
+      phoneNumber: String(data.phoneNumber),
+      totalCost: String(totalCost),
+      subscriptionPlan: data.subscriptionPlan.toUpperCase(),
+      credentials: stringifyCredentials,
+      registrationType: registration,
+      provider: "N/A",
+      clientReference: "N/A",
+    };
 
 		toast.promise(
 			fetch(googleScriptUrl, {
