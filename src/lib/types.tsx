@@ -26,7 +26,6 @@ export interface Payload {
 	subscriptionPlan: string;
 	isCustodian: boolean;
 	totalCost: string;
-	dateTime: string;
 	credentials: string;
 }
 
@@ -51,14 +50,13 @@ export interface PaymentInfo {
 	roomType: string;
 	roomNumber: string;
 	isCustodian: boolean;
-	dateTime: string;
 	credentials: string;
 	provider: string;
 	registrationType: string;
 }
 
 export interface UserInfo {
-	regID: string;
+	regID?: string;
 	fullName: string;
 	phoneNumber: string;
 	subscriptionPlan: string;
@@ -71,7 +69,6 @@ export interface UserInfo {
 	roomType: string;
 	roomNumber: string;
 	isCustodian: boolean;
-	dateTime: string;
 	credentials: string;
 	provider: string;
 	registrationType: string;
@@ -92,7 +89,6 @@ export interface SalesPayload {
 	roomType: string;
 	roomNumber: string;
 	isCustodian: boolean;
-	dateTime: string;
 	credentials: string;
 	provider: string;
 	providerResponse: string;
@@ -117,7 +113,6 @@ export interface PendingRegistrationPayload {
 	roomType: string;
 	roomNumber: string;
 	isCustodian: boolean;
-	dateTime: string;
 	credentials: string;
 	provider: string;
 	registrationType: string;
@@ -146,7 +141,6 @@ export interface PendingPaymentPayload {
 	roomType: string;
 	roomNumber: string;
 	isCustodian: boolean;
-	dateTime: string;
 	credentials: string;
 	provider: string;
 	registrationType: string;

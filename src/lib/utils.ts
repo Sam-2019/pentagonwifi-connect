@@ -24,6 +24,10 @@ export function cn(...inputs: ClassValue[]) {
 export const topup = "Top Up";
 export const registration = "Registration";
 
+export const toastLoading = "Connecting you to Pentagon WiFi...";
+export const toastSuccess = "Registration complete!";
+export const toastError = "Registration failed. Please try again.";
+
 export const blockCourtOptions = [
 	{ value: "", label: "Select an option..." },
 	{ value: "Block-A", label: "Block-A" },
@@ -126,13 +130,13 @@ export const topupSchema = yup
 	})
 	.required();
 
+export const hubtel = import.meta.env.VITE_HUBTEL;
+export const paystack = import.meta.env.VITE_PAYSTACK;
+
 export const googleScriptUrl =
 	import.meta.env.VITE_NODE_ENV === "development"
 		? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
 		: import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
-
-export const hubtel = import.meta.env.VITE_HUBTEL;
-export const paystack = import.meta.env.VITE_PAYSTACK;
 
 export const baseUrl =
 	import.meta.env.VITE_NODE_ENV === "development"
@@ -195,4 +199,3 @@ export const findRegistrant = async (
 		const { data } = await res.json();
 	});
 };
-

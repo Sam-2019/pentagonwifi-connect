@@ -77,11 +77,6 @@ const RegistrationForm: React.FC = () => {
     const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
     const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
 
-    const date = new Date();
-    const formattedDate = new Intl.DateTimeFormat("en-US", dateOptions).format(
-      date
-    );
-
     const credentials = {
       userName: data.userName,
       password: data.password,
@@ -103,7 +98,6 @@ const RegistrationForm: React.FC = () => {
       roomNumber: data.roomNumber,
       isCustodian: data.isCustodian,
       credentials: stringifyCredentials,
-      dateTime: formattedDate,
       provider: capitalizePaymentProvider,
       registrationType: registration,
     };
