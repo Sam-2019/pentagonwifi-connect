@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
 import type React from "react";
@@ -6,18 +5,14 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { yupResolver } from "@hookform/resolvers/yup";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 import {
   planPrices,
   dataPlanOptions,
   topupSchema,
   topup,
-  dateOptions,
   hubtel,
 } from "@/lib/utils";
 import type {
-  Payload,
-  PaymentInfo,
   TopUpFormData,
   UserInfo,
 } from "@/lib/types";
@@ -29,8 +24,6 @@ import { hubtelPay } from "@/hooks/use-hubtel";
 const TopUpForm: React.FC = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [totalPayable, setTotalPayable] = useState(0);
-
-  dayjs.extend(localizedFormat);
 
   const {
     register,

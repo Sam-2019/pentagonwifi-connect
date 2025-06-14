@@ -84,19 +84,13 @@ const RegistrationForm: React.FC = () => {
 
     const stringifyCredentials = JSON.stringify(credentials);
     const userInfo: UserInfo = {
+      ...data,
       regID: uuidv4(),
-      fullName: data.fullName,
-      phoneNumber: data.phoneNumber,
       subscriptionPlan: capitalizeSubscriptionPlan,
       planFee: planFee,
       registrationFee: registrationFee,
       totalCost: totalCost,
-      email: data.email,
       dateOfBirth: new Date(data.dateOfBirth),
-      blockCourt: data.blockCourt,
-      roomType: data.roomType,
-      roomNumber: data.roomNumber,
-      isCustodian: data.isCustodian,
       credentials: stringifyCredentials,
       provider: capitalizePaymentProvider,
       registrationType: registration,
