@@ -63,8 +63,7 @@ export const hubtelPay = (userInfo: UserInfo) => {
     clientReference: clientReference,
   };
 
-  const response = writeRegistration(checkoutInfo);
-  response
+  writeRegistration(checkoutInfo)
     .then((res) => {})
     .catch((err) => console.log(err))
     .finally(() => {});
