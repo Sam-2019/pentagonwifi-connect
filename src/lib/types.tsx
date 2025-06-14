@@ -174,3 +174,9 @@ export interface PendingPaymentPayload {
   registrationType: string;
   purchaseInfo: string;
 }
+
+export interface Registrant {
+  phoneNumber: string;
+  email: string;
+  clientReference: string;
+}
