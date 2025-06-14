@@ -8,9 +8,9 @@ import {
   toastError,
   toastLoading,
   toastSuccess,
-  writePendingRegistration,
-  writeRegistration,
-  writeSale,
+  postPendingRegistration,
+  postRegistration,
+  postSale,
 } from "@/lib/utils";
 import { usePaystackPayment } from "react-paystack";
 import { v4 as uuidv4 } from "uuid";
@@ -58,7 +58,7 @@ export const paystackPay = (userInfo: UserInfo) => {
     clientReference: clientReference,
   };
 
-  const response = writeRegistration(checkoutInfo);
+  const response = postRegistration(checkoutInfo);
   response
     .then((res) => {})
     .catch((err) => console.log(err))
@@ -87,7 +87,7 @@ export const paystackPay = (userInfo: UserInfo) => {
     };
 
     toast.promise(
-      writeSale(saleInfo).then(() => {
+      postSale(saleInfo).then(() => {
         setTimeout(() => setIsSuccessModalOpen(true), 300);
         reset();
         setDatePickerValue({
@@ -98,13 +98,13 @@ export const paystackPay = (userInfo: UserInfo) => {
       {
         loading: toastLoading,
         success: toastSuccess,
-        error: toastError
+        error: toastError,
       }
     );
   };
 
   const onClose = () => {
-    const response = writePendingRegistration(checkoutInfo);
+    const response = postPendingRegistration(checkoutInfo);
     response
       .then((res) => {})
       .catch((err) => console.log(err))

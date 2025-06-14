@@ -5,6 +5,7 @@ import type {
   PendingRegistrationPayload,
   PendingPaymentPayload,
   FailedRegistrationPayload,
+  Registrant,
 } from "./types";
 import { clsx, type ClassValue } from "clsx";
 
@@ -154,7 +155,7 @@ export const baseUrl =
     ? import.meta.env.VITE_BASE_DEV_URL
     : import.meta.env.VITE_BASE_PROD_URL;
 
-export const writeRegistration = async (payload: PendingPaymentPayload) => {
+export const postRegistration = async (payload: PendingPaymentPayload) => {
   return fetch(`${baseUrl}/api/registration`, {
     method: "POST",
     mode: "cors",
@@ -168,7 +169,7 @@ export const writeRegistration = async (payload: PendingPaymentPayload) => {
   });
 };
 
-export const writeSale = async (payload: SalesPayload) => {
+export const postSale = async (payload: SalesPayload) => {
   fetch(`${baseUrl}/api/sale`, {
     method: "POST",
     mode: "cors",
@@ -181,7 +182,7 @@ export const writeSale = async (payload: SalesPayload) => {
   });
 };
 
-export const writePendingRegistration = async (
+export const postPendingRegistration = async (
   payload: PendingRegistrationPayload
 ) => {
   fetch(`${baseUrl}/api/pending-registration`, {
@@ -196,7 +197,7 @@ export const writePendingRegistration = async (
   });
 };
 
-export const writeFailedRegistration = async (
+export const postFailedRegistration = async (
   payload: FailedRegistrationPayload
 ) => {
   fetch(`${baseUrl}/api/failed-registration`, {
@@ -211,7 +212,7 @@ export const writeFailedRegistration = async (
   });
 };
 
-export const findRegistrant = async (payload: PendingRegistrationPayload) => {
+export const getRegistrant = async (payload: Registrant) => {
   fetch(`${baseUrl}/api/registration`, {
     method: "GET",
     mode: "cors",

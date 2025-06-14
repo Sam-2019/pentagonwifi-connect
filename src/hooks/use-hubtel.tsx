@@ -8,10 +8,10 @@ import {
   toastError,
   toastLoading,
   toastSuccess,
-  writeFailedRegistration,
-  writePendingRegistration,
-  writeRegistration,
-  writeSale,
+  postFailedRegistration,
+  postPendingRegistration,
+  postRegistration,
+  postSale,
 } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
 import { v4 as uuidv4 } from "uuid";
@@ -63,7 +63,7 @@ export const hubtelPay = (userInfo: UserInfo) => {
     clientReference: clientReference,
   };
 
-  writeRegistration(checkoutInfo)
+  postRegistration(checkoutInfo)
     .then((res) => {})
     .catch((err) => console.log(err))
     .finally(() => {});
@@ -105,7 +105,7 @@ export const hubtelPay = (userInfo: UserInfo) => {
             };
             checkout.closePopUp();
             toast.promise(
-              writeSale(saleInfo).then(() => {
+              postSale(saleInfo).then(() => {
                 setTimeout(() => setIsSuccessModalOpen(true), 300);
                 reset();
 
@@ -132,7 +132,7 @@ export const hubtelPay = (userInfo: UserInfo) => {
             };
             checkout.closePopUp();
             toast.promise(
-              writeFailedRegistration(failureInfo).then(() => {}),
+              postFailedRegistration(failureInfo).then(() => {}),
               {
                 loading: toastLoading,
                 success: toastError,
@@ -150,7 +150,7 @@ export const hubtelPay = (userInfo: UserInfo) => {
             // console.log("Iframe has been resized: ", size?.height);
           },
           onClose: () => {
-            writePendingRegistration(checkoutInfo)
+            postPendingRegistration(checkoutInfo)
               .then((res) => {})
               .catch((err) => console.log(err))
               .finally(() => {});
