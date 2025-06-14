@@ -17,6 +17,9 @@ import {
 	schema,
 	registration,
 	googleScriptUrl,
+	toastLoading,
+	toastSuccess,
+  	toastError,
 } from "@/lib/utils";
 import type { FormData, Payload } from "@/lib/utils";
 import TermCondition from "./TermCondition";
@@ -106,9 +109,9 @@ const RegistrationForm: React.FC = () => {
 				setLoading(false);
 			}),
 			{
-				loading: "Connecting you to Pentagon WiFi...",
-				success: "Registration complete!",
-				error: "Registration failed. Please try again.",
+				loading: toastLoading,
+				success: toastSuccess,
+				error: toastError,
 			},
 		);
 	};

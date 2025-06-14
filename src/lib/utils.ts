@@ -9,6 +9,10 @@ export function cn(...inputs: ClassValue[]) {
 export const topup = "Top Up";
 export const registration = "Registration";
 
+export const toastLoading = "Connecting you to Pentagon WiFi...";
+export const toastSuccess = "Registration complete!";
+export const toastError = "Registration failed. Please try again.";
+
 export const registrationFee = 50;
 export const blockCourtOptions = [
 	{ value: "", label: "Select an option..." },

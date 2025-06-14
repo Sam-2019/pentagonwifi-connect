@@ -11,6 +11,9 @@ import {
   topupSchema,
   topup,
   googleScriptUrl,
+  toastLoading,
+  toastSuccess,
+  toastError
 } from "@/lib/utils";
 import type { Payload, TopUpFormData } from "@/lib/utils";
 import TermCondition from "./TermCondition";
@@ -91,9 +94,9 @@ const TopUpForm: React.FC = () => {
         setLoading(false);
       }),
       {
-        loading: "Connecting you to Pentagon WiFi...",
-        success: "Topup complete!",
-        error: "Topup failed. Please try again.",
+        loading: toastLoading,
+        success: toastSuccess,
+        error: toastError,
       }
     );
   };
