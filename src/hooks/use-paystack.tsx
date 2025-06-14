@@ -5,6 +5,9 @@ import type {
   UserInfo,
 } from "@/lib/types";
 import {
+  toastError,
+  toastLoading,
+  toastSuccess,
   writePendingRegistration,
   writeRegistration,
   writeSale,
@@ -93,9 +96,9 @@ export const paystackPay = (userInfo: UserInfo) => {
         });
       }),
       {
-        loading: "Connecting you to Pentagon WiFi...",
-        success: "Registration complete!",
-        error: "Registration failed. Please try again.",
+        loading: toastLoading,
+        success: toastSuccess,
+        error: toastError
       }
     );
   };
