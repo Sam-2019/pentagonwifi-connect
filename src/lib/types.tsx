@@ -141,9 +141,9 @@ export interface FailedRegistrationPayload {
   isCustodian: boolean;
   credentials: string;
   provider: string;
+  providerResponse: string;
   registrationType: string;
   purchaseInfo: string;
-  providerResponse: string;
 }
 
 export interface TopUpFormData {

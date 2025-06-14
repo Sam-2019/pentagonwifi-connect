@@ -26,6 +26,7 @@ export const hubtelPay = (userInfo: UserInfo) => {
   const userName = credentials.userName;
 
   const registrationType = userInfo.registrationType;
+
   const purchaseDescription = `Payment of GHS ${
     userInfo.planFee
   } PENTAGONWIFI ${userInfo.subscriptionPlan.toUpperCase()} data package for (${userInfo.fullName.toUpperCase()}-${
@@ -89,7 +90,7 @@ export const hubtelPay = (userInfo: UserInfo) => {
         callBacks: {
           onInit: () => console.log("Iframe initialized: "),
           onPaymentSuccess: (data) => {
-            console.log("Payment successful: ", data.data);
+            // console.log("Payment successful: ", data.data);
             const response = data.data;
 
             const stringifyResponse = JSON.stringify(response);
@@ -122,38 +123,32 @@ export const hubtelPay = (userInfo: UserInfo) => {
             );
           },
           onPaymentFailure: (data) => {
-            console.log("Payment failed: ", data);
-
+            // console.log("Payment failed: ", data);
             const response = data.data;
+
             const stringifyResponse = JSON.stringify(response);
             const failureInfo: FailedRegistrationPayload = {
               ...checkoutInfo,
               providerResponse: stringifyResponse,
             };
             checkout.closePopUp();
-
-            // toast.promise(
-            //   writeFailedRegistration(failureInfo).then(() => {}),
-            //   {
-            //     loading: toastLoading,
-            //     success: toastError,
-            //     error: toastError,
-            //   }
-            // );
-
-            writeFailedRegistration(failureInfo)
-              .then((res) => console.log(res))
-              .catch((err) => console.log(err))
-              .finally(() => {});
+            toast.promise(
+              writeFailedRegistration(failureInfo).then(() => {}),
+              {
+                loading: toastLoading,
+                success: toastError,
+                error: toastError,
+              }
+            );
           },
           onLoad: () => {
             console.log("Checkout has been loaded: ");
           },
           onFeesChanged: (fees) => {
-            console.log("Payment channel has changed: ", fees);
+            // console.log("Payment channel has changed: ", fees);
           },
           onResize: (size) => {
-            console.log("Iframe has been resized: ", size?.height);
+            // console.log("Iframe has been resized: ", size?.height);
           },
           onClose: () => {
             writePendingRegistration(checkoutInfo)

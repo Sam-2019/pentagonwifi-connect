@@ -145,7 +145,7 @@ export const baseUrl =
     : import.meta.env.VITE_BASE_PROD_URL;
 
 export const writeRegistration = async (payload: PendingPaymentPayload) => {
-  return fetch(`${baseUrl}/api/registeration`, {
+  return fetch(`${baseUrl}/api/registration`, {
     method: "POST",
     mode: "cors",
     body: JSON.stringify(payload),
