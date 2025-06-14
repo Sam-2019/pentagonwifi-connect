@@ -13,16 +13,17 @@ import {
   roomTypeOptions,
   planPrices,
   dataPlanOptions,
-  registrationFee,
   schema,
   registration,
   hubtel,
+  registrationType,
 } from "@/lib/utils";
 import type { FormData, UserInfo } from "@/lib/types";
 import TermCondition from "./TermCondition";
 import { paystackPay } from "@/hooks/use-paystack";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { v4 as uuidv4 } from "uuid";
+import { dummyUser } from "../../trash/dummyUser";
 
 const RegistrationForm: React.FC = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -41,23 +42,23 @@ const RegistrationForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      fullName: "",
-      dateOfBirth: null,
-      phoneNumber: "",
-      email: "",
-      blockCourt: "",
-      roomType: "",
-      roomNumber: "",
-      subscriptionPlan: "",
-      isCustodian: false,
-      userName: "",
-      password: "",
+      fullName: dummyUser.fullName,
+      dateOfBirth: new Date(),
+      phoneNumber: dummyUser.phoneNumber,
+      email: dummyUser.email,
+      blockCourt: dummyUser.blockCourt,
+      roomType: dummyUser.roomType,
+      roomNumber: dummyUser.roomNumber,
+      subscriptionPlan: dummyUser.subscriptionPlan,
+      isCustodian: dummyUser.isCustodian,
+      userName: dummyUser.userName,
+      password: dummyUser.password,
     },
   });
 
+  const fee = registrationType.registration.fee;
   const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
 
-  // Calculate the total cost based on the selected subscription plan & the registration fee
   const planFee = subscriptionPlan.includes("Daily")
     ? planPrices.daily
     : subscriptionPlan.includes("Weekly")
@@ -65,7 +66,8 @@ const RegistrationForm: React.FC = () => {
     : subscriptionPlan.includes("Monthly")
     ? planPrices.monthly
     : 0;
-  const totalCost = registrationFee + planFee;
+
+  const totalCost = fee + planFee;
 
   const onSubmit = async (data: FormData) => {
     const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
@@ -83,13 +85,13 @@ const RegistrationForm: React.FC = () => {
       regID: uuidv4(),
       subscriptionPlan: capitalizeSubscriptionPlan,
       planFee: planFee,
-      registrationFee: registrationFee,
+      registrationFee: fee,
       totalCost: totalCost,
       dateTime: new Date(),
       dateOfBirth: new Date(data.dateOfBirth),
       credentials: stringifyCredentials,
       provider: capitalizePaymentProvider,
-      registrationType: registration,
+      registrationType: registrationType.registration.name,
     };
 
     if (paymentProvider === hubtel) {
@@ -391,7 +393,7 @@ const RegistrationForm: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-2 bg-muted rounded-lg p-6 border-gray-300">
           <div className="text-gray-700 w-full">
             <p>
-              <strong>Registration Fee:</strong> GHC {registrationFee}
+              <strong>Registration Fee:</strong> GHC {fee}
             </p>
             <p>
               <strong>Plan Fee:</strong> GHC {planFee}

@@ -11,12 +11,14 @@ import {
   topupSchema,
   topup,
   hubtel,
+  registrationType,
 } from "@/lib/utils";
 import type { TopUpFormData, UserInfo } from "@/lib/types";
 import TermCondition from "./TermCondition";
 import PaymentModal from "./PaymentModal";
 import { paystackPay } from "@/hooks/use-paystack";
 import { hubtelPay } from "@/hooks/use-hubtel";
+import { dummyUser } from "../../trash/dummyUser";
 
 const TopUpForm: React.FC = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -31,13 +33,14 @@ const TopUpForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(topupSchema),
     defaultValues: {
-      userName: "",
-      phoneNumber: "",
-      email: "",
-      subscriptionPlan: "",
+      userName: dummyUser.userName,
+      phoneNumber: dummyUser.phoneNumber,
+      email: dummyUser.email,
+      subscriptionPlan: dummyUser.subscriptionPlan,
     },
   });
 
+  const fee = registrationType.topup.fee;
   const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
 
   const planFee = subscriptionPlan.includes("Daily")
@@ -48,8 +51,7 @@ const TopUpForm: React.FC = () => {
     ? planPrices.monthly
     : 0;
 
-  const registrationFee = 0;
-  const totalCost = registrationFee + planFee;
+  const totalCost = fee + planFee;
 
   const onSubmit = async (data: TopUpFormData) => {
     setTotalPayable(totalCost);
@@ -62,13 +64,12 @@ const TopUpForm: React.FC = () => {
       password: "",
     };
     const stringifyCredentials = JSON.stringify(credentials);
-
     const userInfo: UserInfo = {
       ...data,
       fullName: "N/A",
       subscriptionPlan: capitalizeSubscriptionPlan,
       planFee: planFee,
-      registrationFee: registrationFee,
+      registrationFee: fee,
       totalCost: totalCost,
       dateTime: new Date(),
       dateOfBirth: null,
@@ -78,7 +79,7 @@ const TopUpForm: React.FC = () => {
       isCustodian: false,
       credentials: stringifyCredentials,
       provider: capitalizePaymentProvider,
-      registrationType: topup,
+      registrationType: registrationType.topup.name,
     };
 
     if (paymentProvider === hubtel) {
