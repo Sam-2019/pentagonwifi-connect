@@ -178,5 +178,5 @@ export interface PendingPaymentPayload {
 export interface Registrant {
   phoneNumber: string;
   email: string;
-  clientReference: string;
+  clientReference?: string;
 }
