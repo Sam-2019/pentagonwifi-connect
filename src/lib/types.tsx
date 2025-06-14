@@ -75,7 +75,7 @@ export interface UserInfo {
 }
 
 export interface SalesPayload {
-	regID: string;
+	regID?: string;
 	fullName: string;
 	phoneNumber: string;
 	subscriptionPlan: string;
@@ -99,7 +99,7 @@ export interface SalesPayload {
 }
 
 export interface PendingRegistrationPayload {
-	regID: string;
+	regID?: string;
 	fullName: string;
 	phoneNumber: string;
 	subscriptionPlan: string;
@@ -119,6 +119,28 @@ export interface PendingRegistrationPayload {
 	purchaseInfo: string;
 }
 
+export interface FailedRegistrationPayload {
+	regID?: string;
+	fullName: string;
+	phoneNumber: string;
+	subscriptionPlan: string;
+	planFee: number;
+	registrationFee: number;
+	totalCost: number;
+	clientReference: string;
+	email: string;
+	dateOfBirth: Date;
+	blockCourt: string;
+	roomType: string;
+	roomNumber: string;
+	isCustodian: boolean;
+	credentials: string;
+	provider: string;
+	registrationType: string;
+	purchaseInfo: string;
+	providerResponse: string
+}
+
 export interface TopUpFormData {
 	userName: string;
 	phoneNumber: string;
@@ -127,7 +149,7 @@ export interface TopUpFormData {
 }
 
 export interface PendingPaymentPayload {
-	regID: string;
+	regID?: string;
 	fullName: string;
 	phoneNumber: string;
 	subscriptionPlan: string;
