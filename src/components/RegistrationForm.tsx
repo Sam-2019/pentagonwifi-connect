@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import type React from "react";
 import { toast } from "sonner";
 import { useState } from "react";
@@ -9,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from "./ui/form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Datepicker from "react-tailwindcss-datepicker";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 import {
   blockCourtOptions,
   roomTypeOptions,
@@ -19,7 +17,6 @@ import {
   schema,
   registration,
   hubtel,
-  dateOptions,
 } from "@/lib/utils";
 import type { FormData, UserInfo } from "@/lib/types";
 import TermCondition from "./TermCondition";
@@ -33,8 +30,6 @@ const RegistrationForm: React.FC = () => {
     startDate: null,
     endDate: null,
   });
-
-  dayjs.extend(localizedFormat);
 
   const {
     register,
@@ -90,6 +85,7 @@ const RegistrationForm: React.FC = () => {
       planFee: planFee,
       registrationFee: registrationFee,
       totalCost: totalCost,
+      dateTime: new Date(),
       dateOfBirth: new Date(data.dateOfBirth),
       credentials: stringifyCredentials,
       provider: capitalizePaymentProvider,

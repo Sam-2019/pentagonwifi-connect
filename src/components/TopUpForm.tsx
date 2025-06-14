@@ -12,10 +12,7 @@ import {
   topup,
   hubtel,
 } from "@/lib/utils";
-import type {
-  TopUpFormData,
-  UserInfo,
-} from "@/lib/types";
+import type { TopUpFormData, UserInfo } from "@/lib/types";
 import TermCondition from "./TermCondition";
 import PaymentModal from "./PaymentModal";
 import { paystackPay } from "@/hooks/use-paystack";
@@ -67,13 +64,13 @@ const TopUpForm: React.FC = () => {
     const stringifyCredentials = JSON.stringify(credentials);
 
     const userInfo: UserInfo = {
+      ...data,
       fullName: "N/A",
-      phoneNumber: data.phoneNumber,
       subscriptionPlan: capitalizeSubscriptionPlan,
       planFee: planFee,
       registrationFee: registrationFee,
       totalCost: totalCost,
-      email: data.email,
+      dateTime: new Date(),
       dateOfBirth: null,
       blockCourt: "N/A",
       roomType: "N/A",
