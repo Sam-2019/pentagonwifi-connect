@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { toast } from "sonner";
 import { Check } from "lucide-react";
 import type React from "react";
@@ -6,7 +5,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { yupResolver } from "@hookform/resolvers/yup";
-import localizedFormat from "dayjs/plugin/localizedFormat";
 import {
   planPrices,
   dataPlanOptions,
@@ -21,8 +19,7 @@ import PaymentModal from "./PaymentModal";
 const TopUpForm: React.FC = () => {
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [totalPayable, setTotalPayable] = useState(0);
-
-  dayjs.extend(localizedFormat);
+  const [loading, setLoading] = useState(false);
 
   const {
     register,
@@ -54,6 +51,7 @@ const TopUpForm: React.FC = () => {
   const totalCost = registrationFee + planFee;
 
   const onSubmit = async (data: TopUpFormData) => {
+    setLoading(true);
     setTotalPayable(totalCost);
 
     const credentials = {
@@ -71,10 +69,8 @@ const TopUpForm: React.FC = () => {
       roomNumber: "N/A",
       isCustodian: false,
       credentials: stringifyCredentials,
-      email: `${data.email}`,
-      phoneNumber: `${data.phoneNumber}`,
-      totalCost: `${totalCost}`,
-      dateTime: `${dayjs(new Date()).format("LLLL")}`,
+      phoneNumber: String(data.phoneNumber),
+      totalCost: String(totalCost),
       subscriptionPlan: data.subscriptionPlan.toUpperCase(),
       registrationType: topup,
       provider: "N/A",
@@ -92,12 +88,13 @@ const TopUpForm: React.FC = () => {
       }).then(() => {
         setTimeout(() => setIsPaymentModalOpen(true), 300);
         reset();
+        setLoading(false);
       }),
       {
         loading: "Connecting you to Pentagon WiFi...",
         success: "Topup complete!",
         error: "Topup failed. Please try again.",
-      },
+      }
     );
   };
 
@@ -173,11 +170,17 @@ const TopUpForm: React.FC = () => {
 
         <div>
           <Button
+            disabled={loading}
             type="submit"
             className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
           >
-            Connect Me
-            <Check className="h-5 w-5 mr-2" />
+            {loading ? (
+              "Loading..."
+            ) : (
+              <>
+                Connect Me <Check className="h-5 w-5 mr-2" />
+              </>
+            )}
           </Button>
         </div>
 
