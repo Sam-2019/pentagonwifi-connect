@@ -19,7 +19,7 @@ import {
 	googleScriptUrl,
 	toastLoading,
 	toastSuccess,
-  	toastError,
+	toastError,
 } from "@/lib/utils";
 import type { FormData, Payload } from "@/lib/utils";
 import TermCondition from "./TermCondition";
@@ -79,17 +79,18 @@ const RegistrationForm: React.FC = () => {
 		};
 		const stringifyCredentials = JSON.stringify(credentials);
 
-    const payload: Payload = {
-      ...data,
-      dateOfBirth: String(data.dateOfBirth.toISOString()),
-      phoneNumber: String(data.phoneNumber),
-      totalCost: String(totalCost),
-      subscriptionPlan: data.subscriptionPlan.toUpperCase(),
-      credentials: stringifyCredentials,
-      registrationType: registration,
-      provider: "N/A",
-      clientReference: "N/A",
-    };
+		const payload: Payload = {
+			...data,
+			dateOfBirth: String(data.dateOfBirth.toISOString()),
+			phoneNumber: String(data.phoneNumber),
+			totalCost: String(totalCost),
+			dateTime: new Date(),
+			subscriptionPlan: data.subscriptionPlan.toUpperCase(),
+			credentials: stringifyCredentials,
+			registrationType: registration,
+			provider: "N/A",
+			clientReference: "N/A",
+		};
 
 		toast.promise(
 			fetch(googleScriptUrl, {

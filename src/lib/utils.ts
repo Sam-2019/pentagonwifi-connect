@@ -80,6 +80,7 @@ export interface Payload {
 	roomNumber: string;
 	subscriptionPlan: string;
 	isCustodian: boolean;
+	dateTime: Date;
 	totalCost: string;
 	credentials: string;
 	registrationType: string;
