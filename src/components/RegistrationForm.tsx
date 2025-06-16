@@ -81,7 +81,7 @@ const RegistrationForm: React.FC = () => {
 
 		const payload: Payload = {
 			...data,
-			dateOfBirth: String(data.dateOfBirth.toISOString()),
+			dateOfBirth: data.dateOfBirth,
 			phoneNumber: String(data.phoneNumber),
 			totalCost: String(totalCost),
 			dateTime: new Date(),

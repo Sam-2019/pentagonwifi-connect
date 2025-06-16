@@ -72,7 +72,7 @@ export interface TopUpFormData {
 
 export interface Payload {
 	fullName: string;
-	dateOfBirth: string;
+	dateOfBirth: Date;
 	phoneNumber: string;
 	email: string;
 	blockCourt: string;
