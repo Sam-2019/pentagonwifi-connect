@@ -62,7 +62,7 @@ const TopUpForm: React.FC = () => {
       userName: data.userName,
       password: "",
     };
-    const stringifyCredentials = JSON.stringify(credentials);
+    
     const userInfo: UserInfo = {
       ...data,
       fullName: "N/A",
@@ -76,7 +76,7 @@ const TopUpForm: React.FC = () => {
       roomType: "N/A",
       roomNumber: "N/A",
       isCustodian: false,
-      credentials: stringifyCredentials,
+      credentials: credentials,
       provider: capitalizePaymentProvider,
       registrationType: registrationType.topup.name,
     };

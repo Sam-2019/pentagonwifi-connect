@@ -51,7 +51,7 @@ export interface PaymentInfo {
   roomType: string;
   roomNumber: string;
   isCustodian: boolean;
-  credentials: string;
+  credentials: Credentials;
   provider: string;
   registrationType: string;
 }
@@ -71,7 +71,7 @@ export interface UserInfo {
   roomType: string;
   roomNumber: string;
   isCustodian: boolean;
-  credentials: string;
+  credentials: Credentials;
   provider: string;
   registrationType: string;
 }
@@ -92,7 +92,7 @@ export interface SalesPayload {
   roomType: string;
   roomNumber: string;
   isCustodian: boolean;
-  credentials: string;
+  credentials: Credentials;
   provider: string;
   providerResponse: string;
   registrationType: string;
@@ -117,7 +117,7 @@ export interface PendingRegistrationPayload {
   roomType: string;
   roomNumber: string;
   isCustodian: boolean;
-  credentials: string;
+  credentials: Credentials;
   provider: string;
   registrationType: string;
   purchaseInfo: string;
@@ -139,7 +139,7 @@ export interface FailedRegistrationPayload {
   roomType: string;
   roomNumber: string;
   isCustodian: boolean;
-  credentials: string;
+  credentials: Credentials;
   provider: string;
   providerResponse: string;
   registrationType: string;
@@ -169,7 +169,7 @@ export interface PendingPaymentPayload {
   roomType: string;
   roomNumber: string;
   isCustodian: boolean;
-  credentials: string;
+  credentials: Credentials;
   provider: string;
   registrationType: string;
   purchaseInfo: string;
@@ -179,4 +179,9 @@ export interface Registrant {
   phoneNumber: string;
   email: string;
   clientReference?: string;
+}
+
+interface Credentials {
+  userName: string,
+  password: string
 }

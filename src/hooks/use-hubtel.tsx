@@ -22,7 +22,7 @@ export const hubtelPay = (userInfo: UserInfo) => {
   const reference = String(uuidv4());
   const slicedReference = reference.slice(0, 8);
   const clientReference = `PWT-${slicedReference}`;
-  const credentials = JSON.parse(userInfo.credentials);
+  const credentials = userInfo.credentials;
   const userName = credentials.userName;
 
   const registrationType = userInfo.registrationType;
