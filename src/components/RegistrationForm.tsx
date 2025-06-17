@@ -77,7 +77,6 @@ const RegistrationForm: React.FC = () => {
 			userName: data.userName,
 			password: data.password,
 		};
-		const stringifyCredentials = JSON.stringify(credentials);
 
 		const payload: Payload = {
 			...data,
@@ -86,7 +85,7 @@ const RegistrationForm: React.FC = () => {
 			totalCost: String(totalCost),
 			dateTime: new Date(),
 			subscriptionPlan: data.subscriptionPlan.toUpperCase(),
-			credentials: stringifyCredentials,
+			credentials: credentials,
 			registrationType: registration,
 			provider: "N/A",
 			clientReference: "N/A",

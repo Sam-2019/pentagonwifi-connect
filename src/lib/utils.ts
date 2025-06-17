@@ -82,10 +82,15 @@ export interface Payload {
 	isCustodian: boolean;
 	dateTime: Date;
 	totalCost: string;
-	credentials: string;
+	credentials: Credentials;
 	registrationType: string;
 	provider: string;
 	clientReference: string;
+}
+
+interface Credentials {
+  userName: string,
+  password: string
 }
 
 export const schema = yup

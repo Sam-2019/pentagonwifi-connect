@@ -61,7 +61,6 @@ const TopUpForm: React.FC = () => {
 			userName: data.userName,
 			password: "",
 		};
-		const stringifyCredentials = JSON.stringify(credentials);
 
 		const payload: Payload = {
 			...data,
@@ -71,7 +70,7 @@ const TopUpForm: React.FC = () => {
 			roomType: "N/A",
 			roomNumber: "N/A",
 			isCustodian: false,
-			credentials: stringifyCredentials,
+			credentials: credentials,
 			phoneNumber: String(data.phoneNumber),
 			totalCost: String(totalCost),
 			dateTime: new Date(),
