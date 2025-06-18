@@ -33,10 +33,10 @@ const TopUpForm: React.FC = () => {
   } = useForm({
     resolver: yupResolver(topupSchema),
     defaultValues: {
-      userName: "",
-      phoneNumber: "",
-      email: "",
-      subscriptionPlan: "",
+      subscriptionPlan: "Daily-(GHC 1)",
+      phoneNumber: "0240586043",
+      email: "chandler.hammes40@gmail.com",
+      userName: "chandler1234",
     },
   });
 
