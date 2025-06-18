@@ -14,11 +14,11 @@ import {
 	dataPlanOptions,
 	registrationType,
 } from "@/lib/utils";
-import type { TopUpFormData, UserInfo } from "@/lib/types";
-import TermCondition from "./TermCondition";
 import PaymentModal from "./PaymentModal";
-import { paystackPay } from "@/hooks/use-paystack";
+import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
+import { paystackPay } from "@/hooks/use-paystack";
+import type { RegistrationInfo, TopUpFormData, } from "@/lib/types";
 
 const TopUpForm: React.FC = () => {
 	const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
@@ -64,16 +64,16 @@ const TopUpForm: React.FC = () => {
 			password: "",
 		};
 
-		const modFormdata = {
+		const userInfo = {
 			phoneNumber: data.phoneNumber,
 			email: data.email,
 			userName: data.userName,
 		};
 
-		const result = await getCustomer(modFormdata);
+		const result = await getCustomer(userInfo);
 		const registrant = result?.data;
 
-		const userInfo: UserInfo = {
+		const registrationInfo: RegistrationInfo = {
 			...data,
 			fullName: registrant?.fullName,
 			subscriptionPlan: capitalizeSubscriptionPlan,
@@ -92,12 +92,12 @@ const TopUpForm: React.FC = () => {
 		};
 
 		if (paymentProvider === hubtel) {
-			const payment = hubtelPay(userInfo);
+			const payment = hubtelPay(registrationInfo);
 			payment.initialize(toast, setIsPaymentModalOpen, reset);
 			return;
 		}
 
-		const payment = paystackPay(userInfo);
+		const payment = paystackPay(registrationInfo);
 		payment.initialize(toast, setIsPaymentModalOpen, reset);
 	};
 

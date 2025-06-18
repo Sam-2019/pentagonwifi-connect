@@ -56,7 +56,7 @@ export interface PaymentInfo {
 	registrationType: string;
 }
 
-export interface UserInfo {
+export interface RegistrationInfo {
 	regID?: string;
 	fullName: string;
 	phoneNumber: string;
