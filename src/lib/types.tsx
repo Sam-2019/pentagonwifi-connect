@@ -178,10 +178,11 @@ export interface PendingPaymentPayload {
 export interface Registrant {
   phoneNumber: string;
   email: string;
+  userName: string;
   clientReference?: string;
 }
 
 interface Credentials {
-  userName: string,
-  password: string
+  userName: string;
+  password: string;
 }

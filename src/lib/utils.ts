@@ -213,14 +213,15 @@ export const postFailedRegistration = async (
 };
 
 export const getRegistrant = async (payload: Registrant) => {
-  fetch(`${baseUrl}/api/registration`, {
-    method: "GET",
+  return fetch(`${baseUrl}/api/registrant`, {
+    method: "POST",
     mode: "cors",
     body: JSON.stringify(payload),
     headers: {
       "Content-Type": "application/json",
     },
   }).then(async (res) => {
-    const { data } = await res.json();
+    const { message } = await res.json();
+    return message;
   });
 };

@@ -12,6 +12,7 @@ import {
   topup,
   hubtel,
   registrationType,
+  getRegistrant,
 } from "@/lib/utils";
 import type { TopUpFormData, UserInfo } from "@/lib/types";
 import TermCondition from "./TermCondition";
@@ -62,33 +63,42 @@ const TopUpForm: React.FC = () => {
       userName: data.userName,
       password: "",
     };
-    
-    const userInfo: UserInfo = {
-      ...data,
-      fullName: "N/A",
-      subscriptionPlan: capitalizeSubscriptionPlan,
-      planFee: planFee,
-      registrationFee: fee,
-      totalCost: totalCost,
-      dateTime: new Date(),
-      dateOfBirth: null,
-      blockCourt: "N/A",
-      roomType: "N/A",
-      roomNumber: "N/A",
-      isCustodian: false,
-      credentials: credentials,
-      provider: capitalizePaymentProvider,
-      registrationType: registrationType.topup.name,
+
+    const modFormdata = {
+      phoneNumber: data.phoneNumber,
+      email: data.email,
+      userName: data.userName,
     };
 
-    if (paymentProvider === hubtel) {
-      const payment = hubtelPay(userInfo);
-      payment.initialize(toast, setIsPaymentModalOpen, reset);
-      return;
-    }
+    const result = await getRegistrant(modFormdata)
+   console.log(result)
 
-    const payment = paystackPay(userInfo);
-    payment.initialize(toast, setIsPaymentModalOpen, reset);
+    // const userInfo: UserInfo = {
+    //   ...data,
+    //   fullName: "N/A",
+    //   subscriptionPlan: capitalizeSubscriptionPlan,
+    //   planFee: planFee,
+    //   registrationFee: fee,
+    //   totalCost: totalCost,
+    //   dateTime: new Date(),
+    //   dateOfBirth: null,
+    //   blockCourt: "N/A",
+    //   roomType: "N/A",
+    //   roomNumber: "N/A",
+    //   isCustodian: false,
+    //   credentials: credentials,
+    //   provider: capitalizePaymentProvider,
+    //   registrationType: registrationType.topup.name,
+    // };
+
+    // if (paymentProvider === hubtel) {
+    //   const payment = hubtelPay(userInfo);
+    //   payment.initialize(toast, setIsPaymentModalOpen, reset);
+    //   return;
+    // }
+
+    // const payment = paystackPay(userInfo);
+    // payment.initialize(toast, setIsPaymentModalOpen, reset);
   };
 
   return (
