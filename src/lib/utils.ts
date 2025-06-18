@@ -2,10 +2,11 @@ import * as yup from "yup";
 import { twMerge } from "tailwind-merge";
 import type {
   SalesPayload,
-  PendingRegistrationPayload,
+  CustomerPayload,
+  RegistrantPayload,
   PendingPaymentPayload,
   FailedRegistrationPayload,
-  Registrant,
+  PendingRegistrationPayload,
 } from "./types";
 import { clsx, type ClassValue } from "clsx";
 
@@ -164,8 +165,7 @@ export const postRegistration = async (payload: PendingPaymentPayload) => {
       "Content-Type": "application/json",
     },
   }).then(async (res) => {
-    const { data } = await res.json();
-    return data.regID;
+    const results = await res.json();
   });
 };
 
@@ -178,7 +178,7 @@ export const postSale = async (payload: SalesPayload) => {
       "Content-Type": "application/json",
     },
   }).then(async (res) => {
-    const { data } = await res.json();
+    const results = await res.json();
   });
 };
 
@@ -193,7 +193,7 @@ export const postPendingRegistration = async (
       "Content-Type": "application/json",
     },
   }).then(async (res) => {
-    const { data } = await res.json();
+    const results = await res.json();
   });
 };
 
@@ -208,12 +208,12 @@ export const postFailedRegistration = async (
       "Content-Type": "application/json",
     },
   }).then(async (res) => {
-    const { data } = await res.json();
+    const results = await res.json();
   });
 };
 
-export const getRegistrant = async (payload: Registrant) => {
-  return fetch(`${baseUrl}/api/registrant`, {
+export const postCustomer = async (payload: CustomerPayload) => {
+  return fetch(`${baseUrl}/api/customer`, {
     method: "POST",
     mode: "cors",
     body: JSON.stringify(payload),
@@ -223,5 +223,30 @@ export const getRegistrant = async (payload: Registrant) => {
   }).then(async (res) => {
     const { message } = await res.json();
     return message;
+  });
+};
+
+export const getCustomer = async (payload: RegistrantPayload) => {
+  const queryParams = {
+    phoneNumber: payload.phoneNumber,
+    email: payload.email,
+    userName: payload.userName
+  };
+
+  const options = {
+    method: "GET",
+    mode: "cors" as RequestMode,
+    headers: {
+      "Content-Type": "application/json",
+    }
+  };
+
+  const queryString = new URLSearchParams(queryParams).toString();
+  const endpoint = `${baseUrl}/api/customer?${queryString}`;
+  console.log(endpoint)
+
+  return fetch(endpoint, options).then(async (res) => {
+    const results = await res.json();
+    return results;
   });
 };
