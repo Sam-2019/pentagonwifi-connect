@@ -148,10 +148,6 @@ const RegistrationForm: React.FC = () => {
 					<p className="text-red-400">{errors.fullName?.message}</p>
 				</div>
 
-				{errors.root?.serverError?.type === 400 && (
-					<p>server response message</p>
-				)}
-
 				<div className="flex flex-col gap-2">
 					<label htmlFor="dateOfBirth">Date of Birth</label>
 					<FormField
