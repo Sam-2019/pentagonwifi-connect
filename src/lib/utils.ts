@@ -6,6 +6,11 @@ export function cn(...inputs: ClassValue[]) {
 	return twMerge(clsx(inputs));
 }
 
+export enum PasswordType {
+	TEXT = "text",
+	PASSWORD = "password",
+}
+
 export const topup = "Top Up";
 export const registration = "Registration";
 
@@ -89,8 +94,8 @@ export interface Payload {
 }
 
 interface Credentials {
-  userName: string,
-  password: string
+	userName: string,
+	password: string
 }
 
 export const schema = yup
