@@ -27,8 +27,10 @@ export function cn(...inputs: ClassValue[]) {
 export const topup = "Top Up";
 export const registration = "Registration";
 
-export const toastLoading = "Connecting you to Pentagon WiFi...";
+export const server = "server";
+export const duplicateError = "Duplicate error";
 export const toastSuccess = "Registration complete!";
+export const toastLoading = "Connecting you to Pentagon WiFi...";
 export const toastError = "Registration failed. Please try again.";
 
 export const blockCourtOptions = [
@@ -221,8 +223,7 @@ export const postCustomer = async (payload: CustomerPayload) => {
       "Content-Type": "application/json",
     },
   }).then(async (res) => {
-    const { message } = await res.json();
-    return message;
+    return await res.json();
   });
 };
 
