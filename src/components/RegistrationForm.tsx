@@ -1,11 +1,11 @@
 import type React from "react";
 import { toast } from "sonner";
 import { useState } from "react";
-import { Check } from "lucide-react";
 import { useForm } from "react-hook-form";
 import SuccessModal from "./SuccessModal";
 import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from "./ui/form";
+import { Check, Eye, EyeOff } from "lucide-react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import {
@@ -14,6 +14,7 @@ import {
 	server,
 	planPrices,
 	postCustomer,
+	PasswordType,
 	registration,
 	duplicateError,
 	dataPlanOptions,
@@ -33,6 +34,19 @@ const RegistrationForm: React.FC = () => {
 		startDate: null,
 		endDate: null,
 	});
+
+	const [isVisible, setIsVisible] = useState(false);
+	const [type, setType] = useState(PasswordType.PASSWORD);
+
+	const showPassword = () => {
+		setIsVisible(true);
+		setType(PasswordType.TEXT);
+	};
+
+	const hidePassword = () => {
+		setIsVisible(false);
+		setType(PasswordType.PASSWORD);
+	};
 
 	const {
 		register,
@@ -320,14 +334,25 @@ const RegistrationForm: React.FC = () => {
 
 							{/* password */}
 							<div className="flex flex-col gap-2 w-full">
-								{/* <label htmlFor="password">Password</label> */}
-								<input
-									id="passwordr"
-									type="password"
-									placeholder="Password"
-									{...register("password")}
-									className="py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
-								/>
+								<div className="flex items-center rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+									<input
+										id="password"
+										type={type}
+										placeholder="Password"
+										{...register("password")}
+										className="py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+									/>
+									<div className="grid shrink-0 grid-cols-1 focus-within:relative mr-4">
+										{isVisible ? (
+											<EyeOff
+												onClick={hidePassword}
+												className="text-gray-600"
+											/>
+										) : (
+											<Eye onClick={showPassword} className="text-gray-600" />
+										)}
+									</div>
+								</div>
 								<p className="text-red-400">{errors.password?.message}</p>
 							</div>
 						</div>

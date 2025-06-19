@@ -24,6 +24,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export enum PasswordType {
+	TEXT = "text",
+	PASSWORD = "password",
+}
+
 export const topup = "Top Up";
 export const registration = "Registration";
 
