@@ -33,11 +33,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
         clearTimeout(messageTimer);
         clearTimeout(actionsTimer);
       };
-    } else {
-      setCheckmarkVisible(false);
-      setMessageVisible(false);
-      setActionsVisible(false);
     }
+    setCheckmarkVisible(false);
+    setMessageVisible(false);
+    setActionsVisible(false);
   }, [open]);
 
   function handleShareReferral(
@@ -95,7 +94,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
                 {registrationType} Complete!
               </h2>
 
-              {/* <p className="text-base text-gray-600">
+							{/* <p className="text-base text-gray-600">
                 Now proceed to make payment of{" "}
                 <span className="text-xl font-semibold">{amount} </span>to
                 activate the service.
@@ -131,7 +130,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
 
               <Button
                 onClick={handleShareReferral}
-                className="bg-transaperent hover:bg-primary/90 gap-2 w-full text-primary"
+								className="bg-transparent hover:bg-primary/10 gap-2 w-full text-primary"
               >
                 <Share size={18} />
                 Share Referral
