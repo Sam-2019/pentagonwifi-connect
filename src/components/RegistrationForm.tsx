@@ -103,6 +103,9 @@ const RegistrationForm: React.FC = () => {
 			registrationType: registration,
 			provider: "N/A",
 			clientReference: "N/A",
+			isCustodian: selectedBlockCourt.includes("Block")
+				? data.isCustodian
+				: false,
 		};
 
 		toast.promise(
