@@ -3,7 +3,7 @@ import type {
 	PendingPaymentPayload,
 	SalesPayload,
 	RegistrationInfo,
-  CustomerPayload,
+	CustomerPayload,
 } from "@/lib/types";
 import {
 	toastError,
@@ -67,7 +67,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 
 	postRegistration(checkoutInfo)
 		.then((res) => {})
-		.catch((err) => console.log(err))
+		.catch((err) => {})
 		.finally(() => {});
 
 	return {
@@ -90,9 +90,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 				purchaseInfo: purchaseInfo,
 				config: config,
 				callBacks: {
-					onInit: () => {
-						console.log(userInfo);
-					},
+					onInit: () => {},
 					onPaymentSuccess: (data) => {
 						// console.log("Payment successful: ", data.data);
 						const response = data.data;
@@ -147,7 +145,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 						);
 					},
 					onLoad: () => {
-						console.log("Checkout has been loaded: ");
+						// console.log("Checkout has been loaded: ");
 					},
 					onFeesChanged: (fees) => {
 						// console.log("Payment channel has changed: ", fees);
@@ -158,7 +156,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 					onClose: () => {
 						postPendingRegistration(checkoutInfo)
 							.then((res) => {})
-							.catch((err) => console.log(err))
+							.catch((err) => {})
 							.finally(() => {});
 					},
 				},
