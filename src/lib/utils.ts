@@ -25,11 +25,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export enum PasswordType {
-  TEXT = "text",
-  PASSWORD = "password",
-}
-
-export enum PasswordType {
 	TEXT = "text",
 	PASSWORD = "password",
 }
@@ -76,7 +71,7 @@ export const registrationType = {
 };
 
 export const planPrices = {
-  daily: 1,
+  daily: 20,
   weekly: 100,
   monthly: 399,
 };
