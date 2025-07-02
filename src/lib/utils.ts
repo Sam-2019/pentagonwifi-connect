@@ -161,7 +161,6 @@ export const baseUrl =
     : import.meta.env.VITE_BASE_PROD_URL;
 
 export const checkUserNameAvailability = async (payload) => {
-  console.log()
   const queryParams = {
     userName: payload.userName
   };
@@ -176,7 +175,6 @@ export const checkUserNameAvailability = async (payload) => {
 
   const queryString = new URLSearchParams(queryParams).toString();
   const endpoint = `${baseUrl}/api/customer/availabilty?${queryString}`;
-  console.log(endpoint)
 
   return fetch(endpoint, options).then(async (res) => {
     return await res.json();
@@ -269,7 +267,6 @@ export const getCustomer = async (payload: RegistrantPayload) => {
 
   const queryString = new URLSearchParams(queryParams).toString();
   const endpoint = `${baseUrl}/api/customer?${queryString}`;
-  console.log(endpoint)
 
   return fetch(endpoint, options).then(async (res) => {
     const results = await res.json();
