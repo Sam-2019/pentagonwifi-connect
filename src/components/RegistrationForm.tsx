@@ -13,7 +13,6 @@ import {
 	schema,
 	server,
 	planPrices,
-	postCustomer,
 	PasswordType,
 	registration,
 	duplicateError,
@@ -21,12 +20,13 @@ import {
 	roomTypeOptions,
 	registrationType,
 	blockCourtOptions,
+	checkUserNameAvailability,
 } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { paystackPay } from "@/hooks/use-paystack";
-import type { FormData, RegistrationInfo } from "@/lib/types";
+import type { CustomerPayload, FormData, RegistrationInfo } from "@/lib/types";
 
 const RegistrationForm: React.FC = () => {
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
@@ -97,7 +97,7 @@ const RegistrationForm: React.FC = () => {
 			password: data.password,
 		};
 
-		const userInfo = {
+		const userInfo: CustomerPayload = {
 			regID: uuidv4(),
 			fullName: data.fullName,
 			phoneNumber: data.phoneNumber,
@@ -111,7 +111,7 @@ const RegistrationForm: React.FC = () => {
 			credentials: credentials,
 		};
 
-		const results = await postCustomer(userInfo);
+		const results = await checkUserNameAvailability(credentials);
 		if (results.message === duplicateError) {
 			for (const field of Object.keys(results.data)) {
 				const message = results.data[field];
@@ -139,6 +139,7 @@ const RegistrationForm: React.FC = () => {
 				toast,
 				setIsSuccessModalOpen,
 				reset,
+				userInfo,
 				setDatePickerValue,
 			);
 			return;
