@@ -82,6 +82,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 			setIsSuccessModalOpen: (value: boolean) => void,
 			reset: () => void,
 			userInfo: CustomerPayload,
+			setLoading: () => void,
 			setDatePickerValue?: (value: {
 				startDate: Date | null;
 				endDate: Date | null;
@@ -107,10 +108,13 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 							transactionId: transactionId,
 							externalTransactionId: externalTransactionId,
 						};
+						setLoading();
 						checkout.closePopUp();
 						toast.promise(
 							postSale(saleInfo).then(() => {
-								if (registrationType === registration) {postCustomer(userInfo)};
+								if (registrationType === registration) {
+									postCustomer(userInfo);
+								}
 								setTimeout(() => setIsSuccessModalOpen(true), 300);
 								reset();
 
@@ -135,6 +139,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 							...checkoutInfo,
 							providerResponse: stringifyResponse,
 						};
+						setLoading();
 						checkout.closePopUp();
 						toast.promise(
 							postFailedRegistration(failureInfo).then(() => {}),
@@ -155,6 +160,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 						// console.log("Iframe has been resized: ", size?.height);
 					},
 					onClose: () => {
+						setLoading();
 						postPendingRegistration(checkoutInfo)
 							.then((res) => {})
 							.catch((err) => {})

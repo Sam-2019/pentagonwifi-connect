@@ -24,7 +24,7 @@ import SuccessModal from "./SuccessModal";
 
 const TopUpForm: React.FC = () => {
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-
+	const [loading, setLoading] = useState(false);
 	const {
 		register,
 		handleSubmit,
@@ -97,7 +97,9 @@ const TopUpForm: React.FC = () => {
 
 		if (paymentProvider === hubtel) {
 			const payment = hubtelPay(registrationInfo);
-			payment.initialize(toast, setIsSuccessModalOpen, reset, registrant);
+			payment.initialize(toast, setIsSuccessModalOpen, reset, registrant, () =>
+				setLoading(false),
+			);
 			return;
 		}
 
@@ -177,11 +179,17 @@ const TopUpForm: React.FC = () => {
 
 				<div>
 					<Button
+						disabled={loading}
 						type="submit"
 						className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
 					>
-						Connect Me
-						<Check className="h-5 w-5 mr-2" />
+						{loading ? (
+							"Loading..."
+						) : (
+							<>
+								Connect Me <Check className="h-5 w-5 mr-2" />
+							</>
+						)}
 					</Button>
 				</div>
 

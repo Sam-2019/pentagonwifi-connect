@@ -34,7 +34,7 @@ const RegistrationForm: React.FC = () => {
 		startDate: null,
 		endDate: null,
 	});
-
+	const [loading, setLoading] = useState(false);
 	const [isVisible, setIsVisible] = useState(false);
 	const [type, setType] = useState(PasswordType.PASSWORD);
 
@@ -143,6 +143,7 @@ const RegistrationForm: React.FC = () => {
 				setIsSuccessModalOpen,
 				reset,
 				userInfo,
+				() => setLoading(false),
 				setDatePickerValue,
 			);
 			return;
@@ -473,11 +474,17 @@ const RegistrationForm: React.FC = () => {
 
 				<div>
 					<Button
+						disabled={loading}
 						type="submit"
 						className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
 					>
-						Connect Me
-						<Check className="h-5 w-5 mr-2" />
+						{loading ? (
+							"Loading..."
+						) : (
+							<>
+								Connect Me <Check className="h-5 w-5 mr-2" />
+							</>
+						)}
 					</Button>
 				</div>
 
