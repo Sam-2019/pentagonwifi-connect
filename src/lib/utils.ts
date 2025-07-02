@@ -25,8 +25,8 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export enum PasswordType {
-	TEXT = "text",
-	PASSWORD = "password",
+  TEXT = "text",
+  PASSWORD = "password",
 }
 
 export const topup = "Top Up";
@@ -87,42 +87,42 @@ export const dataPlanOptions = [
 ];
 
 export const schema = yup
-	.object({
-		fullName: yup
-			.string()
-			.required("Name is required.")
-			.matches(/^[A-Za-z]+(?:\s[A-Za-z]{3,}){1,2}$/, "Name is invalid."),
-		dateOfBirth: yup
-			.date()
-			.required("Date of birth is required.")
-			.typeError("Invalid date"),
-		phoneNumber: yup
-			.string()
-			.required("Phone number is required.")
-			.matches(/^(?:\+?\d{7,15}|0\d{9})$/, "Phone number is invalid"),
-		email: yup
-			.string()
-			.email()
-			.required("Email is required.")
-			.matches(
-				/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-				"Email is invalid.",
-			),
-		blockCourt: yup.string().required("Block / Court is required."),
-		roomType: yup.string().required("Room Type is required"),
-		roomNumber: yup.string().required("Room number is required."),
-		subscriptionPlan: yup.string().required("Subscription plan is required"),
-		isCustodian: yup.bool().default(false).required("Custodian is required"),
-		userName: yup
-			.string()
-			.required("Username is required.")
-			.matches(
-				/^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
-				"Username is invalid.",
-			),
-		password: yup.string().required("Password is required."),
-	})
-	.required();
+  .object({
+    fullName: yup
+      .string()
+      .required("Name is required.")
+      .matches(/^[A-Za-z]+(?:\s[A-Za-z]{3,}){1,2}$/, "Name is invalid."),
+    dateOfBirth: yup
+      .date()
+      .required("Date of birth is required.")
+      .typeError("Invalid date"),
+    phoneNumber: yup
+      .string()
+      .required("Phone number is required.")
+      .matches(/^(?:\+?\d{7,15}|0\d{9})$/, "Phone number is invalid"),
+    email: yup
+      .string()
+      .email()
+      .required("Email is required.")
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Email is invalid.",
+      ),
+    blockCourt: yup.string().required("Block / Court is required."),
+    roomType: yup.string().required("Room Type is required"),
+    roomNumber: yup.string().required("Room number is required."),
+    subscriptionPlan: yup.string().required("Subscription plan is required"),
+    isCustodian: yup.bool().default(false).required("Custodian is required"),
+    userName: yup
+      .string()
+      .required("Username is required.")
+      .matches(
+        /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
+        "Username is invalid.",
+      ),
+    password: yup.string().required("Password is required."),
+  })
+  .required();
 
 export const topupSchema = yup
   .object({
@@ -151,6 +151,7 @@ export const topupSchema = yup
 
 export const hubtel = import.meta.env.VITE_HUBTEL;
 export const paystack = import.meta.env.VITE_PAYSTACK;
+export const auth = import.meta.env.AUTHORIZATION;
 
 export const googleScriptUrl =
   import.meta.env.VITE_NODE_ENV === "development"
@@ -162,17 +163,22 @@ export const baseUrl =
     ? import.meta.env.VITE_BASE_DEV_URL
     : import.meta.env.VITE_BASE_PROD_URL;
 
+
+const headers = {
+  "Content-Type": "application/json",
+  'Authorization': `Bearer ${auth}`
+}
+
 export const checkUserNameAvailability = async (payload) => {
   const queryParams = {
     userName: payload.userName
   };
 
+
   const options = {
     method: "GET",
     mode: "cors" as RequestMode,
-    headers: {
-      "Content-Type": "application/json",
-    }
+    headers: headers
   };
 
   const queryString = new URLSearchParams(queryParams).toString();
@@ -188,9 +194,7 @@ export const postRegistration = async (payload: PendingPaymentPayload) => {
     method: "POST",
     mode: "cors",
     body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headers,
   }).then(async (res) => {
     const results = await res.json();
   });
@@ -201,9 +205,7 @@ export const postSale = async (payload: SalesPayload) => {
     method: "POST",
     mode: "cors",
     body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headers,
   }).then(async (res) => {
     const results = await res.json();
   });
@@ -216,9 +218,7 @@ export const postPendingRegistration = async (
     method: "POST",
     mode: "cors",
     body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headers,
   }).then(async (res) => {
     const results = await res.json();
   });
@@ -231,9 +231,7 @@ export const postFailedRegistration = async (
     method: "POST",
     mode: "cors",
     body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headers,
   }).then(async (res) => {
     const results = await res.json();
   });
@@ -244,9 +242,7 @@ export const postCustomer = async (payload: CustomerPayload) => {
     method: "POST",
     mode: "cors",
     body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: headers,
   }).then(async (res) => {
     return await res.json();
   });
@@ -262,9 +258,7 @@ export const getCustomer = async (payload: RegistrantPayload) => {
   const options = {
     method: "GET",
     mode: "cors" as RequestMode,
-    headers: {
-      "Content-Type": "application/json",
-    }
+    headers: headers
   };
 
   const queryString = new URLSearchParams(queryParams).toString();
