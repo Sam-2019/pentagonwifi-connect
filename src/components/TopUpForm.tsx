@@ -13,6 +13,8 @@ import {
 	getCustomer,
 	dataPlanOptions,
 	registrationType,
+	noCustomerFound,
+	registerFirst,
 } from "@/lib/utils";
 import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
@@ -22,7 +24,6 @@ import SuccessModal from "./SuccessModal";
 
 const TopUpForm: React.FC = () => {
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-	const [totalPayable, setTotalPayable] = useState(0);
 
 	const {
 		register,
@@ -54,7 +55,6 @@ const TopUpForm: React.FC = () => {
 	const totalCost = fee + planFee;
 
 	const onSubmit = async (data: TopUpFormData) => {
-		setTotalPayable(totalCost);
 		const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
 		const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
 		const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
@@ -72,6 +72,10 @@ const TopUpForm: React.FC = () => {
 
 		const result = await getCustomer(userInfo);
 		const registrant = result?.data;
+
+		if (result.message === noCustomerFound || registrant === null) {
+			return toast.error(registerFirst);
+		}
 
 		const registrationInfo: RegistrationInfo = {
 			...data,
