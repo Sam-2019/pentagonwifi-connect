@@ -151,7 +151,7 @@ export const topupSchema = yup
 
 export const hubtel = import.meta.env.VITE_HUBTEL;
 export const paystack = import.meta.env.VITE_PAYSTACK;
-export const auth = import.meta.env.AUTHORIZATION;
+export const auth = import.meta.env.VITE_AUTHORIZATION;
 
 export const googleScriptUrl =
   import.meta.env.VITE_NODE_ENV === "development"
@@ -173,7 +173,6 @@ export const checkUserNameAvailability = async (payload) => {
   const queryParams = {
     userName: payload.userName
   };
-
 
   const options = {
     method: "GET",
