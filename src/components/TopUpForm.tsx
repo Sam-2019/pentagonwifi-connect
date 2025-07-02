@@ -6,23 +6,24 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
-	planPrices,
-	dataPlanOptions,
-	topupSchema,
 	topup,
-	googleScriptUrl,
-	toastLoading,
-	toastSuccess,
-	toastError,
+	hubtel,
+	planPrices,
+	topupSchema,
+	getCustomer,
+	dataPlanOptions,
+	registrationType,
+	noCustomerFound,
+	registerFirst,
 } from "@/lib/utils";
-import type { Payload, TopUpFormData } from "@/lib/utils";
 import TermCondition from "./TermCondition";
-import PaymentModal from "./PaymentModal";
+import { hubtelPay } from "@/hooks/use-hubtel";
+import { paystackPay } from "@/hooks/use-paystack";
+import type { RegistrationInfo, TopUpFormData } from "@/lib/types";
+import SuccessModal from "./SuccessModal";
 
 const TopUpForm: React.FC = () => {
-	const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
-	const [totalPayable, setTotalPayable] = useState(0);
-	const [loading, setLoading] = useState(false);
+	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
 	const {
 		register,
@@ -33,13 +34,14 @@ const TopUpForm: React.FC = () => {
 	} = useForm({
 		resolver: yupResolver(topupSchema),
 		defaultValues: {
+			email: "",
 			userName: "",
 			phoneNumber: "",
-			email: "",
 			subscriptionPlan: "",
 		},
 	});
 
+	const fee = registrationType.topup.fee;
 	const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
 
 	const planFee = subscriptionPlan.includes("Daily")
@@ -50,55 +52,57 @@ const TopUpForm: React.FC = () => {
 				? planPrices.monthly
 				: 0;
 
-	const registrationFee = 0;
-	const totalCost = registrationFee + planFee;
+	const totalCost = fee + planFee;
 
 	const onSubmit = async (data: TopUpFormData) => {
-		setLoading(true);
-		setTotalPayable(totalCost);
+		const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
+		const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
+		const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
 
 		const credentials = {
 			userName: data.userName,
 			password: "",
 		};
 
-		const payload: Payload = {
-			...data,
-			fullName: "N/A",
-			dateOfBirth: null,
-			blockCourt: "N/A",
-			roomType: "N/A",
-			roomNumber: "N/A",
-			isCustodian: false,
-			credentials: credentials,
-			phoneNumber: String(data.phoneNumber),
-			totalCost: String(totalCost),
-			dateTime: new Date(),
-			subscriptionPlan: data.subscriptionPlan.toUpperCase(),
-			registrationType: topup,
-			provider: "N/A",
-			clientReference: "N/A",
+		const userInfo = {
+			phoneNumber: data.phoneNumber,
+			email: data.email,
+			userName: data.userName,
 		};
 
-		toast.promise(
-			fetch(googleScriptUrl, {
-				method: "POST",
-				mode: "no-cors",
-				body: JSON.stringify(payload),
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}).then(() => {
-				setTimeout(() => setIsPaymentModalOpen(true), 300);
-				reset();
-				setLoading(false);
-			}),
-			{
-				loading: toastLoading,
-				success: toastSuccess,
-				error: toastError,
-			},
-		);
+		const result = await getCustomer(userInfo);
+		const registrant = result?.data;
+
+		if (result.message === noCustomerFound || registrant === null) {
+			return toast.error(registerFirst);
+		}
+
+		const registrationInfo: RegistrationInfo = {
+			...data,
+			fullName: registrant?.fullName,
+			subscriptionPlan: capitalizeSubscriptionPlan,
+			planFee: planFee,
+			registrationFee: fee,
+			totalCost: totalCost,
+			dateTime: new Date(),
+			dateOfBirth: null,
+			blockCourt: registrant?.blockCourt,
+			roomType: registrant?.roomType,
+			roomNumber: registrant?.roomNumber,
+			isCustodian: registrant?.isCustodian,
+			credentials: credentials,
+			provider: capitalizePaymentProvider,
+			registrationType: registrationType.topup.name,
+		};
+
+		if (paymentProvider === hubtel) {
+			const payment = hubtelPay(registrationInfo);
+			payment.initialize(toast, setIsSuccessModalOpen, reset, registrant);
+			return;
+		}
+
+		const payment = paystackPay(registrationInfo);
+		payment.initialize(toast, setIsSuccessModalOpen, reset);
 	};
 
 	return (
@@ -173,28 +177,21 @@ const TopUpForm: React.FC = () => {
 
 				<div>
 					<Button
-						disabled={loading}
 						type="submit"
 						className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
 					>
-						{loading ? (
-							"Loading..."
-						) : (
-							<>
-								Connect Me <Check className="h-5 w-5 mr-2" />
-							</>
-						)}
+						Connect Me
+						<Check className="h-5 w-5 mr-2" />
 					</Button>
 				</div>
 
 				<TermCondition />
 			</form>
 
-			<PaymentModal
-				open={isPaymentModalOpen}
-				onClose={() => setIsPaymentModalOpen(false)}
+			<SuccessModal
+				open={isSuccessModalOpen}
+				onClose={() => setIsSuccessModalOpen(false)}
 				registrationType={topup}
-				amount={`GHC ${totalPayable}`}
 			/>
 		</div>
 	);

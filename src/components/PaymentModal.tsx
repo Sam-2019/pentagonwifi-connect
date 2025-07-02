@@ -34,9 +34,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({
         clearTimeout(actionsTimer);
       };
     }
-    setCheckmarkVisible(false);
-    setMessageVisible(false);
-    setActionsVisible(false);
+
+      setCheckmarkVisible(false);
+      setMessageVisible(false);
+      setActionsVisible(false);
   }, [open]);
 
   function handleShareReferral(

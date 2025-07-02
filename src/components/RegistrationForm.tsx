@@ -1,38 +1,40 @@
-import { toast } from "sonner";
 import type React from "react";
+import { toast } from "sonner";
 import { useState } from "react";
-import PaymentModal from "./PaymentModal";
 import { useForm } from "react-hook-form";
-import TermCondition from "./TermCondition";
+import SuccessModal from "./SuccessModal";
 import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from "./ui/form";
 import { Check, Eye, EyeOff } from "lucide-react";
-import type { FormData, Payload } from "@/lib/utils";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import {
+	hubtel,
 	schema,
+	server,
 	planPrices,
-	toastError,
-	registration,
-	toastLoading,
-	toastSuccess,
 	PasswordType,
-	registrationFee,
-	roomTypeOptions,
-	googleScriptUrl,
+	registration,
+	duplicateError,
 	dataPlanOptions,
+	roomTypeOptions,
+	registrationType,
 	blockCourtOptions,
+	checkUserNameAvailability,
 } from "@/lib/utils";
+import { v4 as uuidv4 } from "uuid";
+import TermCondition from "./TermCondition";
+import { hubtelPay } from "@/hooks/use-hubtel";
+import { paystackPay } from "@/hooks/use-paystack";
+import type { CustomerPayload, FormData, RegistrationInfo } from "@/lib/types";
 
 const RegistrationForm: React.FC = () => {
-	const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 	const [datePickerValue, setDatePickerValue] = useState({
 		startDate: null,
 		endDate: null,
 	});
-	const [totalPayable, setTotalPayable] = useState(0);
-	const [loading, setLoading] = useState(false);
+
 	const [isVisible, setIsVisible] = useState(false);
 	const [type, setType] = useState(PasswordType.PASSWORD);
 
@@ -51,9 +53,11 @@ const RegistrationForm: React.FC = () => {
 		handleSubmit,
 		watch,
 		reset,
+		setError,
 		control,
 		formState: { errors },
 	} = useForm({
+		criteriaMode: "all",
 		resolver: yupResolver(schema),
 		defaultValues: {
 			fullName: "",
@@ -70,10 +74,10 @@ const RegistrationForm: React.FC = () => {
 		},
 	});
 
+	const fee = registrationType.registration.fee;
 	const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
 	const selectedBlockCourt = watch("blockCourt");
 
-	// Calculate the total cost based on the selected subscription plan & the registration fee
 	const planFee = subscriptionPlan.includes("Daily")
 		? planPrices.daily
 		: subscriptionPlan.includes("Weekly")
@@ -81,56 +85,71 @@ const RegistrationForm: React.FC = () => {
 			: subscriptionPlan.includes("Monthly")
 				? planPrices.monthly
 				: 0;
-	const totalCost = registrationFee + planFee;
+
+	const totalCost = fee + planFee;
 
 	const onSubmit = async (data: FormData) => {
-		setLoading(true);
-		setTotalPayable(totalCost);
+		const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
+		const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
+		const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
 
 		const credentials = {
 			userName: data.userName,
 			password: data.password,
 		};
 
-		const payload: Payload = {
-			...data,
-			dateOfBirth: data.dateOfBirth,
-			phoneNumber: String(data.phoneNumber),
-			totalCost: String(totalCost),
-			dateTime: new Date(),
-			subscriptionPlan: data.subscriptionPlan.toUpperCase(),
-			credentials: credentials,
-			registrationType: registration,
-			provider: "N/A",
-			clientReference: "N/A",
+		const userInfo: CustomerPayload = {
+			regID: uuidv4(),
+			fullName: data.fullName,
+			phoneNumber: data.phoneNumber,
+			email: data.email,
+			dateOfBirth: new Date(data.dateOfBirth),
+			blockCourt: data.blockCourt,
+			roomType: data.roomType,
+			roomNumber: data.roomNumber,
 			isCustodian: selectedBlockCourt.includes("Block")
 				? data.isCustodian
 				: false,
+			dateTime: new Date(),
+			credentials: credentials,
 		};
 
-		toast.promise(
-			fetch(googleScriptUrl, {
-				method: "POST",
-				mode: "no-cors",
-				body: JSON.stringify(payload),
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}).then(() => {
-				setTimeout(() => setIsPaymentModalOpen(true), 300);
-				reset();
-				setDatePickerValue({
-					startDate: null,
-					endDate: null,
+		const results = await checkUserNameAvailability(credentials);
+		if (results.message === duplicateError) {
+			for (const field of Object.keys(results.data)) {
+				const message = results.data[field];
+				setError(field as keyof FormData, {
+					type: server,
+					message: message,
 				});
-				setLoading(false);
-			}),
-			{
-				loading: toastLoading,
-				success: toastSuccess,
-				error: toastError,
-			},
-		);
+			}
+			return;
+		}
+
+		const registrationInfo: RegistrationInfo = {
+			...userInfo,
+			subscriptionPlan: capitalizeSubscriptionPlan,
+			planFee: planFee,
+			registrationFee: fee,
+			totalCost: totalCost,
+			provider: capitalizePaymentProvider,
+			registrationType: registrationType.registration.name,
+		};
+
+		if (paymentProvider === hubtel) {
+			const payment = hubtelPay(registrationInfo);
+			payment.initialize(
+				toast,
+				setIsSuccessModalOpen,
+				reset,
+				userInfo,
+				setDatePickerValue,
+			);
+			return;
+		}
+
+		const payment = paystackPay(registrationInfo);
+		payment.initialize(toast, setIsSuccessModalOpen, reset, setDatePickerValue);
 	};
 
 	return (
@@ -438,7 +457,7 @@ const RegistrationForm: React.FC = () => {
 				<div className="flex flex-col md:flex-row gap-2 bg-muted rounded-lg p-6 border-gray-300">
 					<div className="text-gray-700 w-full">
 						<p>
-							<strong>Registration Fee:</strong> GHC {registrationFee}
+							<strong>Registration Fee:</strong> GHC {fee}
 						</p>
 						<p>
 							<strong>Plan Fee:</strong> GHC {planFee}
@@ -454,28 +473,21 @@ const RegistrationForm: React.FC = () => {
 
 				<div>
 					<Button
-						disabled={loading}
 						type="submit"
 						className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
 					>
-						{loading ? (
-							"Loading..."
-						) : (
-							<>
-								Connect Me <Check className="h-5 w-5 mr-2" />
-							</>
-						)}
+						Connect Me
+						<Check className="h-5 w-5 mr-2" />
 					</Button>
 				</div>
 
 				<TermCondition />
 			</form>
 
-			<PaymentModal
-				open={isPaymentModalOpen}
-				onClose={() => setIsPaymentModalOpen(false)}
+			<SuccessModal
+				open={isSuccessModalOpen}
+				onClose={() => setIsSuccessModalOpen(false)}
 				registrationType={registration}
-				amount={`GHC ${totalPayable}`}
 			/>
 		</div>
 	);
