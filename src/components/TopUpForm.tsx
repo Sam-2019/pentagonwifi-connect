@@ -109,7 +109,7 @@ const TopUpForm: React.FC = () => {
 		<div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm shadow-lg rounded-xl p-6 md:p-8 border border-blue-100 sm">
 			<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 				<div className="flex flex-col gap-2">
-					<label htmlFor="userName">User Name</label>
+					<label htmlFor="userName">Username</label>
 					<input
 						id="userName"
 						type="text"
