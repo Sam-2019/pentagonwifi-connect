@@ -76,6 +76,7 @@ const RegistrationForm: React.FC = () => {
 
 	const fee = registrationType.registration.fee;
 	const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
+	const selectedBlockCourt = watch("blockCourt");
 
 	const planFee = subscriptionPlan.includes("Daily")
 		? planPrices.daily
@@ -362,7 +363,7 @@ const RegistrationForm: React.FC = () => {
 
 				<div className="mt-2 mb-4 border-t" />
 
-				<div className=" border-gray-200">
+				<div className="border-gray-200">
 					<div className="bg-gradient-to-r from-primary/5 to-accent/10 p-5 rounded-lg space-y-5">
 						{/* Headline and Perks */}
 						<div>
@@ -381,59 +382,69 @@ const RegistrationForm: React.FC = () => {
 							</ul>
 						</div>
 
-						{/* Yes/No Decision */}
-						<FormField
-							control={control}
-							name="isCustodian"
-							render={({ field }) => (
-								<FormItem className="flex flex-col gap-3">
-									<div className="flex gap-4 flex-col sm:flex-row">
-										{/* YES option */}
-										<button
-											type="button"
-											onClick={() => field.onChange(true)}
-											className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
-												field.value
-													? "border-primary bg-white shadow"
-													: "border-gray-200 hover:border-primary/50"
-											}`}
-										>
-											<span className="text-md font-semibold text-primary">
-												Yes — I'm Ready to Be a Custodian
-											</span>
-											<p className="text-sm text-gray-600 mt-1">
-												Unlock bonus data, support, and exclusive access.
-											</p>
-										</button>
+						{selectedBlockCourt.includes("Block") ||
+						selectedBlockCourt === "" ? (
+							<>
+								{/* Yes/No Decision */}
+								<FormField
+									control={control}
+									name="isCustodian"
+									render={({ field }) => (
+										<FormItem className="flex flex-col gap-3">
+											<div className="flex gap-4 flex-col sm:flex-row">
+												{/* YES option */}
+												<button
+													type="button"
+													onClick={() => field.onChange(true)}
+													className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
+														field.value
+															? "border-primary bg-white shadow"
+															: "border-gray-200 hover:border-primary/50"
+													}`}
+												>
+													<span className="text-md font-semibold text-primary">
+														Yes — I'm Ready to Be a Custodian
+													</span>
+													<p className="text-sm text-gray-600 mt-1">
+														Unlock bonus data, support, and exclusive access.
+													</p>
+												</button>
 
-										{/* NO option */}
-										<button
-											type="button"
-											onClick={() => field.onChange(false)}
-											className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
-												!field.value
-													? "border-primary bg-white shadow"
-													: "border-gray-200 hover:border-primary/50"
-											}`}
-										>
-											<span className="text-md font-semibold text-gray-800">
-												No — I'll Just Stay Connected
-											</span>
-											<p className="text-sm text-gray-600 mt-1">
-												I'm happy to connect without extra responsibilities.
-											</p>
-										</button>
-									</div>
+												{/* NO option */}
+												<button
+													type="button"
+													onClick={() => field.onChange(false)}
+													className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
+														!field.value
+															? "border-primary bg-white shadow"
+															: "border-gray-200 hover:border-primary/50"
+													}`}
+												>
+													<span className="text-md font-semibold text-gray-800">
+														No — I'll Just Stay Connected
+													</span>
+													<p className="text-sm text-gray-600 mt-1">
+														I'm happy to connect without extra responsibilities.
+													</p>
+												</button>
+											</div>
 
-									{/* Inline confirmation */}
-									{field.value && (
-										<p className="text-sm text-green-700 font-medium mt-2">
-											✔ You’re applying as a Custodian — welcome aboard!
-										</p>
+											{/* Inline confirmation */}
+											{field.value && (
+												<p className="text-sm text-green-700 font-medium mt-2">
+													✔ You’re applying as a Custodian — welcome aboard!
+												</p>
+											)}
+										</FormItem>
 									)}
-								</FormItem>
-							)}
-						/>
+								/>
+							</>
+						) : (
+							<p className="text-sm text-gray-600">
+								<strong>Custodianship</strong> reserved for Block occupants
+								only.
+							</p>
+						)}
 					</div>
 
 					<p className="text-red-400">{errors.isCustodian?.message}</p>
