@@ -2,7 +2,7 @@ import type {
   PaystackSuccessReference,
   PendingPaymentPayload,
   SalesPayload,
-  UserInfo,
+  RegistrationInfo,
 } from "@/lib/types";
 import {
   toastError,
@@ -15,7 +15,7 @@ import {
 import { usePaystackPayment } from "react-paystack";
 import { v4 as uuidv4 } from "uuid";
 
-export const paystackPay = (userInfo: UserInfo) => {
+export const paystackPay = (userInfo: RegistrationInfo) => {
   const reference = String(uuidv4());
   const slicedReference = reference.slice(0, 8);
   const clientReference = `PWT-${slicedReference}`;
