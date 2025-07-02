@@ -115,7 +115,6 @@ const RegistrationForm: React.FC = () => {
 		};
 
 		const results = await checkUserNameAvailability(credentials);
-		console.log(results);
 		if (results.message === duplicateError) {
 			// for (const field of Object.keys(results.data)) {
 			// 	const message = results.data[field];
