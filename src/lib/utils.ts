@@ -37,6 +37,8 @@ export const duplicateError = "Duplicate error";
 export const toastSuccess = "Registration complete!";
 export const toastLoading = "Connecting you to Pentagon WiFi...";
 export const toastError = "Registration failed. Please try again.";
+export const noCustomerFound = "No customer found";
+export const registerFirst = "New customer? Kindly register first.";
 
 export const blockCourtOptions = [
   { value: "", label: "Select an option..." },
