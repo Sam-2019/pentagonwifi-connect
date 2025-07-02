@@ -107,7 +107,9 @@ const RegistrationForm: React.FC = () => {
 			blockCourt: data.blockCourt,
 			roomType: data.roomType,
 			roomNumber: data.roomNumber,
-			isCustodian: data.isCustodian,
+			isCustodian: selectedBlockCourt.includes("Block")
+				? data.isCustodian
+				: false,
 			dateTime: new Date(),
 			credentials: credentials,
 		};
