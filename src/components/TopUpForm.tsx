@@ -18,10 +18,11 @@ import PaymentModal from "./PaymentModal";
 import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { paystackPay } from "@/hooks/use-paystack";
-import type { RegistrationInfo, TopUpFormData, } from "@/lib/types";
+import type { RegistrationInfo, TopUpFormData } from "@/lib/types";
+import SuccessModal from "./SuccessModal";
 
 const TopUpForm: React.FC = () => {
-	const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 	const [totalPayable, setTotalPayable] = useState(0);
 
 	const {
@@ -93,12 +94,12 @@ const TopUpForm: React.FC = () => {
 
 		if (paymentProvider === hubtel) {
 			const payment = hubtelPay(registrationInfo);
-			payment.initialize(toast, setIsPaymentModalOpen, reset, registrant);
+			payment.initialize(toast, setIsSuccessModalOpen, reset, registrant);
 			return;
 		}
 
 		const payment = paystackPay(registrationInfo);
-		payment.initialize(toast, setIsPaymentModalOpen, reset);
+		payment.initialize(toast, setIsSuccessModalOpen, reset);
 	};
 
 	return (
@@ -184,11 +185,10 @@ const TopUpForm: React.FC = () => {
 				<TermCondition />
 			</form>
 
-			<PaymentModal
-				open={isPaymentModalOpen}
-				onClose={() => setIsPaymentModalOpen(false)}
+			<SuccessModal
+				open={isSuccessModalOpen}
+				onClose={() => setIsSuccessModalOpen(false)}
 				registrationType={topup}
-				amount={`GHC ${totalPayable}`}
 			/>
 		</div>
 	);
