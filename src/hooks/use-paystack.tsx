@@ -61,7 +61,7 @@ export const paystackPay = (userInfo: RegistrationInfo) => {
   const response = postRegistration(checkoutInfo);
   response
     .then((res) => {})
-    .catch((err) => console.log(err))
+    .catch((err) => {})
     .finally(() => {});
 
   const onSuccess = (
@@ -76,7 +76,7 @@ export const paystackPay = (userInfo: RegistrationInfo) => {
     setDatePickerValue: (value: { startDate: null; endDate: null }) => void,
     reference: PaystackSuccessReference
   ): void => {
-    console.log("Payment successful: ", reference);
+    // console.log("Payment successful: ", reference);
     const stringifyResponse = JSON.stringify(reference);
 
     const saleInfo: SalesPayload = {
@@ -107,7 +107,7 @@ export const paystackPay = (userInfo: RegistrationInfo) => {
     const response = postPendingRegistration(checkoutInfo);
     response
       .then((res) => {})
-      .catch((err) => console.log(err))
+      .catch((err) => {})
       .finally(() => {});
   };
 
