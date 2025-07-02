@@ -66,7 +66,7 @@ export const registrationType = {
   },
   registration: {
     name: registration,
-    fee: 0,
+    fee: 50,
   },
 };
 
