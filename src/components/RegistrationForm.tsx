@@ -115,14 +115,20 @@ const RegistrationForm: React.FC = () => {
 		};
 
 		const results = await checkUserNameAvailability(credentials);
+		console.log(results);
 		if (results.message === duplicateError) {
-			for (const field of Object.keys(results.data)) {
-				const message = results.data[field];
-				setError(field as keyof FormData, {
-					type: server,
-					message: message,
-				});
-			}
+			// for (const field of Object.keys(results.data)) {
+			// 	const message = results.data[field];
+			// 	setError(field as keyof FormData, {
+			// 		type: server,
+			// 		message: message,
+			// 	});
+			// }
+
+			setError("userName", {
+				type: server,
+				message: results.data,
+			});
 			return;
 		}
 
