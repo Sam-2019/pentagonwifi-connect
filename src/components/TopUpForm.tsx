@@ -93,7 +93,7 @@ const TopUpForm: React.FC = () => {
 
 		if (paymentProvider === hubtel) {
 			const payment = hubtelPay(registrationInfo);
-			payment.initialize(toast, setIsPaymentModalOpen, reset);
+			payment.initialize(toast, setIsPaymentModalOpen, reset, registrant);
 			return;
 		}
 

@@ -14,6 +14,7 @@ import {
 	postRegistration,
 	postSale,
 	postCustomer,
+	registration,
 } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
 import { v4 as uuidv4 } from "uuid";
@@ -44,7 +45,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 	const purchaseInfo = {
 		amount: registrationInfo.totalCost,
 		purchaseDescription:
-			registrationType === "registration"
+			registrationType === registration
 				? purchaseDescription
 				: topupDescription,
 		customerPhoneNumber: `'${registrationInfo.phoneNumber}`,
@@ -109,7 +110,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 						checkout.closePopUp();
 						toast.promise(
 							postSale(saleInfo).then(() => {
-								// postCustomer(userInfo);
+								if (registrationType === registration) {postCustomer(userInfo)};
 								setTimeout(() => setIsSuccessModalOpen(true), 300);
 								reset();
 
