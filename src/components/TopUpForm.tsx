@@ -14,7 +14,6 @@ import {
 	dataPlanOptions,
 	registrationType,
 } from "@/lib/utils";
-import PaymentModal from "./PaymentModal";
 import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { paystackPay } from "@/hooks/use-paystack";
