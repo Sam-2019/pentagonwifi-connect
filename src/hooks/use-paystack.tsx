@@ -20,6 +20,7 @@ export const paystackPay = (userInfo: RegistrationInfo) => {
   const slicedReference = reference.slice(0, 8);
   const clientReference = `PWT-${slicedReference}`;
 
+  
   const config = {
     reference: clientReference,
     email: userInfo.email,
