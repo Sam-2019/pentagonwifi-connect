@@ -55,6 +55,7 @@ const TopUpForm: React.FC = () => {
 	const totalCost = fee + planFee;
 
 	const onSubmit = async (data: TopUpFormData) => {
+		setLoading(true);
 		const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
 		const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
 		const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
@@ -74,7 +75,9 @@ const TopUpForm: React.FC = () => {
 		const registrant = result?.data;
 
 		if (result.message === noCustomerFound || registrant === null) {
-			return toast.error(registerFirst);
+			toast.error(registerFirst);
+			setLoading(false);
+			return;
 		}
 
 		const registrationInfo: RegistrationInfo = {
