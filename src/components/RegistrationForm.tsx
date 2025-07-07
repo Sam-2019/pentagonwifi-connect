@@ -89,7 +89,7 @@ const RegistrationForm: React.FC = () => {
 	const totalCost = fee + planFee;
 
 	const onSubmit = async (data: FormData) => {
-		setLoading(true)
+		setLoading(true);
 		const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
 		const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
 		const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();

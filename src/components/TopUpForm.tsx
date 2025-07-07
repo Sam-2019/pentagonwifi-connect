@@ -88,7 +88,7 @@ const TopUpForm: React.FC = () => {
 			registrationFee: fee,
 			totalCost: totalCost,
 			dateTime: new Date(),
-			dateOfBirth: null,
+			dateOfBirth: registrant?.dateOfBirth,
 			blockCourt: registrant?.blockCourt,
 			roomType: registrant?.roomType,
 			roomNumber: registrant?.roomNumber,
