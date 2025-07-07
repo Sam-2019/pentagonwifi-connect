@@ -94,9 +94,9 @@ export interface SalesPayload {
 	isCustodian: boolean;
 	credentials: Credentials;
 	provider: string;
-	providerResponse: string;
+	providerResponse: object;
 	registrationType: string;
-	purchaseInfo: string;
+	purchaseInfo: object;
 	transactionId: string;
 	externalTransactionId?: string;
 }
@@ -120,7 +120,7 @@ export interface PendingRegistrationPayload {
 	credentials: Credentials;
 	provider: string;
 	registrationType: string;
-	purchaseInfo: string;
+	purchaseInfo: object;
 }
 
 export interface FailedRegistrationPayload {
@@ -143,7 +143,7 @@ export interface FailedRegistrationPayload {
 	provider: string;
 	providerResponse: string;
 	registrationType: string;
-	purchaseInfo: string;
+	purchaseInfo: object;
 }
 
 export interface TopUpFormData {
@@ -172,7 +172,7 @@ export interface PendingPaymentPayload {
 	credentials: Credentials;
 	provider: string;
 	registrationType: string;
-	purchaseInfo: string;
+	purchaseInfo: object;
 }
 
 export interface CustomerPayload {

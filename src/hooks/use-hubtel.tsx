@@ -52,7 +52,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 		clientReference: clientReference,
 	};
 
-	const stringifyPurchaseInfo = JSON.stringify(purchaseInfo);
+	// const stringifyPurchaseInfo = JSON.stringify(purchaseInfo);
 
 	const config = {
 		callbackUrl: import.meta.env.VITE_CALLBACK_URL,
@@ -62,7 +62,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 
 	const checkoutInfo: PendingPaymentPayload = {
 		...registrationInfo,
-		purchaseInfo: stringifyPurchaseInfo,
+		purchaseInfo: purchaseInfo,
 		clientReference: clientReference,
 	};
 
@@ -104,17 +104,20 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 
 						const saleInfo: SalesPayload = {
 							...checkoutInfo,
-							providerResponse: stringifyResponse,
+							providerResponse: parseResponse,
 							transactionId: transactionId,
 							externalTransactionId: externalTransactionId,
 						};
 						setLoading();
 						checkout.closePopUp();
+						postSale(saleInfo)
+							.then((res) => {})
+							.catch((err) => {})
+							.finally(() => {});
+						if (registrationType === registration) postCustomer(userInfo);
+
 						toast.promise(
 							postSale(saleInfo).then(() => {
-								if (registrationType === registration) {
-									postCustomer(userInfo);
-								}
 								setTimeout(() => setIsSuccessModalOpen(true), 300);
 								reset();
 
@@ -134,10 +137,10 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 						// console.log("Payment failed: ", data);
 						const response = data.data;
 
-						const stringifyResponse = JSON.stringify(response);
+						// const stringifyResponse = JSON.stringify(response);
 						const failureInfo: FailedRegistrationPayload = {
 							...checkoutInfo,
-							providerResponse: stringifyResponse,
+							providerResponse: response,
 						};
 						setLoading();
 						checkout.closePopUp();
