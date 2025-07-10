@@ -200,3 +200,9 @@ interface Credentials {
 	userName: string;
 	password: string;
 }
+
+export interface FeedbackFormData {
+	userName: string;
+	category: string;
+	comment: string;
+}

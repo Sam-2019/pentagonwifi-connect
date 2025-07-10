@@ -3,18 +3,21 @@ import { XIcon } from "lucide-react";
 import pentwifiQR from "../assets/pentwifiQR.png";
 
 interface ScanMeModalProps {
-	open: boolean;
-	onClose: () => void;
+	modalState: {
+		qrScan: boolean;
+	};
 }
 
-const ScanMeModal: React.FC<ScanMeModalProps> = ({ open, onClose }) => {
+const ScanMeModal: React.FC<
+	ScanMeModalProps & { setQrScan: (open: boolean) => void }
+> = ({ modalState, setQrScan }) => {
 	return (
-		<Dialog open={open} onOpenChange={onClose}>
+		<Dialog open={modalState.qrScan} onOpenChange={setQrScan}>
 			<DialogContent className="bg-gradient-to-r from-primary/5 to-accent/10 ">
 				<div className="flex justify-end">
 					<button
 						type="button"
-						onClick={onClose}
+						onClick={() => setQrScan(false)}
 						className="rounded-full focus:outline-none transition duration-200 ease-in-out active:outline-none"
 					>
 						<XIcon className="h-10 w-10 text-gray-400" />

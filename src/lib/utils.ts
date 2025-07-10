@@ -86,6 +86,14 @@ export const dataPlanOptions = [
 	// { value: `Monthly-(GHC ${planPrices.monthly})`, label: `Monthly (GHC ${planPrices.monthly})` }
 ];
 
+export const feedbackCategories = [
+	{ value: "", label: "Select an option..." },
+	{ value: "Payment", label: "Payment" },
+	{ value: "Router", label: "Router" },
+	{ value: "Internet connection", label: "Internet connection" },
+	{ value: "Service delivery", label: "Service delivery" },
+]
+
 export const schema = yup
 	.object({
 		fullName: yup
@@ -149,6 +157,23 @@ export const topupSchema = yup
 	})
 	.required();
 
+
+export const feedbackSchema = yup.object({
+	userName: yup
+		.string()
+		.required("Username is required.")
+		.matches(
+			/^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
+			"Username is invalid.",
+		),
+	category: yup
+		.string()
+		.required("Category is required."),
+	comment: yup
+		.string()
+		.required("Comment is required.")
+
+})
 export const hubtel = import.meta.env.VITE_HUBTEL;
 export const paystack = import.meta.env.VITE_PAYSTACK;
 export const auth = import.meta.env.VITE_AUTHORIZATION;
