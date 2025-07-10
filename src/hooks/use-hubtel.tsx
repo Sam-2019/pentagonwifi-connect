@@ -96,7 +96,6 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 					onPaymentSuccess: (data) => {
 						// console.log("Payment successful: ", data.data);
 						const response = data.data;
-
 						const stringifyResponse = JSON.stringify(response);
 						const parseResponse = JSON.parse(response);
 						const transactionId = parseResponse.transactionId;
@@ -108,19 +107,18 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 							transactionId: transactionId,
 							externalTransactionId: externalTransactionId,
 						};
-						setLoading();
+
 						checkout.closePopUp();
-						postSale(saleInfo)
-							.then((res) => {})
-							.catch((err) => {})
-							.finally(() => {});
-						if (registrationType === registration) postCustomer(userInfo);
+						// postSale(saleInfo)
+						// 	.then((res) => {})
+						// 	.catch((err) => {})
+						// 	.finally(() => {});
 
 						toast.promise(
 							postSale(saleInfo).then(() => {
 								setTimeout(() => setIsSuccessModalOpen(true), 300);
+								if (registrationType === registration) postCustomer(userInfo);
 								reset();
-
 								setDatePickerValue({
 									startDate: null,
 									endDate: null,
@@ -132,6 +130,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 								error: toastError,
 							},
 						);
+						setLoading();
 					},
 					onPaymentFailure: (data) => {
 						// console.log("Payment failed: ", data);
@@ -142,16 +141,23 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 							...checkoutInfo,
 							providerResponse: response,
 						};
-						setLoading();
+
 						checkout.closePopUp();
 						toast.promise(
-							postFailedRegistration(failureInfo).then(() => {}),
+							postFailedRegistration(failureInfo).then(() => {
+								reset();
+								setDatePickerValue({
+									startDate: null,
+									endDate: null,
+								});
+							}),
 							{
 								loading: toastLoading,
 								success: toastError,
 								error: toastError,
 							},
 						);
+						setLoading();
 					},
 					onLoad: () => {
 						// console.log("Checkout has been loaded: ");
@@ -163,11 +169,17 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 						// console.log("Iframe has been resized: ", size?.height);
 					},
 					onClose: () => {
-						setLoading();
 						postPendingRegistration(checkoutInfo)
 							.then((res) => {})
 							.catch((err) => {})
-							.finally(() => {});
+							.finally(() => {
+								reset();
+								setDatePickerValue({
+									startDate: null,
+									endDate: null,
+								});
+							});
+						setLoading();
 					},
 				},
 			});
