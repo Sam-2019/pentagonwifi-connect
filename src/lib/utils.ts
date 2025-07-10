@@ -88,10 +88,11 @@ export const dataPlanOptions = [
 
 export const feedbackCategories = [
 	{ value: "", label: "Select an option..." },
-	{ value: "Payment", label: "Payment" },
 	{ value: "Router", label: "Router" },
-	{ value: "Internet connection", label: "Internet connection" },
+	{ value: "Payment", label: "Payment" },
 	{ value: "Service delivery", label: "Service delivery" },
+	{ value: "Internet connection", label: "Internet connection" },
+	{ value: "Other", label: "Other" },
 ]
 
 export const schema = yup
