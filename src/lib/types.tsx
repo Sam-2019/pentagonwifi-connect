@@ -12,23 +12,6 @@ export interface FormData {
 	password?: string;
 }
 
-export interface Payload {
-	fullName: string;
-	dateOfBirth: string;
-	phoneNumber: string;
-	email: string;
-	blockCourt: string;
-	roomType: string;
-	registrationType: string;
-	clientReference: string;
-	provider: string;
-	roomNumber: string;
-	subscriptionPlan: string;
-	isCustodian: boolean;
-	totalCost: string;
-	credentials: string;
-}
-
 export interface PaystackSuccessReference {
 	reference: string;
 	transaction: string;
