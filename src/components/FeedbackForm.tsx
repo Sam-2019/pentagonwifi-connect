@@ -33,10 +33,10 @@ const FeedbackForm: React.FC<
 		criteriaMode: "all",
 		resolver: yupResolver(feedbackSchema),
 		defaultValues: {
-			fullName: "Kwame Opam",
-			phoneNumber: "0240586043",
-			category: "Router",
-			comment: "Qwerty...",
+			fullName: "",
+			phoneNumber: "",
+			category: "",
+			comment: "",
 		},
 	});
 
@@ -46,15 +46,6 @@ const FeedbackForm: React.FC<
 			userName: data.userName,
 			password: null,
 		};
-		// const results = await checkUserNameAvailability(credentials);
-
-		// if (results.message !== duplicateError) {
-		// 	setError("userName", {
-		// 		type: server,
-		// 		message: "Feedback reserved for customers only",
-		// 	});
-		// 	return;
-		// }
 
 		const payload = {
 			...data,
