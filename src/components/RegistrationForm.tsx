@@ -148,7 +148,6 @@ const RegistrationForm: React.FC = () => {
 				toast,
 				setIsSuccessModalOpen,
 				reset,
-				userInfo,
 				() => setLoading(false),
 				setDatePickerValue,
 			);

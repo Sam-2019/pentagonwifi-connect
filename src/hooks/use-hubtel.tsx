@@ -10,10 +10,8 @@ import {
 	toastLoading,
 	toastSuccess,
 	postFailedRegistration,
-	postPendingRegistration,
 	postRegistration,
 	postSale,
-	postCustomer,
 	registration,
 } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
@@ -52,8 +50,6 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 		clientReference: clientReference,
 	};
 
-	// const stringifyPurchaseInfo = JSON.stringify(purchaseInfo);
-
 	const config = {
 		callbackUrl: import.meta.env.VITE_CALLBACK_URL,
 		merchantAccount: import.meta.env.VITE_MERCHANT,
@@ -81,7 +77,6 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 			},
 			setIsSuccessModalOpen: (value: boolean) => void,
 			reset: () => void,
-			userInfo: CustomerPayload,
 			setLoading: () => void,
 			setDatePickerValue?: (value: {
 				startDate: Date | null;
@@ -96,7 +91,6 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 					onPaymentSuccess: (data) => {
 						// console.log("Payment successful: ", data.data);
 						const response = data.data;
-						const stringifyResponse = JSON.stringify(response);
 						const parseResponse = JSON.parse(response);
 						const transactionId = parseResponse.transactionId;
 						const externalTransactionId = parseResponse.externalTransactionId;
@@ -109,15 +103,9 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 						};
 
 						checkout.closePopUp();
-						// postSale(saleInfo)
-						// 	.then((res) => {})
-						// 	.catch((err) => {})
-						// 	.finally(() => {});
-
 						toast.promise(
 							postSale(saleInfo).then(() => {
 								setTimeout(() => setIsSuccessModalOpen(true), 300);
-								if (registrationType === registration) postCustomer(userInfo);
 								reset();
 								setDatePickerValue({
 									startDate: null,
@@ -133,10 +121,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 						setLoading();
 					},
 					onPaymentFailure: (data) => {
-						// console.log("Payment failed: ", data);
 						const response = data.data;
-
-						// const stringifyResponse = JSON.stringify(response);
 						const failureInfo: FailedRegistrationPayload = {
 							...checkoutInfo,
 							providerResponse: response,
@@ -163,22 +148,15 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 						// console.log("Checkout has been loaded: ");
 					},
 					onFeesChanged: (fees) => {
-						// console.log("Payment channel has changed: ", fees);
 					},
 					onResize: (size) => {
-						// console.log("Iframe has been resized: ", size?.height);
 					},
 					onClose: () => {
-						postPendingRegistration(checkoutInfo)
-							.then((res) => {})
-							.catch((err) => {})
-							.finally(() => {
-								reset();
-								setDatePickerValue({
-									startDate: null,
-									endDate: null,
-								});
-							});
+						reset();
+						setDatePickerValue({
+							startDate: null,
+							endDate: null,
+						});
 						setLoading();
 					},
 				},
