@@ -1,11 +1,17 @@
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { toast } from "sonner";
 import { XIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { feedbackCategories, feedbackSchema } from "../lib/utils";
+import {
+	feedbackCategories,
+	feedbackSchema,
+	googleScriptUrl,
+	registrationType,
+} from "../lib/utils";
 import { useState } from "react";
-import type { FeedbackFormData } from "@/lib/types";
 import { Button } from "@/components/ui/button";
+import type { FeedbackFormData } from "@/lib/types";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface FeedbackFormProps {
 	modalState: {
@@ -20,23 +26,60 @@ const FeedbackForm: React.FC<
 	const {
 		register,
 		handleSubmit,
-		watch,
 		reset,
-		setError,
-		control,
+		// setError,
 		formState: { errors },
 	} = useForm({
 		criteriaMode: "all",
 		resolver: yupResolver(feedbackSchema),
 		defaultValues: {
-			userName: "",
-			category: "",
-			comment: "",
+			fullName: "Kwame Opam",
+			phoneNumber: "0240586043",
+			category: "Router",
+			comment: "Qwerty...",
 		},
 	});
 
 	const onSubmit = async (data: FeedbackFormData) => {
 		setLoading(true);
+		const credentials = {
+			userName: data.userName,
+			password: null,
+		};
+		// const results = await checkUserNameAvailability(credentials);
+
+		// if (results.message !== duplicateError) {
+		// 	setError("userName", {
+		// 		type: server,
+		// 		message: "Feedback reserved for customers only",
+		// 	});
+		// 	return;
+		// }
+
+		const payload = {
+			...data,
+			registrationType: registrationType.feedback.name,
+		};
+
+		toast.promise(
+			fetch(googleScriptUrl, {
+				method: "POST",
+				mode: "no-cors",
+				body: JSON.stringify(payload),
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}).then(() => {
+				reset();
+				setLoading(false);
+				feedback(false);
+			}),
+			{
+				loading: "Connecting you to Pentagon WiFi...",
+				success: "Feedback submitted..",
+				error: "Feedback submission failed. Please try again..",
+			},
+		);
 	};
 
 	return (
@@ -45,7 +88,11 @@ const FeedbackForm: React.FC<
 				<div className="flex justify-end">
 					<button
 						type="button"
-						onClick={() => feedback(false)}
+						onClick={() => {
+							feedback(false);
+							reset();
+							setLoading(false);
+						}}
 						className="rounded-full focus:outline-none transition duration-200 ease-in-out active:outline-none"
 					>
 						<XIcon className="h-10 w-10 text-gray-400" />
@@ -55,14 +102,25 @@ const FeedbackForm: React.FC<
 
 				<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
 					<div className="flex flex-col gap-2">
-						<label htmlFor="userName">Username</label>
+						<label htmlFor="fullName">Name</label>
 						<input
-							id="userName"
+							id="fullName"
 							type="text"
-							{...register("userName")}
+							{...register("fullName")}
 							className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
 						/>
-						<p className="text-red-400">{errors.userName?.message}</p>
+						<p className="text-red-400">{errors.fullName?.message}</p>
+					</div>
+
+					<div className="flex flex-col gap-2 w-full">
+						<label htmlFor="phoneNumber">Mobile</label>
+						<input
+							id="phoneNumber"
+							type="text"
+							{...register("phoneNumber")}
+							className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+						/>
+						<p className="text-red-400">{errors.phoneNumber?.message}</p>
 					</div>
 
 					<div className="flex flex-col gap-2">

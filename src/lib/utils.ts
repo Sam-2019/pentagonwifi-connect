@@ -30,6 +30,7 @@ export enum PasswordType {
 }
 
 export const topup = "Top Up";
+export const feedback = "Feedback";
 export const registration = "Registration";
 
 export const server = "server";
@@ -67,6 +68,10 @@ export const registrationType = {
 	registration: {
 		name: registration,
 		fee: 50,
+	},
+	feedback: {
+		name: feedback,
+		fee: 0,
 	},
 };
 
@@ -160,13 +165,14 @@ export const topupSchema = yup
 
 
 export const feedbackSchema = yup.object({
-	userName: yup
+	fullName: yup
 		.string()
-		.required("Username is required.")
-		.matches(
-			/^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
-			"Username is invalid.",
-		),
+		.required("Name is required.")
+		.matches(/^[A-Za-z]+(?:\s[A-Za-z]{3,}){1,2}$/, "Name is invalid."),
+	phoneNumber: yup
+		.string()
+		.required("Phone number is required.")
+		.matches(/^(?:\+?\d{7,15}|0\d{9})$/, "Phone number is invalid"),
 	category: yup
 		.string()
 		.required("Category is required."),
