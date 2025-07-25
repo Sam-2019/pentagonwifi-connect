@@ -86,7 +86,7 @@ const FeedbackForm: React.FC<
 						}}
 						className="rounded-full focus:outline-none transition duration-200 ease-in-out active:outline-none"
 					>
-						<XIcon className="h-10 w-10 text-gray-400" />
+						<XIcon className="h-8 w-10 text-gray-400" />
 					</button>
 				</div>
 				<p className="text-4xl font-bold text-blue-900 text-center">Feedback</p>

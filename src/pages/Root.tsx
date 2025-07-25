@@ -8,39 +8,45 @@ import FloatButton from "@/components/FloatingButton";
 import FeedbackForm from "@/components/FeedbackForm";
 
 const Root = () => {
-	const [isModalOpen, setIsModalOpen] = useState({
-		qrScan: false,
-		feedback: false,
-	});
+  const [isModalOpen, setIsModalOpen] = useState({
+    qrScan: false,
+    feedback: false,
+  });
 
-	return (
-		<Fragment>
-			<LightningBackground />
-			<Header />
-			<Outlet />
-			<Footer />
-			<FeedbackForm
-				modalState={isModalOpen}
-				feedback={(open: boolean) =>
-					setIsModalOpen((prev) => ({ ...prev, feedback: open }))
-				}
-			/>
-			<ScanMeModal
-				modalState={isModalOpen}
-				setQrScan={(open: boolean) =>
-					setIsModalOpen((prev) => ({ ...prev, qrScan: open }))
-				}
-			/>
-			<FloatButton
-				modalState={{
-					setQrScan: (open: boolean) =>
-						setIsModalOpen((prev) => ({ ...prev, qrScan: open })),
-					setFeedback: (open: boolean) =>
-						setIsModalOpen((prev) => ({ ...prev, feedback: open })),
-				}}
-			/>
-		</Fragment>
-	);
+  return (
+    <Fragment>
+      <LightningBackground />
+      <Header
+        modalState={{
+          setQrScan: null,
+          setFeedback: (open: boolean) =>
+            setIsModalOpen((prev) => ({ ...prev, feedback: open })),
+        }}
+      />
+      <Outlet />
+      <Footer />
+      <FeedbackForm
+        modalState={isModalOpen}
+        feedback={(open: boolean) =>
+          setIsModalOpen((prev) => ({ ...prev, feedback: open }))
+        }
+      />
+      <ScanMeModal
+        modalState={isModalOpen}
+        setQrScan={(open: boolean) =>
+          setIsModalOpen((prev) => ({ ...prev, qrScan: open }))
+        }
+      />
+      <FloatButton
+        modalState={{
+          setQrScan: (open: boolean) =>
+            setIsModalOpen((prev) => ({ ...prev, qrScan: open })),
+          setFeedback: (open: boolean) =>
+            setIsModalOpen((prev) => ({ ...prev, feedback: open })),
+        }}
+      />
+    </Fragment>
+  );
 };
 
 export default Root;
