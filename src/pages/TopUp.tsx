@@ -5,7 +5,7 @@ const TopUp = () => {
 		<main className="flex-1 flex flex-col items-center justify-center">
 			<div className="text-center mt-10">
 				<h1 className="text-3xl md:text-4xl font-bold text-primary mb-3">
-					Get connected to Pentagon WiFi
+					Connect to Pentagon WiFi
 				</h1>
 				<p className="text-gray-600 mb-6">
 					Need more data? Complete the form below to top up instantly.

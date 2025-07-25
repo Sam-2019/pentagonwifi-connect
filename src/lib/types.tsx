@@ -189,3 +189,10 @@ export interface FeedbackFormData {
 	category: string;
 	comment: string;
 }
+
+export interface FloatButtonProps {
+	modalState: {
+		setQrScan: (open: boolean) => void;
+		setFeedback: (open: boolean) => void;
+	};
+}
