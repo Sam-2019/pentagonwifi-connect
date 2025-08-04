@@ -13,7 +13,7 @@ const ScanMeModal: React.FC<
 > = ({ modalState, setQrScan }) => {
 	return (
 		<Dialog open={modalState.qrScan} onOpenChange={setQrScan}>
-			<DialogContent className="bg-gradient-to-r from-primary/5 to-accent/10 ">
+			<DialogContent className="bg-gradient-to-r from-primary/5 to-accent/10">
 				<div className="flex justify-end">
 					<button
 						type="button"
