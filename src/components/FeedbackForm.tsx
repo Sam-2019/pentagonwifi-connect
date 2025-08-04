@@ -11,7 +11,12 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { FeedbackFormData } from "@/lib/types";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 interface FeedbackFormProps {
   modalState: {
@@ -76,6 +81,8 @@ const FeedbackForm: React.FC<
   return (
     <Dialog open={modalState.feedback} onOpenChange={feedback}>
       <DialogContent className="bg-gradient-to-r from-primary/5 to-accent/10 ">
+        <DialogTitle hidden />
+        <DialogDescription hidden />
         <div className="overflow-y-auto h-[600px] md:h-auto">
           <div className="flex justify-end">
             <button
