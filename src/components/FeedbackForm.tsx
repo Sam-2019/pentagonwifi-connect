@@ -83,7 +83,7 @@ const FeedbackForm: React.FC<
       <DialogContent className="bg-gradient-to-r from-primary/5 to-accent/10 ">
         <DialogTitle hidden />
         <DialogDescription hidden />
-        <div className="overflow-y-auto h-[600px] md:h-auto">
+        <div className="overflow-y-auto h-[620px] md:h-auto">
           <div className="flex justify-end">
             <button
               type="button"
