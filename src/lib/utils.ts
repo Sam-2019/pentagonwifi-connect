@@ -3,6 +3,7 @@ import { twMerge } from "tailwind-merge";
 import type {
   SalesPayload,
   CustomerPayload,
+  FeedbackPayload,
   RegistrantPayload,
   PendingPaymentPayload,
   FailedRegistrationPayload,
@@ -269,6 +270,17 @@ export const postCustomer = async (payload: CustomerPayload) => {
     headers: headers,
   }).then(async (res) => {
     return await res.json();
+  });
+};
+
+export const postFeedback = async (payload: FeedbackPayload) => {
+  return fetch(`${baseUrl}/api/feedback`, {
+    method: "POST",
+    mode: "cors",
+    body: JSON.stringify(payload),
+    headers: headers,
+  }).then(async (res) => {
+    const results = await res.json();
   });
 };
 

@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import {
   feedbackCategories,
   feedbackSchema,
-  googleScriptUrl,
+  postFeedback,
   registrationType,
 } from "../lib/utils";
 import { useState } from "react";
@@ -47,10 +47,6 @@ const FeedbackForm: React.FC<
 
   const onSubmit = async (data: FeedbackFormData) => {
     setLoading(true);
-    const credentials = {
-      userName: data.userName,
-      password: null,
-    };
 
     const payload = {
       ...data,
@@ -58,14 +54,7 @@ const FeedbackForm: React.FC<
     };
 
     toast.promise(
-      fetch(googleScriptUrl, {
-        method: "POST",
-        mode: "no-cors",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then(() => {
+      postFeedback(payload).then((res) => {
         reset();
         setLoading(false);
         feedback(false);
