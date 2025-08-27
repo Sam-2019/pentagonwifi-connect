@@ -32,6 +32,7 @@ export enum PasswordType {
 
 export const topup = "Top Up";
 export const feedback = "Feedback";
+export const membership = "Membership";
 export const registration = "Registration";
 
 export const server = "server";
@@ -73,6 +74,10 @@ export const registrationType = {
   feedback: {
     name: feedback,
     fee: 0,
+  },
+  membership: {
+    name: membership,
+    fee: 50,
   },
 };
 

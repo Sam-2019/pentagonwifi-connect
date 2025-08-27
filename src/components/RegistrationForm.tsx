@@ -14,7 +14,6 @@ import {
   server,
   planPrices,
   PasswordType,
-  registration,
   duplicateError,
   dataPlanOptions,
   roomTypeOptions,
@@ -74,9 +73,13 @@ const RegistrationForm: React.FC = () => {
     },
   });
 
-  const fee = registrationType.registration.fee;
-  const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
   const selectedBlockCourt = watch("blockCourt");
+  const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
+  const registration = subscriptionPlan.includes("Membership")
+    ? registrationType.membership
+    : registrationType.registration;
+
+  const fee = registration.fee;
 
   const planFee = subscriptionPlan.includes("Daily")
     ? planPrices.daily
@@ -139,7 +142,7 @@ const RegistrationForm: React.FC = () => {
       registrationFee: fee,
       totalCost: totalCost,
       provider: capitalizePaymentProvider,
-      registrationType: registrationType.registration.name,
+      registrationType: registration.name,
     };
 
     if (paymentProvider === hubtel) {
@@ -501,7 +504,7 @@ const RegistrationForm: React.FC = () => {
       <SuccessModal
         open={isSuccessModalOpen}
         onClose={() => setIsSuccessModalOpen(false)}
-        registrationType={registration}
+        registrationType={registration.name}
       />
     </div>
   );
