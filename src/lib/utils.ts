@@ -90,10 +90,10 @@ export const planPrices = {
 
 export const dataPlanOptions = [
   { value: "", label: "Select an option..." },
-  // {
-  //   value: `Membership-(GHC ${planPrices.membership})`,
-  //   label: "Membership",
-  // },
+  {
+    value: `Membership-(GHC ${planPrices.membership})`,
+    label: "Membership",
+  },
   {
     value: `Daily-(GHC ${planPrices.daily})`,
     label: `Daily (GHC ${planPrices.daily})`,
