@@ -47,7 +47,7 @@
         "react-paystack": "^6.0.0",
         "react-resizable-panels": "^2.1.9",
         "react-router-dom": "^6.30.1",
-        "react-tailwindcss-datepicker": "^1.7.4",
+        "react-tailwindcss-datepicker": "1.7.3",
         "recharts": "^2.15.4",
         "sonner": "^1.7.4",
         "tailwind-merge": "^2.6.0",
@@ -817,7 +817,7 @@
 
     "react-style-singleton": ["react-style-singleton@2.2.3", "", { "dependencies": { "get-nonce": "^1.0.0", "tslib": "^2.0.0" }, "peerDependencies": { "@types/react": "*", "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc" } }, "sha512-b6jSvxvVnyptAiLjbkWLE/lOnR4lfTtDAl+eUC7RZy+QQWc6wRzIV2CE6xBuMmDxc2qIihtDCZD5NPOFl7fRBQ=="],
 
-    "react-tailwindcss-datepicker": ["react-tailwindcss-datepicker@1.7.4", "", { "peerDependencies": { "dayjs": "^1.11.12", "react": "^17.0.2 || ^18.2.0 || ^19.0.0" } }, "sha512-UBlDFS9Wzu/1bL59LhAZafo8r/3AhHRRMgC5h1XdQeQnQcwWtRkXgUtPrRryHYaH0v6DalAyum24iamlnYElGA=="],
+    "react-tailwindcss-datepicker": ["react-tailwindcss-datepicker@1.7.3", "", { "peerDependencies": { "dayjs": "^1.11.12", "react": "^17.0.2 || ^18.2.0" } }, "sha512-C0biZZg0IDvttqq3+Ey0qKMTF4QWtM2nPv9X2SL8RdQIuH+/MJRcsrKcXV0+SK45Zjy/dW5fICDKLcSB+f5ezg=="],
 
     "react-transition-group": ["react-transition-group@4.4.5", "", { "dependencies": { "@babel/runtime": "^7.5.5", "dom-helpers": "^5.0.1", "loose-envify": "^1.4.0", "prop-types": "^15.6.2" }, "peerDependencies": { "react": ">=16.6.0", "react-dom": ">=16.6.0" } }, "sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g=="],
 
