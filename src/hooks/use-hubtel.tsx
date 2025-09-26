@@ -2,8 +2,7 @@ import type {
 	FailedRegistrationPayload,
 	PendingPaymentPayload,
 	SalesPayload,
-	RegistrationInfo,
-	CustomerPayload,
+	RegistrationInfo
 } from "@/lib/types";
 import {
 	toastError,
@@ -12,7 +11,7 @@ import {
 	postFailedRegistration,
 	postRegistration,
 	postSale,
-	registration,
+	membership
 } from "@/lib/utils";
 import CheckoutSdk from "@hubteljs/checkout";
 import { v4 as uuidv4 } from "uuid";
@@ -43,7 +42,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 	const purchaseInfo = {
 		amount: registrationInfo.totalCost,
 		purchaseDescription:
-			registrationType === registration
+			registrationType === membership
 				? purchaseDescription
 				: topupDescription,
 		customerPhoneNumber: `'${registrationInfo.phoneNumber}`,

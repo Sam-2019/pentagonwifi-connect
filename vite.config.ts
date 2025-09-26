@@ -14,5 +14,8 @@ export default defineConfig(({ mode }) => ({
 			"@": path.resolve(__dirname, "./src"),
 		},
 	},
+	optimizeDeps: {
+		include: ["esm-dep > cjs-dep"],
+	},
 	// base: process.env.VITE_BASE_PATH || "Pentagon-Wifi-Onboarding",
 }));
