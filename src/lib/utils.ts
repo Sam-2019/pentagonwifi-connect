@@ -149,7 +149,11 @@ export const schema = yup
 		studentId: yup
 			.string()
 			.required("StudentID is required.")
-			.matches(/^(?:\+?\d{7,15}|0\d{9})$/, "StudentID is invalid"),
+			.matches(
+				/^(109|11[0-5]|22[0-7])(?!00000)\d{5}$/,
+				"StudentID is invalid",
+			)
+			.length(8),
 	})
 	.required();
 
