@@ -1,7 +1,7 @@
 import { toast } from "sonner";
-import { Check } from "lucide-react";
 import type React from "react";
 import { useState } from "react";
+import { Check } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -92,6 +92,7 @@ const TopUpForm: React.FC = () => {
 			blockCourt: registrant?.blockCourt,
 			roomType: registrant?.roomType,
 			roomNumber: registrant?.roomNumber,
+			studentId: registrant?.studentId,
 			isCustodian: registrant?.isCustodian,
 			credentials: credentials,
 			provider: capitalizePaymentProvider,
