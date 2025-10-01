@@ -17,7 +17,7 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { useState } from "react";
-import { FloatButtonProps } from "@/lib/types";
+import type { FloatButtonProps } from "@/lib/types";
 
 export default function Header({ modalState }: FloatButtonProps) {
   const navigate = useNavigate();

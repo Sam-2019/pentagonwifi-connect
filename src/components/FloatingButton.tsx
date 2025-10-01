@@ -1,9 +1,9 @@
-import { PlusIcon, QrCode, MessageSquareMore } from "lucide-react";
 import {
   FloatingButton,
   FloatingButtonItem,
 } from "@/components/ui/floating-button";
-import { FloatButtonProps } from "@/lib/types";
+import type { FloatButtonProps } from "@/lib/types";
+import { PlusIcon, QrCode, MessageSquareMore } from "lucide-react";
 
 export default function FloatButton({ modalState }: FloatButtonProps) {
   return (

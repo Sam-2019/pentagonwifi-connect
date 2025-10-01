@@ -1,9 +1,9 @@
 import type React from "react";
+import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { CircleCheck, Share, XIcon } from "lucide-react";
-import { toast } from "sonner";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface SuccessModalProps {
 	open: boolean;

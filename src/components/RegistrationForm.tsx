@@ -18,12 +18,12 @@ import {
 	roomTypeOptions,
 	registrationType,
 	blockCourtOptions,
-	checkUserNameAvailability,
 } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { paystackPay } from "@/hooks/use-paystack";
+import { checkUserNameAvailability } from "@/lib/actions";
 import type { CustomerPayload, FormData, RegistrationInfo } from "@/lib/types";
 
 const RegistrationForm: React.FC = () => {

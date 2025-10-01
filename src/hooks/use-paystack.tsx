@@ -1,19 +1,17 @@
 import type {
-	PaystackSuccessReference,
-	PendingPaymentPayload,
 	SalesPayload,
 	RegistrationInfo,
+	PendingPaymentPayload,
+	PaystackSuccessReference,
 } from "@/lib/types";
 import {
-	toastError,
-	toastLoading,
-	toastSuccess,
-	postPendingRegistration,
-	postRegistration,
 	postSale,
-} from "@/lib/utils";
-import { usePaystackPayment } from "react-paystack";
+	postRegistration,
+	postPendingRegistration,
+} from "@/lib/actions";
 import { v4 as uuidv4 } from "uuid";
+import { usePaystackPayment } from "react-paystack";
+import { toastError, toastLoading, toastSuccess } from "@/lib/utils";
 
 export const paystackPay = (userInfo: RegistrationInfo) => {
 	const reference = String(uuidv4());

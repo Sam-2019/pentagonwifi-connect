@@ -1,20 +1,22 @@
 import type {
-	FailedRegistrationPayload,
-	PendingPaymentPayload,
 	SalesPayload,
-	RegistrationInfo
+	RegistrationInfo,
+	PendingPaymentPayload,
+	FailedRegistrationPayload,
 } from "@/lib/types";
 import {
 	toastError,
 	toastLoading,
 	toastSuccess,
-	postFailedRegistration,
-	postRegistration,
-	postSale,
-	membership
+	membership,
 } from "@/lib/utils";
-import CheckoutSdk from "@hubteljs/checkout";
+import {
+	postSale,
+	postRegistration,
+	postFailedRegistration,
+} from "@/lib/actions";
 import { v4 as uuidv4 } from "uuid";
+import CheckoutSdk from "@hubteljs/checkout";
 
 export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 	const checkout = new CheckoutSdk();
@@ -42,9 +44,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 	const purchaseInfo = {
 		amount: registrationInfo.totalCost,
 		purchaseDescription:
-			registrationType === membership
-				? purchaseDescription
-				: topupDescription,
+			registrationType === membership ? purchaseDescription : topupDescription,
 		customerPhoneNumber: `'${registrationInfo.phoneNumber}`,
 		clientReference: clientReference,
 	};
@@ -146,10 +146,8 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 					onLoad: () => {
 						// console.log("Checkout has been loaded: ");
 					},
-					onFeesChanged: (fees) => {
-					},
-					onResize: (size) => {
-					},
+					onFeesChanged: (fees) => {},
+					onResize: (size) => {},
 					onClose: () => {
 						reset();
 						setDatePickerValue({
