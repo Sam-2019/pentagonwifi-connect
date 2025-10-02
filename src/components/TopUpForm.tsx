@@ -1,19 +1,19 @@
-import { toast } from "sonner";
-import type React from "react";
-import { useState } from "react";
-import { Check } from "lucide-react";
 import {
   topup,
   hubtel,
   planPrices,
-  topupSchema,
-  dataPlanOptions,
-  registrationType,
-  noCustomerFound,
   registerFirst,
+  dataPlanOptions,
+  noCustomerFound,
+  registrationType,
 } from "@/lib/utils";
+import { toast } from "sonner";
+import type React from "react";
+import { useState } from "react";
+import { Check } from "lucide-react";
 import { useForm } from "react-hook-form";
 import SuccessModal from "./SuccessModal";
+import { topupSchema } from "@/lib/schema";
 import { getCustomer } from "@/lib/actions";
 import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";

@@ -1,6 +1,5 @@
 import {
   hubtel,
-  schema,
   server,
   planPrices,
   PasswordType,
@@ -19,6 +18,7 @@ import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from "./ui/form";
+import { registrationSchema } from "@/lib/schema";
 import { Check, Eye, EyeOff } from "lucide-react";
 import { paystackPay } from "@/hooks/use-paystack";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -56,7 +56,7 @@ const RegistrationForm: React.FC = () => {
     formState: { errors },
   } = useForm({
     criteriaMode: "all",
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registrationSchema),
     defaultValues: {
       fullName: "",
       dateOfBirth: null,
