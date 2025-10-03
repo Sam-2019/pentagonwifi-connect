@@ -1,16 +1,6 @@
 import { twMerge } from "tailwind-merge";
 import { clsx, type ClassValue } from "clsx";
 
-export const dateOptions = {
-  year: "numeric" as const,
-  month: "2-digit" as const,
-  day: "2-digit" as const,
-  hour: "2-digit" as const,
-  minute: "2-digit" as const,
-  second: "2-digit" as const,
-  hour12: false,
-};
-
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
