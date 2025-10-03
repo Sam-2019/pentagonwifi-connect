@@ -9,7 +9,6 @@ import {
 	topup,
 	hubtel,
 	planPrices,
-	topupSchema,
 	getCustomer,
 	dataPlanOptions,
 	registrationType,
@@ -21,6 +20,7 @@ import { hubtelPay } from "@/hooks/use-hubtel";
 import { paystackPay } from "@/hooks/use-paystack";
 import type { RegistrationInfo, TopUpFormData } from "@/lib/types";
 import SuccessModal from "./SuccessModal";
+import { topupSchema } from "@/lib/schema";
 
 const TopUpForm: React.FC = () => {
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
