@@ -25,6 +25,7 @@ export const registrationSchema = yup
     blockCourt: yup.string().required("Block / Court is required."),
     roomType: yup.string().required("Room Type is required"),
     roomNumber: yup.string().required("Room number is required."),
+    selectedCard: yup.string().required("Card is required."),
     subscriptionPlan: yup.string(),
     isCustodian: yup.bool().default(false).required("Custodian is required"),
     userName: yup

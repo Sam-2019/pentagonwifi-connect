@@ -1,5 +1,8 @@
 import { twMerge } from "tailwind-merge";
 import { clsx, type ClassValue } from "clsx";
+import metaverse from "@/assets/cards/metaverse.png";
+import spiderman from "@/assets/cards/spiderman.jpg";
+import tombraider from "@/assets/cards/tombraider.jpg";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -40,6 +43,27 @@ export const roomTypeOptions = [
   { value: "2-in-a-room", label: "2 in a room" },
   { value: "3-in-a-room", label: "3 in a room" },
   { value: "4-in-a-room", label: "4 in a room" },
+];
+
+export const cards = [
+  {
+    id: 0,
+    websrc: "",
+    localsrc: metaverse,
+    name: "metaverse",
+  },
+  {
+    id: 1,
+    websrc: "",
+    localsrc: spiderman,
+    name: "spiderman",
+  },
+  {
+    id: 2,
+    websrc: "",
+    localsrc: tombraider,
+    name: "tombraider",
+  },
 ];
 
 export const registrationType = {

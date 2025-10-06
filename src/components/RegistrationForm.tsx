@@ -1,4 +1,6 @@
 import {
+  cn,
+  cards,
   hubtel,
   server,
   planPrices,
@@ -58,18 +60,19 @@ const RegistrationForm: React.FC = () => {
     criteriaMode: "all",
     resolver: yupResolver(registrationSchema),
     defaultValues: {
-      fullName: "",
-      dateOfBirth: null,
-      phoneNumber: "",
-      email: "",
-      blockCourt: "",
-      roomType: "",
-      roomNumber: "",
-      subscriptionPlan: "",
+      fullName: "Kwame Opam",
+      dateOfBirth: new Date(),
+      phoneNumber: "0240586043",
+      email: "kwame@gmail.com",
+      blockCourt: "Block-A",
+      roomType: "1-in-a-room",
+      roomNumber: "A20",
+      selectedCard: "",
+      subscriptionPlan: "Daily-(GHC 1)",
       isCustodian: false,
-      userName: "",
-      password: "",
-      studentId: "",
+      userName: "kwame1234",
+      password: "12345",
+      studentId: "10986543",
     },
   });
 
@@ -111,6 +114,7 @@ const RegistrationForm: React.FC = () => {
       blockCourt: data.blockCourt,
       roomType: data.roomType,
       roomNumber: data.roomNumber,
+      selectedCard: data.selectedCard,
       isCustodian: selectedBlockCourt.includes("Block")
         ? data.isCustodian
         : false,
@@ -251,7 +255,7 @@ const RegistrationForm: React.FC = () => {
           <p className="text-red-400">{errors.blockCourt?.message}</p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4">
+        <div className="flex flex-col sm:flex-row gap-4 ">
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="roomType">Room Type</label>
             <select
@@ -280,7 +284,40 @@ const RegistrationForm: React.FC = () => {
           </div>
         </div>
 
-        {/* {subscriptionPlan.includes("Membership") && <div>Membership</div>} */}
+        {/* Membership Card Design */}
+        <div className="flex flex-col gap-2">
+          <label htmlFor="selectedCard">Membership Card</label>
+          <FormField
+            control={control}
+            name="selectedCard"
+            render={({ field }) => (
+              <FormItem className="flex flex-col gap-x-3">
+                <div className="flex gap-3 flex-col sm:flex-row md:space-x-0 justify-center">
+                  {cards.map((info) => (
+                    <div key={info.id}>
+                      {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+                      <img
+                        onClick={() => field.onChange(info.name)}
+                        src={info.localsrc}
+                        alt={info.name}
+                        className={cn(
+                          "focus:outline-none duration-300 object-cover w-50 md:w-50 h-auto shadow-lg rounded-xl border-transparent",
+                          field.value === info.name
+                            ? "border-primary bg-white shadow border-2 p-1"
+                            : "border-gray-200 hover:border-primary/50",
+                        )}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {errors.selectedCard && (
+                  <p className="text-red-400">{errors.selectedCard?.message}</p>
+                )}
+              </FormItem>
+            )}
+          />
+        </div>
 
         <div className="mt-4 mb-2 border-t" />
 
@@ -372,7 +409,7 @@ const RegistrationForm: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-2 mb-4 border-t" />
+        <div className="mt-4 mb-2 border-t" />
 
         <div className="border-gray-200">
           <div className="bg-gradient-to-r from-primary/5 to-accent/10 p-5 rounded-lg space-y-5">
