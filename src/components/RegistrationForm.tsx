@@ -150,20 +150,21 @@ const RegistrationForm: React.FC = () => {
       registrationType: registration.name,
     };
 
-    if (paymentProvider === hubtel) {
-      const payment = hubtelPay(registrationInfo);
-      payment.initialize(
-        toast,
-        setIsSuccessModalOpen,
-        reset,
-        () => setLoading(false),
-        setDatePickerValue,
-      );
-      return;
-    }
+    console.log({ registrationInfo });
+    // if (paymentProvider === hubtel) {
+    //   const payment = hubtelPay(registrationInfo);
+    //   payment.initialize(
+    //     toast,
+    //     setIsSuccessModalOpen,
+    //     reset,
+    //     () => setLoading(false),
+    //     setDatePickerValue,
+    //   );
+    //   return;
+    // }
 
-    const payment = paystackPay(registrationInfo);
-    payment.initialize(toast, setIsSuccessModalOpen, reset, setDatePickerValue);
+    // const payment = paystackPay(registrationInfo);
+    // payment.initialize(toast, setIsSuccessModalOpen, reset, setDatePickerValue);
   };
 
   return (
