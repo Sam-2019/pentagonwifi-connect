@@ -1,8 +1,3 @@
-import Logo from "@/components/Logo";
-import { topup } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { House, Menu as MenuIcon, Megaphone, RotateCcw } from "lucide-react";
 import {
   Sheet,
   SheetContent,
@@ -12,7 +7,12 @@ import {
   SheetFooter,
 } from "@/components/ui/sheet";
 import { useState } from "react";
+import Logo from "@/components/Logo";
+import { topup } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import type { FloatButtonProps } from "@/lib/types";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { House, Menu as MenuIcon, Megaphone, RotateCcw } from "lucide-react";
 
 export default function Header({ modalState }: FloatButtonProps) {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export default function Header({ modalState }: FloatButtonProps) {
   const homePath = "/";
 
   return (
-    <header className="w-full mx-auto py-5 bg-white shadow-sm px-4 md:px-8 sticky top-0 z-50">
+    <header className="sticky py-5 mx-auto max-w-screen-lg bg-[hsla(0,0%,93%,0.72)] backdrop-blur-xl rounded-full shadow-sm px-4 md:px-8 top-5 z-50">
       <div className="flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <Logo />
