@@ -7,7 +7,7 @@ const Index = () => {
         <h1 className="text-3xl md:text-4xl font-bold text-primary mb-3">
           Connect to Pentagon WiFi
         </h1>
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 mb-6 px-2">
           Fill out the form below to register for blazing-fast internet service.
         </p>
       </div>
