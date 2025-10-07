@@ -29,15 +29,11 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 
   const registrationType = registrationInfo.registrationType;
 
-  const purchaseDescription = `Payment of GHS ${
-    registrationInfo.planFee
-  } PENTAGONWIFI ${registrationInfo.subscriptionPlan.toUpperCase()} data package for (${userName.toUpperCase()}-${
-    registrationInfo.phoneNumber
-  })`;
+  const purchaseDescription = `PENTAGONWIFI ${registrationInfo.registrationType.toUpperCase()} REG-(GHS ${
+    registrationInfo.registrationFee
+  }) for (${userName.toUpperCase()}-${registrationInfo.phoneNumber})`;
 
-  const topupDescription = `Top-up of GHS ${
-    registrationInfo.planFee
-  } PENTAGONWIFI ${registrationInfo.subscriptionPlan.toUpperCase()} data package for (${userName}-${
+  const topupDescription = `PENTAGONWIFI ${registrationInfo.subscriptionPlan.toUpperCase()} TOPUP for (${userName}-${
     registrationInfo.phoneNumber
   })`;
 
@@ -82,79 +78,76 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
         endDate: Date | null;
       }) => void,
     ) => {
-      checkout.openModal({
-        purchaseInfo: purchaseInfo,
-        config: config,
-        callBacks: {
-          onInit: () => {},
-          onPaymentSuccess: (data) => {
-            const response = data.data;
-            const parseResponse = JSON.parse(response);
-            const transactionId = parseResponse.transactionId;
-            const externalTransactionId = parseResponse.externalTransactionId;
-
-            const saleInfo: SalesPayload = {
-              ...checkoutInfo,
-              providerResponse: parseResponse,
-              transactionId: transactionId,
-              externalTransactionId: externalTransactionId,
-            };
-
-            checkout.closePopUp();
-            toast.promise(
-              postSale(saleInfo).then(() => {
-                setTimeout(() => setIsSuccessModalOpen(true), 300);
-                reset();
-                setDatePickerValue({
-                  startDate: null,
-                  endDate: null,
-                });
-              }),
-              {
-                loading: toastLoading,
-                success: toastSuccess,
-                error: toastError,
-              },
-            );
-            setLoading();
-          },
-          onPaymentFailure: (data) => {
-            const response = data.data;
-            const failureInfo: FailedRegistrationPayload = {
-              ...checkoutInfo,
-              providerResponse: response,
-            };
-
-            checkout.closePopUp();
-            toast.promise(
-              postFailedRegistration(failureInfo).then(() => {
-                reset();
-                setDatePickerValue({
-                  startDate: null,
-                  endDate: null,
-                });
-              }),
-              {
-                loading: toastLoading,
-                success: toastError,
-                error: toastError,
-              },
-            );
-            setLoading();
-          },
-          onLoad: () => {},
-          onFeesChanged: (fees) => {},
-          onResize: (size) => {},
-          onClose: () => {
-            reset();
-            setDatePickerValue({
-              startDate: null,
-              endDate: null,
-            });
-            setLoading();
-          },
-        },
-      });
+      // checkout.openModal({
+      //   purchaseInfo: purchaseInfo,
+      //   config: config,
+      //   callBacks: {
+      //     onInit: () => {},
+      //     onPaymentSuccess: (data) => {
+      //       const response = data.data;
+      //       const parseResponse = JSON.parse(response);
+      //       const transactionId = parseResponse.transactionId;
+      //       const externalTransactionId = parseResponse.externalTransactionId;
+      //       const saleInfo: SalesPayload = {
+      //         ...checkoutInfo,
+      //         providerResponse: parseResponse,
+      //         transactionId: transactionId,
+      //         externalTransactionId: externalTransactionId,
+      //       };
+      //       checkout.closePopUp();
+      //       toast.promise(
+      //         postSale(saleInfo).then(() => {
+      //           setTimeout(() => setIsSuccessModalOpen(true), 300);
+      //           reset();
+      //           setDatePickerValue({
+      //             startDate: null,
+      //             endDate: null,
+      //           });
+      //         }),
+      //         {
+      //           loading: toastLoading,
+      //           success: toastSuccess,
+      //           error: toastError,
+      //         },
+      //       );
+      //       setLoading();
+      //     },
+      //     onPaymentFailure: (data) => {
+      //       const response = data.data;
+      //       const failureInfo: FailedRegistrationPayload = {
+      //         ...checkoutInfo,
+      //         providerResponse: response,
+      //       };
+      //       checkout.closePopUp();
+      //       toast.promise(
+      //         postFailedRegistration(failureInfo).then(() => {
+      //           reset();
+      //           setDatePickerValue({
+      //             startDate: null,
+      //             endDate: null,
+      //           });
+      //         }),
+      //         {
+      //           loading: toastLoading,
+      //           success: toastError,
+      //           error: toastError,
+      //         },
+      //       );
+      //       setLoading();
+      //     },
+      //     onLoad: () => {},
+      //     onFeesChanged: (fees) => {},
+      //     onResize: (size) => {},
+      //     onClose: () => {
+      //       reset();
+      //       setDatePickerValue({
+      //         startDate: null,
+      //         endDate: null,
+      //       });
+      //       setLoading();
+      //     },
+      //   },
+      // });
     },
   };
 };
