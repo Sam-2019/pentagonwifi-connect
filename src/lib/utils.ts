@@ -48,21 +48,21 @@ export const roomTypeOptions = [
 export const cards = [
   {
     id: 0,
-    websrc: "https://drive.google.com/file/d/1HNlF56T6oAAdsjk2W5l594Ql8evhfG-N/view?usp=drive_link",
-    localsrc: metaverse,
     name: "metaverse",
+    localsrc: metaverse,
+    websrc: "https://drive.google.com/file/d/1HNlF56T6oAAdsjk2W5l594Ql8evhfG-N/view?usp=drive_link",
   },
   {
     id: 1,
-    websrc: "https://drive.google.com/file/d/1ur-fo0guxlGTVkGAtyXvuckYM3b3vcGa/view?usp=drive_link",
-    localsrc: spiderman,
     name: "spiderman",
+    localsrc: spiderman,
+    websrc: "https://drive.google.com/file/d/1ur-fo0guxlGTVkGAtyXvuckYM3b3vcGa/view?usp=drive_link",
   },
   {
     id: 2,
-    websrc: "https://drive.google.com/file/d/1I6041x6xNAckackhJgbWqd_AayBBfJaT/view",
-    localsrc: tombraider,
     name: "tombraider",
+    localsrc: tombraider,
+    websrc: "https://drive.google.com/file/d/1I6041x6xNAckackhJgbWqd_AayBBfJaT/view",
   },
 ];
 
