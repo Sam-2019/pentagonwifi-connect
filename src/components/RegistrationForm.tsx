@@ -68,7 +68,7 @@ const RegistrationForm: React.FC = () => {
       roomType: "1-in-a-room",
       roomNumber: "A20",
       selectedCard: "",
-      subscriptionPlan: "Daily-(GHC 1)",
+      subscriptionPlan: "Membership-(GHC 0)",
       isCustodian: false,
       userName: "kwame1234",
       password: "12345",
@@ -113,7 +113,6 @@ const RegistrationForm: React.FC = () => {
       name: selectedCard[0].name,
       url: selectedCard[0].websrc,
     };
-    console.log(cardSelectedInfo);
 
     const userInfo: CustomerPayload = {
       regID: uuidv4(),
@@ -135,14 +134,6 @@ const RegistrationForm: React.FC = () => {
 
     const results = await checkUserNameAvailability(credentials);
     if (results.message === duplicateError) {
-      // for (const field of Object.keys(results.data)) {
-      // 	const message = results.data[field];
-      // 	setError(field as keyof FormData, {
-      // 		type: server,
-      // 		message: message,
-      // 	});
-      // }
-
       setError("userName", {
         type: server,
         message: results.data,

@@ -6,9 +6,9 @@ import type {
 } from "@/lib/types";
 import {
   toastError,
-  toastLoading,
-  toastSuccess,
   membership,
+  toastSuccess,
+  toastLoading,
 } from "@/lib/utils";
 import {
   postSale,
@@ -88,7 +88,6 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
         callBacks: {
           onInit: () => {},
           onPaymentSuccess: (data) => {
-            // console.log("Payment successful: ", data.data);
             const response = data.data;
             const parseResponse = JSON.parse(response);
             const transactionId = parseResponse.transactionId;
@@ -143,9 +142,7 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
             );
             setLoading();
           },
-          onLoad: () => {
-            // console.log("Checkout has been loaded: ");
-          },
+          onLoad: () => {},
           onFeesChanged: (fees) => {},
           onResize: (size) => {},
           onClose: () => {
