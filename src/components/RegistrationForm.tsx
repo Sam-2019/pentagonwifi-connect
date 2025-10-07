@@ -78,9 +78,7 @@ const RegistrationForm: React.FC = () => {
 
   const selectedBlockCourt = watch("blockCourt");
   const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
-  const registration = subscriptionPlan.includes("Membership")
-    ? registrationType.membership
-    : registrationType.registration;
+  const registration = registrationType.membership;
 
   const fee = registration.fee;
 
@@ -101,9 +99,12 @@ const RegistrationForm: React.FC = () => {
     const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
 
     const credentials = {
-      userName: data.userName,
+      // userName: data.userName,
+      userName: String(uuidv4().slice(0, 5)),
       password: data.password,
     };
+
+    console.log(credentials.userName);
 
     const selectedCard = cards.filter(
       (card) => card.name === data.selectedCard,
@@ -256,7 +257,7 @@ const RegistrationForm: React.FC = () => {
           <p className="text-red-400">{errors.blockCourt?.message}</p>
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 ">
+        <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="roomType">Room Type</label>
             <select
@@ -281,98 +282,92 @@ const RegistrationForm: React.FC = () => {
               {...register("roomNumber")}
               className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
-            <p className="text-red-400">{errors.roomNumber?.message}</p>
+
+            {errors.roomNumber && (
+              <p className="text-red-400">{errors.roomNumber?.message}</p>
+            )}
           </div>
         </div>
 
-        {/* Membership Card Design */}
-        <div className="flex flex-col gap-2">
-          <label htmlFor="selectedCard">Membership Card</label>
-          <FormField
-            control={control}
-            name="selectedCard"
-            render={({ field }) => (
-              <FormItem className="flex flex-col gap-x-3">
-                <div className="flex gap-3 flex-col sm:flex-row md:space-x-0 justify-center">
-                  {cards.map((info) => (
-                    <div key={info.id}>
-                      {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-                      <img
-                        onClick={() => field.onChange(info.name)}
-                        src={info.localsrc}
-                        alt={info.name}
-                        className={cn(
-                          "focus:outline-none duration-300 object-cover w-50 md:w-50 h-auto shadow-lg rounded-xl border-transparent",
-                          field.value === info.name
-                            ? "border-primary bg-white shadow border-2 p-1"
-                            : "border-gray-200 hover:border-primary/50",
-                        )}
-                      />
-                    </div>
-                  ))}
-                </div>
+        <div className="mt-2 mb-2 border-t" />
 
-                {errors.selectedCard && (
-                  <p className="text-red-400">{errors.selectedCard?.message}</p>
-                )}
-              </FormItem>
-            )}
-          />
+        <div className="bg-gradient-to-b from-gray-100 to-cyan-200 backdrop-blur-sm shadow-sm rounded-lg p-5 space-y-5">
+          <h3 className="text-xl font-bold text-primary mb-1">
+            Membership Card
+          </h3>
+          <p className="text-sm text-gray-600 ">Select your preferred design</p>
+          <br />
+          {/* Membership Card Design */}
+          <div className="flex flex-col gap-2">
+            {/* <label htmlFor="selectedCard">Membership Card</label> */}
+            <FormField
+              control={control}
+              name="selectedCard"
+              render={({ field }) => (
+                <FormItem className="flex flex-col gap-x-3">
+                  <div className="flex gap-3 flex-col sm:flex-row md:space-x-0 justify-center">
+                    {cards.map((info) => (
+                      <div key={info.id}>
+                        {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+                        <img
+                          onClick={() => field.onChange(info.name)}
+                          src={info.localsrc}
+                          alt={info.name}
+                          className={cn(
+                            "focus:outline-none duration-300 object-cover w-50 md:w-50 h-auto shadow-lg rounded-xl border-transparent",
+                            field.value === info.name
+                              ? "border-primary bg-white shadow border-2 p-1"
+                              : "border-gray-200 hover:border-primary/50",
+                          )}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  {errors.selectedCard && (
+                    <p className="text-red-400">
+                      {errors.selectedCard?.message}
+                    </p>
+                  )}
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
 
-        <div className="mt-4 mb-2 border-t" />
+        <div className="mt-2 mb-2 border-t" />
 
-        <div className=" border-gray-200">
-          <div className="bg-gradient-to-r from-cyan-100 to-blue-200 p-5 rounded-lg space-y-5">
-            <div>
-              <h3 className="text-xl font-bold text-primary mb-1">
-                Create Your Unique Login Credential
-              </h3>
-              <p className="text-sm text-gray-600 ">
-                These credentials will be used to set up your personal profile
-                and will allow you to log in to the portal for internet access.
-              </p>
-              <br />
+        <div className="bg-gradient-to-b from-cyan-200 to-gray-100  backdrop-blur-sm shadow-sm p-5 rounded-lg space-y-5">
+          <div>
+            <h3 className="text-xl font-bold text-primary mb-1">Password</h3>
+            <br />
+            <p className="text-sm text-gray-600 max-w-md">Do’s:</p>
+            <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
+              <li>Create a strong password.</li>
+              <li>Store your credentials safely.</li>
+              <li>
+                {" "}
+                Keep your credentials confidential — never share them with
+                others.
+              </li>
+            </ul>
+            <br />
+            <p className="text-sm text-gray-600 max-w-md">Don’ts:</p>
+            <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
+              <li>Don’t share your password with anyone.</li>
+              <li>Don’t use simple or predictable patterns.</li>
+              <li>Don’t reuse passwords you’ve used for other accounts.</li>
+              <li>
+                Don’t use obvious passwords (like "password123" or your
+                name/birthday).
+              </li>
+            </ul>
+          </div>
 
-              <p className="text-sm text-gray-600 max-w-md">Do’s:</p>
-              <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
-                <li>Create a strong password</li>
-                <li>Choose a username that is easy for you to remember.</li>
-                <li>
-                  Keep your credentials confidential—never share them with
-                  others.
-                </li>
-                <li>
-                  Your username must include the last 4 digits of your phone
-                  number.
-                </li>
-                <li>
-                  Store your credentials safely (use a password manager or write
-                  them in a secure place).
-                </li>
-              </ul>
-
-              <br />
-
-              <p className="text-sm text-gray-600 max-w-md">Don’ts:</p>
-              <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
-                <li>Don’t share your username or password with anyone.</li>
-                <li>Don’t reuse passwords you’ve used for other accounts.</li>
-                <li>
-                  Don’t use simple or predictable patterns (like “abcd1234” or
-                  “qwerty”).
-                </li>
-                <li>
-                  Don’t use obvious passwords (like "password123", "admin", or
-                  your name/birthday).
-                </li>
-              </ul>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              {/* username */}
-              <div className="flex flex-col gap-2 w-full">
-                {/* <label htmlFor="userName">Username</label> */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            {/* username */}
+            {/* <div className="flex flex-col gap-2 w-full">
+                <label htmlFor="userName">Username</label>
                 <input
                   id="userName"
                   type="text"
@@ -381,127 +376,119 @@ const RegistrationForm: React.FC = () => {
                   className="py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
                 />
                 <p className="text-red-400">{errors.userName?.message}</p>
-              </div>
+              </div> */}
 
-              {/* password */}
-              <div className="flex flex-col gap-2 w-full">
-                <div className="flex items-center rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
-                  <input
-                    id="password"
-                    type={type}
-                    placeholder="Password"
-                    {...register("password")}
-                    className="py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
-                  />
-                  <div className="grid shrink-0 grid-cols-1 focus-within:relative mr-4">
-                    {isVisible ? (
-                      <EyeOff
-                        onClick={hidePassword}
-                        className="text-gray-600"
-                      />
-                    ) : (
-                      <Eye onClick={showPassword} className="text-gray-600" />
-                    )}
-                  </div>
+            {/* password */}
+            <div className="flex flex-col gap-2 w-full">
+              <div className="flex items-center rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+                <input
+                  id="password"
+                  type={type}
+                  placeholder="Password"
+                  {...register("password")}
+                  className="py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+                />
+                <div className="grid shrink-0 grid-cols-1 focus-within:relative mr-4">
+                  {isVisible ? (
+                    <EyeOff onClick={hidePassword} className="text-gray-600" />
+                  ) : (
+                    <Eye onClick={showPassword} className="text-gray-600" />
+                  )}
                 </div>
-                <p className="text-red-400">{errors.password?.message}</p>
               </div>
+              <p className="text-red-400">{errors.password?.message}</p>
             </div>
           </div>
         </div>
 
-        <div className="mt-4 mb-2 border-t" />
+        <div className="mt-2 mb-2 border-t" />
 
-        <div className="border-gray-200">
-          <div className="bg-gradient-to-r from-primary/5 to-accent/10 p-5 rounded-lg space-y-5">
-            {/* Headline and Perks */}
-            <div>
-              <h3 className="text-xl font-bold text-primary mb-1">
-                Host. Lead. Connect.
-              </h3>
-              <p className="text-sm text-gray-600 max-w-md">
-                Want more than just connection? Become a{" "}
-                <strong>Custodian</strong> and get:
-              </p>
-              <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
-                <li>Priority support</li>
-                <li>
-                  Enjoy 60 mins of unlimited data every week—absolutely free!
-                </li>
-              </ul>
-            </div>
-
-            {selectedBlockCourt.includes("Block") ||
-            selectedBlockCourt === "" ? (
-              <>
-                {/* Yes/No Decision */}
-                <FormField
-                  control={control}
-                  name="isCustodian"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col gap-3">
-                      <div className="flex gap-4 flex-col sm:flex-row">
-                        {/* YES option */}
-                        <button
-                          type="button"
-                          onClick={() => field.onChange(true)}
-                          className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
-                            field.value
-                              ? "border-primary bg-white shadow"
-                              : "border-gray-200 hover:border-primary/50"
-                          }`}
-                        >
-                          <span className="text-md font-semibold text-primary">
-                            Yes — I'm Ready to Be a Custodian
-                          </span>
-                          <p className="text-sm text-gray-600 mt-1">
-                            Unlock bonus data, support, and exclusive access.
-                          </p>
-                        </button>
-
-                        {/* NO option */}
-                        <button
-                          type="button"
-                          onClick={() => field.onChange(false)}
-                          className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
-                            !field.value
-                              ? "border-primary bg-white shadow"
-                              : "border-gray-200 hover:border-primary/50"
-                          }`}
-                        >
-                          <span className="text-md font-semibold text-gray-800">
-                            No — I'll Just Stay Connected
-                          </span>
-                          <p className="text-sm text-gray-600 mt-1">
-                            I'm happy to connect without extra responsibilities.
-                          </p>
-                        </button>
-                      </div>
-
-                      {/* Inline confirmation */}
-                      {field.value && (
-                        <p className="text-sm text-green-700 font-medium mt-2">
-                          ✔ You’re applying as a Custodian — welcome aboard!
-                        </p>
-                      )}
-                    </FormItem>
-                  )}
-                />
-              </>
-            ) : (
-              <p className="text-sm text-gray-600">
-                <strong>Custodianship</strong> reserved for Block occupants
-                only.
-              </p>
-            )}
+        <div className="bg-gradient-to-b from-accent/10 to-gray-100 backdrop-blur-sm shadow-sm p-5 rounded-lg space-y-5">
+          {/* Headline and Perks */}
+          <div>
+            <h3 className="text-xl font-bold text-primary mb-1">
+              Host. Lead. Connect.
+            </h3>
+            <p className="text-sm text-gray-600 max-w-md">
+              Want more than just connection? Become a{" "}
+              <strong>Custodian</strong> and get:
+            </p>
+            <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
+              <li>Priority support</li>
+              <li>
+                Enjoy 60 mins of unlimited data every week—absolutely free!
+              </li>
+            </ul>
           </div>
+
+          {selectedBlockCourt.includes("Block") || selectedBlockCourt === "" ? (
+            <>
+              {/* Yes/No Decision */}
+              <FormField
+                control={control}
+                name="isCustodian"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col gap-3">
+                    <div className="flex gap-4 flex-col sm:flex-row">
+                      {/* YES option */}
+                      <button
+                        type="button"
+                        onClick={() => field.onChange(true)}
+                        className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
+                          field.value
+                            ? "border-primary bg-white shadow"
+                            : "border-gray-200 hover:border-primary/50"
+                        }`}
+                      >
+                        <span className="text-md font-semibold text-primary">
+                          Yes — I'm Ready to Be a Custodian
+                        </span>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Unlock bonus data, support, and exclusive access.
+                        </p>
+                      </button>
+
+                      {/* NO option */}
+                      <button
+                        type="button"
+                        onClick={() => field.onChange(false)}
+                        className={`flex-1 border-2 rounded-lg p-4 text-left transition-all ${
+                          !field.value
+                            ? "border-primary bg-white shadow"
+                            : "border-gray-200 hover:border-primary/50"
+                        }`}
+                      >
+                        <span className="text-md font-semibold text-gray-800">
+                          No — I'll Just Stay Connected
+                        </span>
+                        <p className="text-sm text-gray-600 mt-1">
+                          I'm happy to connect without extra responsibilities.
+                        </p>
+                      </button>
+                    </div>
+
+                    {/* Inline confirmation */}
+                    {field.value && (
+                      <p className="text-sm text-green-700 font-medium mt-2">
+                        ✔ You’re applying as a Custodian — welcome aboard!
+                      </p>
+                    )}
+                  </FormItem>
+                )}
+              />
+            </>
+          ) : (
+            <p className="text-sm text-gray-600">
+              <strong>Custodianship</strong> reserved for Block occupants only.
+            </p>
+          )}
 
           <p className="text-red-400">{errors.isCustodian?.message}</p>
         </div>
 
-        <div className="mt-4 border-t" />
+        <div className="mt-2 mb-2 border-t" />
 
-        <div className="flex flex-col md:flex-row gap-2 bg-muted rounded-lg p-6 border-gray-300">
+        <div className="bg-gray-100 backdrop-blur-sm shadow-sm flex flex-col md:flex-row gap-2 rounded-lg p-6 border-gray-300">
           <div className="text-gray-700 w-full">
             <p>
               <strong>Registration Fee:</strong> GHC {fee}

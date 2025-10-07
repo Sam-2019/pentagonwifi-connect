@@ -28,13 +28,12 @@ export const registrationSchema = yup
     selectedCard: yup.string().required("Card is required."),
     subscriptionPlan: yup.string(),
     isCustodian: yup.bool().default(false).required("Custodian is required"),
-    userName: yup
-      .string()
-      .required("Username is required.")
-      .matches(
-        /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
-        "Username is invalid.",
-      ),
+    userName: yup.string(),
+    // .required("Username is required.")
+    // .matches(
+    //   /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
+    //   "Username is invalid.",
+    // ),
     password: yup.string().required("Password is required."),
     studentId: yup
       .string()
