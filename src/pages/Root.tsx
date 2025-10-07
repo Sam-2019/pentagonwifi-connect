@@ -1,11 +1,11 @@
-import LightningBackground from "@/components/WaveBackground";
-import { Outlet } from "react-router-dom";
-import { Fragment, useState } from "react";
-import ScanMeModal from "@/components/ScanMe";
+import { useState } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import FloatButton from "@/components/FloatingButton";
+import { Outlet } from "react-router-dom";
+import ScanMeModal from "@/components/ScanMe";
 import FeedbackForm from "@/components/FeedbackForm";
+import FloatButton from "@/components/FloatingButton";
+import LightningBackground from "@/components/WaveBackground";
 
 const Root = () => {
   const [isModalOpen, setIsModalOpen] = useState({
@@ -14,7 +14,7 @@ const Root = () => {
   });
 
   return (
-    <Fragment>
+    <div className="mx-4">
       <LightningBackground />
       <Header
         modalState={{
@@ -45,7 +45,7 @@ const Root = () => {
             setIsModalOpen((prev) => ({ ...prev, feedback: open })),
         }}
       />
-    </Fragment>
+    </div>
   );
 };
 

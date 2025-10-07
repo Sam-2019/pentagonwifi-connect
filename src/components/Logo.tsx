@@ -7,7 +7,7 @@ const Logo: React.FC = () => {
       <img
         src={logo}
         alt="Pentagon WiFi Logo"
-        className=" focus:outline-none transition-transform duration-300 hover:scale-105 object-cover w-48 md:w-48 h-auto"
+        className="object-cover w-48 md:w-48 h-auto"
       />
     </div>
   );

@@ -41,7 +41,7 @@ export default function Header({ modalState }: FloatButtonProps) {
           {currentPath === homePath ? (
             <Button
               type="button"
-              className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg"
+              className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg rounded-full"
               onClick={navigateTopup}
             >
               {topup}

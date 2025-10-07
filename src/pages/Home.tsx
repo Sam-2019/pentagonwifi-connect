@@ -12,7 +12,7 @@ const Index = () => {
         </p>
       </div>
 
-      <div className="w-full rounded-lg md:p-0 p-4">
+      <div className="w-full rounded-lg md:p-0">
         <RegistrationForm />
       </div>
     </main>
