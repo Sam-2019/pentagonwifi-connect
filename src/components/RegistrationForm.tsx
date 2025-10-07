@@ -62,7 +62,7 @@ const RegistrationForm: React.FC = () => {
     defaultValues: {
       fullName: "Kwame Opam",
       dateOfBirth: new Date(),
-      phoneNumber: "0240586043",
+      phoneNumber: "0241586043",
       email: "kwame@gmail.com",
       blockCourt: "Block-A",
       roomType: "1-in-a-room",
