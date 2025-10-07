@@ -92,6 +92,7 @@ const TopUpForm: React.FC = () => {
       blockCourt: registrant?.blockCourt,
       roomType: registrant?.roomType,
       roomNumber: registrant?.roomNumber,
+      selectedCard: registrant?.selectedCard,
       studentId: registrant?.studentId,
       isCustodian: registrant?.isCustodian,
       credentials: credentials,

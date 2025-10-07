@@ -80,7 +80,7 @@ export interface SalesPayload {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: SelectedCard;
+  selectedCard?: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;
@@ -131,7 +131,7 @@ export interface FailedRegistrationPayload {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: SelectedCard;
+  selectedCard?: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;
@@ -171,7 +171,7 @@ export interface PendingPaymentPayload {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: SelectedCard;
+  selectedCard?: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;

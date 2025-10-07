@@ -1,15 +1,15 @@
-import type {
-  SalesPayload,
-  RegistrationInfo,
-  PendingPaymentPayload,
-  FailedRegistrationPayload,
-} from "@/lib/types";
 import {
   toastError,
   membership,
   toastSuccess,
   toastLoading,
 } from "@/lib/utils";
+import type {
+  SalesPayload,
+  RegistrationInfo,
+  PendingPaymentPayload,
+  FailedRegistrationPayload,
+} from "@/lib/types";
 import {
   postSale,
   postRegistration,
@@ -24,14 +24,14 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
   const reference = String(uuidv4());
   const slicedReference = reference.slice(0, 8);
   const clientReference = `PWT-${slicedReference}`;
-  const credentials = registrationInfo.credentials;
-  const userName = credentials.userName;
+  const credentials = registrationInfo?.credentials;
+  const userName = credentials?.userName;
 
   const registrationType = registrationInfo.registrationType;
 
   const purchaseDescription = `Payment of GHS ${
     registrationInfo.planFee
-  } PENTAGONWIFI ${registrationInfo.subscriptionPlan.toUpperCase()} data package for (${registrationInfo.fullName.toUpperCase()}-${
+  } PENTAGONWIFI ${registrationInfo.subscriptionPlan.toUpperCase()} data package for (${userName.toUpperCase()}-${
     registrationInfo.phoneNumber
   })`;
 
