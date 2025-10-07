@@ -105,6 +105,16 @@ const RegistrationForm: React.FC = () => {
       password: data.password,
     };
 
+    const selectedCard = cards.filter(
+      (card) => card.name === data.selectedCard,
+    );
+
+    const cardSelectedInfo = {
+      name: selectedCard[0].name,
+      url: selectedCard[0].websrc,
+    };
+    console.log(cardSelectedInfo);
+
     const userInfo: CustomerPayload = {
       regID: uuidv4(),
       fullName: data.fullName,
@@ -114,7 +124,7 @@ const RegistrationForm: React.FC = () => {
       blockCourt: data.blockCourt,
       roomType: data.roomType,
       roomNumber: data.roomNumber,
-      selectedCard: data.selectedCard,
+      selectedCard: cardSelectedInfo,
       isCustodian: selectedBlockCourt.includes("Block")
         ? data.isCustodian
         : false,
@@ -150,21 +160,20 @@ const RegistrationForm: React.FC = () => {
       registrationType: registration.name,
     };
 
-    console.log({ registrationInfo });
-    // if (paymentProvider === hubtel) {
-    //   const payment = hubtelPay(registrationInfo);
-    //   payment.initialize(
-    //     toast,
-    //     setIsSuccessModalOpen,
-    //     reset,
-    //     () => setLoading(false),
-    //     setDatePickerValue,
-    //   );
-    //   return;
-    // }
+    if (paymentProvider === hubtel) {
+      const payment = hubtelPay(registrationInfo);
+      payment.initialize(
+        toast,
+        setIsSuccessModalOpen,
+        reset,
+        () => setLoading(false),
+        setDatePickerValue,
+      );
+      return;
+    }
 
-    // const payment = paystackPay(registrationInfo);
-    // payment.initialize(toast, setIsSuccessModalOpen, reset, setDatePickerValue);
+    const payment = paystackPay(registrationInfo);
+    payment.initialize(toast, setIsSuccessModalOpen, reset, setDatePickerValue);
   };
 
   return (

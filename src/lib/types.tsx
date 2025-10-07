@@ -35,7 +35,7 @@ export interface PaymentInfo {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: string;
+  selectedCard: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;
@@ -57,7 +57,7 @@ export interface RegistrationInfo {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: string;
+  selectedCard: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;
@@ -80,7 +80,7 @@ export interface SalesPayload {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: string;
+  selectedCard: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;
@@ -107,7 +107,7 @@ export interface PendingRegistrationPayload {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: string;
+  selectedCard: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;
@@ -131,7 +131,7 @@ export interface FailedRegistrationPayload {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: string;
+  selectedCard: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;
@@ -171,7 +171,7 @@ export interface PendingPaymentPayload {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: string;
+  selectedCard: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;
@@ -189,7 +189,7 @@ export interface CustomerPayload {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: string;
+  selectedCard: SelectedCard;
   isCustodian: boolean;
   dateTime: Date;
   credentials: Credentials;
@@ -206,6 +206,11 @@ export interface RegistrantPayload {
 interface Credentials {
   userName: string;
   password: string;
+}
+
+interface SelectedCard {
+  name: string;
+  url: string;
 }
 
 export interface FeedbackFormData {
