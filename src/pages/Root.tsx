@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import { Outlet } from "react-router-dom";
 import ScanMeModal from "@/components/ScanMe";
 import FeedbackForm from "@/components/FeedbackForm";
+import { Analytics } from "@vercel/analytics/react";
 import FloatButton from "@/components/FloatingButton";
 import LightningBackground from "@/components/WaveBackground";
 
@@ -23,6 +24,7 @@ const Root = () => {
             setIsModalOpen((prev) => ({ ...prev, feedback: open })),
         }}
       />
+      <Analytics />
       <Outlet />
       <Footer />
       <FeedbackForm
