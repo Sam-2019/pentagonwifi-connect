@@ -1,26 +1,26 @@
 import { toast } from "sonner";
-import { Check } from "lucide-react";
-import type React from "react";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import { yupResolver } from "@hookform/resolvers/yup";
 import {
 	topup,
 	hubtel,
 	planPrices,
-	getCustomer,
 	dataPlanOptions,
 	registrationType,
 	noCustomerFound,
 	registerFirst,
 } from "@/lib/utils";
+import type React from "react";
+import { useState } from "react";
+import { Check } from "lucide-react";
+import SuccessModal from "./SuccessModal";
+import { useForm } from "react-hook-form";
+import { topupSchema } from "@/lib/schema";
+import { getCustomer } from "@/lib/actions";
 import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
+import { Button } from "@/components/ui/button";
 import { paystackPay } from "@/hooks/use-paystack";
+import { yupResolver } from "@hookform/resolvers/yup";
 import type { RegistrationInfo, TopUpFormData } from "@/lib/types";
-import SuccessModal from "./SuccessModal";
-import { topupSchema } from "@/lib/schema";
 
 const TopUpForm: React.FC = () => {
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);

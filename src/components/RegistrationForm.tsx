@@ -1,13 +1,5 @@
 import type React from "react";
 import { toast } from "sonner";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import SuccessModal from "./SuccessModal";
-import { Button } from "@/components/ui/button";
-import { FormField, FormItem } from "./ui/form";
-import { Check, Eye, EyeOff } from "lucide-react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import Datepicker from "react-tailwindcss-datepicker";
 import {
 	hubtel,
 	server,
@@ -18,14 +10,22 @@ import {
 	roomTypeOptions,
 	registrationType,
 	blockCourtOptions,
-	checkUserNameAvailability,
 } from "@/lib/utils";
+import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { useForm } from "react-hook-form";
+import SuccessModal from "./SuccessModal";
 import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
-import { paystackPay } from "@/hooks/use-paystack";
-import type { CustomerPayload, FormData, RegistrationInfo } from "@/lib/types";
+import { Button } from "@/components/ui/button";
+import { FormField, FormItem } from "./ui/form";
 import { registrationSchema } from "@/lib/schema";
+import { Check, Eye, EyeOff } from "lucide-react";
+import { paystackPay } from "@/hooks/use-paystack";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Datepicker from "react-tailwindcss-datepicker";
+import { checkUserNameAvailability } from "@/lib/actions";
+import type { CustomerPayload, FormData, RegistrationInfo } from "@/lib/types";
 
 const RegistrationForm: React.FC = () => {
 	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);

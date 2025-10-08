@@ -1,22 +1,19 @@
 import { toast } from "sonner";
-import { XIcon } from "lucide-react";
-import { useForm } from "react-hook-form";
-import {
-  postFeedback,
-	registrationType,
-	feedbackCategories,
-} from "../lib/utils";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import type { FeedbackFormData } from "@/lib/types";
-import { yupResolver } from "@hookform/resolvers/yup";
 import {
 	Dialog,
 	DialogContent,
 	DialogTitle,
 	DialogDescription,
 } from "@/components/ui/dialog";
+import { useState } from "react";
+import { XIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
+import { postFeedback } from "@/lib/actions";
 import { feedbackSchema } from "@/lib/schema";
+import { Button } from "@/components/ui/button";
+import type { FeedbackFormData } from "@/lib/types";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registrationType, feedbackCategories } from "@/lib/utils";
 
 interface FeedbackFormProps {
 	modalState: {
