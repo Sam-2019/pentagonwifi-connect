@@ -3,17 +3,18 @@ import type {
 	PendingPaymentPayload,
 	SalesPayload,
 	RegistrationInfo,
-	CustomerPayload,
 } from "@/lib/types";
 import {
 	toastError,
 	toastLoading,
 	toastSuccess,
-	postFailedRegistration,
-	postRegistration,
-	postSale,
 	registration,
 } from "@/lib/utils";
+import {
+	postSale,
+	postRegistration,
+	postFailedRegistration,
+} from "@/lib/actions";
 import CheckoutSdk from "@hubteljs/checkout";
 import { v4 as uuidv4 } from "uuid";
 
@@ -147,10 +148,8 @@ export const hubtelPay = (registrationInfo: RegistrationInfo) => {
 					onLoad: () => {
 						// console.log("Checkout has been loaded: ");
 					},
-					onFeesChanged: (fees) => {
-					},
-					onResize: (size) => {
-					},
+					onFeesChanged: (fees) => {},
+					onResize: (size) => {},
 					onClose: () => {
 						reset();
 						setDatePickerValue({
