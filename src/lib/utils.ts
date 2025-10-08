@@ -95,11 +95,6 @@ export const hubtel = import.meta.env.VITE_HUBTEL;
 export const paystack = import.meta.env.VITE_PAYSTACK;
 export const auth = import.meta.env.VITE_AUTHORIZATION;
 
-export const googleScriptUrl =
-  import.meta.env.VITE_NODE_ENV === "development"
-    ? import.meta.env.VITE_GOOGLE_SCRIPTS_TEST
-    : import.meta.env.VITE_GOOGLE_SCRIPTS_LIVE;
-
 export const baseUrl =
   import.meta.env.VITE_NODE_ENV === "development"
     ? import.meta.env.VITE_BASE_DEV_URL
