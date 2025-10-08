@@ -45,14 +45,12 @@ export const paystackPay = (userInfo: RegistrationInfo) => {
     },
   };
 
-  const stringifyPurchaseInfo = JSON.stringify(config);
-
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const initializePayment = usePaystackPayment(config);
 
   const checkoutInfo: PendingPaymentPayload = {
     ...userInfo,
-    purchaseInfo: stringifyPurchaseInfo,
+    purchaseInfo: config,
     clientReference: clientReference,
   };
 
@@ -75,11 +73,10 @@ export const paystackPay = (userInfo: RegistrationInfo) => {
     reference: PaystackSuccessReference,
   ): void => {
     // console.log("Payment successful: ", reference);
-    const stringifyResponse = JSON.stringify(reference);
 
     const saleInfo: SalesPayload = {
       ...checkoutInfo,
-      providerResponse: stringifyResponse,
+      providerResponse: reference,
       transactionId: reference.transaction,
       externalTransactionId: null,
     };

@@ -107,7 +107,7 @@ export interface PendingRegistrationPayload {
   blockCourt: string;
   roomType: string;
   roomNumber: string;
-  selectedCard: SelectedCard;
+  selectedCard?: SelectedCard;
   isCustodian: boolean;
   credentials: Credentials;
   provider: string;
