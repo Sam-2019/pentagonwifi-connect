@@ -39,6 +39,7 @@ const Root = () => {
 					setIsModalOpen((prev) => ({ ...prev, qrScan: open }))
 				}
 			/>
+
 			<FloatButton
 				modalState={{
 					setQrScan: (open: boolean) =>
@@ -47,6 +48,7 @@ const Root = () => {
 						setIsModalOpen((prev) => ({ ...prev, feedback: open })),
 				}}
 			/>
+		
 		</Fragment>
 	);
 };

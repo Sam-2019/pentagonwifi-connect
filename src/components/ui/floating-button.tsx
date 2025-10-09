@@ -1,7 +1,7 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useDragControls } from "motion/react";
 import { useOnClickOutside } from "usehooks-ts";
 
 type FloatingButtonProps = {
@@ -49,28 +49,58 @@ function FloatingButton({ children, triggerContent }: FloatingButtonProps) {
 		setIsOpen(false),
 	);
 
+	const controls = useDragControls();
+
+	console.log({ controls: controls.start });
+
+	const [dragState, dragSetState] = React.useState({
+		x: null,
+		y: null,
+	});
+	function onDrag(event, info) {
+		console.log(info.point.x, info.point.y);
+
+		dragSetState({
+			x: info.point.x,
+			y: info.point.y,
+		});
+
+		console.log({ dragState });
+	}
+
 	return (
-		<div className="flex flex-col items-center relative gap-4">
+		<div className="flex flex-col items-center gap-4">
 			<AnimatePresence>
-				<motion.ul
-					key="list"
-					className="flex flex-col items-center bottom-14 gap-3"
-					initial="hidden"
-					animate={isOpen ? "visible" : "hidden"}
-					variants={list}
-				>
-					{children}
-				</motion.ul>
 				<motion.div
+					drag
+					dragControls={controls}
+					whileDrag={{
+						pointerEvents: "none",
+					}}
+					dragPropagation
 					key="button"
 					variants={btn}
 					animate={isOpen ? "visible" : "hidden"}
-					ref={ref}
+					// ref={ref}
 					onClick={() => setIsOpen(!isOpen)}
-					className="cursor-pointer"
+					// className="cursor-pointer"
 				>
 					{triggerContent}
 				</motion.div>
+				<div>
+					<motion.ul
+						key="list"
+						className="flex flex-col items-center gap-3"
+						initial="hidden"
+						animate={isOpen ? "visible" : "hidden"}
+						variants={list}
+						onPointerDown={(e) => {
+							controls.start(e);
+						}}
+					>
+						{children}
+					</motion.ul>
+				</div>
 			</AnimatePresence>
 		</div>
 	);
