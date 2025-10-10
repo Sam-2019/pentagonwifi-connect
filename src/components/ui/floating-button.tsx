@@ -56,7 +56,7 @@ function FloatingButton({ children, triggerContent }: FloatingButtonProps) {
 	}
 
 	return (
-		<div className="flex flex-col items-center gap-4 w-96">
+		<div className="flex flex-col items-center gap-4">
 			<motion.ul
 				key="list"
 				drag
@@ -66,6 +66,7 @@ function FloatingButton({ children, triggerContent }: FloatingButtonProps) {
 				whileDrag={{ pointerEvents: "none" }}
 				dragControls={dragControls}
 				animate={isOpen ? "visible" : "hidden"}
+				dragConstraints={{ left: -850, right: 50, top: -450, bottom: 550 }}
 			>
 				{children}
 			</motion.ul>
