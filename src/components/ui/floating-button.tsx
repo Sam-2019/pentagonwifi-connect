@@ -1,8 +1,8 @@
 "use client";
 
 import React, { ReactNode } from "react";
-import { AnimatePresence, motion, useDragControls } from "motion/react";
 import { useOnClickOutside } from "usehooks-ts";
+import { motion, useDragControls } from "motion/react";
 
 type FloatingButtonProps = {
 	className?: string;
@@ -49,59 +49,40 @@ function FloatingButton({ children, triggerContent }: FloatingButtonProps) {
 		setIsOpen(false),
 	);
 
-	const controls = useDragControls();
+	const dragControls = useDragControls();
 
-	console.log({ controls: controls.start });
-
-	const [dragState, dragSetState] = React.useState({
-		x: null,
-		y: null,
-	});
-	function onDrag(event, info) {
-		console.log(info.point.x, info.point.y);
-
-		dragSetState({
-			x: info.point.x,
-			y: info.point.y,
-		});
-
-		console.log({ dragState });
+	function startDrag(event: React.PointerEvent<Element> | PointerEvent) {
+		dragControls.start(event);
 	}
 
 	return (
-		<div className="flex flex-col items-center gap-4">
-			<AnimatePresence>
-				<motion.div
-					drag
-					dragControls={controls}
-					whileDrag={{
-						pointerEvents: "none",
-					}}
-					dragPropagation
-					key="button"
-					variants={btn}
-					animate={isOpen ? "visible" : "hidden"}
-					// ref={ref}
-					onClick={() => setIsOpen(!isOpen)}
-					// className="cursor-pointer"
-				>
-					{triggerContent}
-				</motion.div>
-				<div>
-					<motion.ul
-						key="list"
-						className="flex flex-col items-center gap-3"
-						initial="hidden"
-						animate={isOpen ? "visible" : "hidden"}
-						variants={list}
-						onPointerDown={(e) => {
-							controls.start(e);
-						}}
-					>
-						{children}
-					</motion.ul>
-				</div>
-			</AnimatePresence>
+		<div className="flex flex-col items-center gap-4 w-96">
+			<motion.ul
+				key="list"
+				drag
+				variants={list}
+				initial="hidden"
+				dragListener={false}
+				whileDrag={{ pointerEvents: "none" }}
+				dragControls={dragControls}
+				animate={isOpen ? "visible" : "hidden"}
+			>
+				{children}
+			</motion.ul>
+
+			<motion.div
+				drag
+				key="button"
+				variants={btn}
+				dragPropagation
+				onPointerDown={startDrag}
+				onClick={() => setIsOpen(!isOpen)}
+				whileDrag={{ pointerEvents: "none" }}
+				animate={isOpen ? "visible" : "hidden"}
+				dragConstraints={{ left: -850, right: 50, top: -450, bottom: 550 }}
+			>
+				{triggerContent}
+			</motion.div>
 		</div>
 	);
 }

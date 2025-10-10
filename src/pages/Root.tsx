@@ -48,7 +48,6 @@ const Root = () => {
 						setIsModalOpen((prev) => ({ ...prev, feedback: open })),
 				}}
 			/>
-		
 		</Fragment>
 	);
 };
