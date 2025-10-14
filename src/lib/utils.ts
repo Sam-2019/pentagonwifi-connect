@@ -49,7 +49,7 @@ export const registrationType = {
   },
   registration: {
     name: registration,
-    fee: 50,
+    fee: 100,
   },
   feedback: {
     name: feedback,
@@ -78,7 +78,7 @@ export const dataPlanOptions = [
     value: `Daily-(GHC ${planPrices.daily})`,
     label: `Daily (GHC ${planPrices.daily})`,
   },
-  // { value: `Weekly-(GHC ${planPrices.weekly})`, label: `Weekly (GHC ${planPrices.weekly})` },
+  { value: `Weekly-(GHC ${planPrices.weekly})`, label: `Weekly (GHC ${planPrices.weekly})` },
   // { value: `Monthly-(GHC ${planPrices.monthly})`, label: `Monthly (GHC ${planPrices.monthly})` }
 ];
 
