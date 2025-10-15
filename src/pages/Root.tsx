@@ -3,16 +3,16 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Outlet } from "react-router-dom";
 import ScanMeModal from "@/components/ScanMe";
-import FeedbackForm from "@/components/FeedbackForm";
 import { Analytics } from "@vercel/analytics/react";
+import FeedbackForm from "@/components/FeedbackForm";
 import FloatButton from "@/components/FloatingButton";
 import LightningBackground from "@/components/WaveBackground";
 
 const Root = () => {
-  const [isModalOpen, setIsModalOpen] = useState({
-    qrScan: false,
-    feedback: false,
-  });
+	const [isModalOpen, setIsModalOpen] = useState({
+		qrScan: false,
+		feedback: false,
+	});
 
   return (
     <div className="mx-4">

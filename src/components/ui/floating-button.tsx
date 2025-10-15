@@ -2,7 +2,7 @@
 
 import React, { ReactNode } from "react";
 import { useOnClickOutside } from "usehooks-ts";
-import { AnimatePresence, motion } from "motion/react";
+import { motion, useDragControls } from "motion/react";
 
 type FloatingButtonProps = {
   className?: string;
@@ -49,31 +49,43 @@ function FloatingButton({ children, triggerContent }: FloatingButtonProps) {
     setIsOpen(false),
   );
 
-  return (
-    <div className="flex flex-col items-center relative gap-4">
-      <AnimatePresence>
-        <motion.ul
-          key="list"
-          className="flex flex-col items-center bottom-14 gap-3"
-          initial="hidden"
-          animate={isOpen ? "visible" : "hidden"}
-          variants={list}
-        >
-          {children}
-        </motion.ul>
-        <motion.div
-          key="button"
-          variants={btn}
-          animate={isOpen ? "visible" : "hidden"}
-          ref={ref}
-          onClick={() => setIsOpen(!isOpen)}
-          className="cursor-pointer"
-        >
-          {triggerContent}
-        </motion.div>
-      </AnimatePresence>
-    </div>
-  );
+	const dragControls = useDragControls();
+
+	function startDrag(event: React.PointerEvent<Element> | PointerEvent) {
+		dragControls.start(event);
+	}
+
+	return (
+		<div className="flex flex-col items-center gap-4">
+			<motion.ul
+				key="list"
+				drag
+				variants={list}
+				initial="hidden"
+				dragListener={false}
+				whileDrag={{ pointerEvents: "none" }}
+				dragControls={dragControls}
+				animate={isOpen ? "visible" : "hidden"}
+				dragConstraints={{ left: -850, right: 50, top: -450, bottom: 550 }}
+			>
+				{children}
+			</motion.ul>
+
+			<motion.div
+				drag
+				key="button"
+				variants={btn}
+				dragPropagation
+				onPointerDown={startDrag}
+				onClick={() => setIsOpen(!isOpen)}
+				whileDrag={{ pointerEvents: "none" }}
+				animate={isOpen ? "visible" : "hidden"}
+				dragConstraints={{ left: -850, right: 50, top: -450, bottom: 550 }}
+			>
+				{triggerContent}
+			</motion.div>
+		</div>
+	);
 }
 
 function FloatingButtonItem({ children }: FloatingButtonItemProps) {
