@@ -93,6 +93,14 @@ const RegistrationForm: React.FC = () => {
   const totalCost = fee + planFee;
 
   const onSubmit = async (data: FormData) => {
+    
+    if (data.termsAccepted === false) {
+      return setError("termsAccepted", {
+        type: server,
+        message: "Required",
+      });
+    }
+
     setLoading(true);
     const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
     const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
@@ -105,6 +113,7 @@ const RegistrationForm: React.FC = () => {
     };
 
     console.log(credentials.userName);
+    console.log(data.termsAccepted);
 
     const selectedCard = cards.filter(
       (card) => card.name === data.selectedCard,
@@ -527,8 +536,8 @@ const RegistrationForm: React.FC = () => {
             <input
               id="termsAccepted"
               type="checkbox"
-              placeholder="February"
-              {...register("termsAccepted", {})}
+              placeholder="Terms & Conditions"
+              {...register("termsAccepted")}
               className="mx-3"
             />
             <label htmlFor="termsAccepted">Terms & Conditions Apply</label>

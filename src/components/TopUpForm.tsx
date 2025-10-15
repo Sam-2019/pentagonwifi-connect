@@ -1,6 +1,7 @@
 import {
   topup,
   hubtel,
+  server,
   planPrices,
   registerFirst,
   dataPlanOptions,
@@ -29,6 +30,7 @@ const TopUpForm: React.FC = () => {
     handleSubmit,
     watch,
     reset,
+    setError,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(topupSchema),
@@ -55,6 +57,13 @@ const TopUpForm: React.FC = () => {
   const totalCost = fee + planFee;
 
   const onSubmit = async (data: TopUpFormData) => {
+    if (data.termsAccepted === false) {
+      return setError("termsAccepted", {
+        type: server,
+        message: "Required",
+      });
+    }
+
     setLoading(true);
     const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
     const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
