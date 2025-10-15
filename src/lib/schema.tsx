@@ -40,6 +40,7 @@ export const registrationSchema = yup
       .required("StudentID is required.")
       .matches(/^(109|11[0-5]|22[0-7])(?!00000)\d{5}$/, "StudentID is invalid")
       .length(8),
+    termsAccepted: yup.boolean().required("Required"),
   })
   .required();
 
@@ -65,6 +66,7 @@ export const topupSchema = yup
         /^(?!.*__)(?!_)(?!.*_$)(?=.*[A-Za-z])(?=^[A-Za-z\d_]*\d{4}[A-Za-z\d_]*$)[A-Za-z\d_]+$/,
         "Username is invalid.",
       ),
+    termsAccepted: yup.boolean().required("Required"),
   })
   .required();
 

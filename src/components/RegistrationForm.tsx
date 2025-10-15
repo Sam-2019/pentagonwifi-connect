@@ -16,7 +16,6 @@ import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useForm } from "react-hook-form";
 import SuccessModal from "./SuccessModal";
-import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from "./ui/form";
@@ -29,24 +28,24 @@ import { checkUserNameAvailability } from "@/lib/actions";
 import type { CustomerPayload, FormData, RegistrationInfo } from "@/lib/types";
 
 const RegistrationForm: React.FC = () => {
-	const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
-	const [datePickerValue, setDatePickerValue] = useState({
-		startDate: null,
-		endDate: null,
-	});
-	const [loading, setLoading] = useState(false);
-	const [isVisible, setIsVisible] = useState(false);
-	const [type, setType] = useState(PasswordType.PASSWORD);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  const [datePickerValue, setDatePickerValue] = useState({
+    startDate: null,
+    endDate: null,
+  });
+  const [loading, setLoading] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [type, setType] = useState(PasswordType.PASSWORD);
 
-	const showPassword = () => {
-		setIsVisible(true);
-		setType(PasswordType.TEXT);
-	};
+  const showPassword = () => {
+    setIsVisible(true);
+    setType(PasswordType.TEXT);
+  };
 
-	const hidePassword = () => {
-		setIsVisible(false);
-		setType(PasswordType.PASSWORD);
-	};
+  const hidePassword = () => {
+    setIsVisible(false);
+    setType(PasswordType.PASSWORD);
+  };
 
   const {
     register,
@@ -73,6 +72,7 @@ const RegistrationForm: React.FC = () => {
       userName: "",
       password: "",
       studentId: "",
+      termsAccepted: null,
     },
   });
 
@@ -80,7 +80,7 @@ const RegistrationForm: React.FC = () => {
   const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
   const registration = registrationType.membership;
 
-	const fee = registration.fee;
+  const fee = registration.fee;
 
   const planFee = subscriptionPlan.includes("Daily")
     ? planPrices.daily
@@ -90,13 +90,13 @@ const RegistrationForm: React.FC = () => {
         ? planPrices.monthly
         : 0;
 
-	const totalCost = fee + planFee;
+  const totalCost = fee + planFee;
 
-	const onSubmit = async (data: FormData) => {
-		setLoading(true);
-		const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
-		const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
-		const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
+  const onSubmit = async (data: FormData) => {
+    setLoading(true);
+    const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
+    const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
+    const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
 
     const credentials = {
       // userName: data.userName,
@@ -142,15 +142,16 @@ const RegistrationForm: React.FC = () => {
       return;
     }
 
-		const registrationInfo: RegistrationInfo = {
-			...userInfo,
-			subscriptionPlan: capitalizeSubscriptionPlan,
-			planFee: planFee,
-			registrationFee: fee,
-			totalCost: totalCost,
-			provider: capitalizePaymentProvider,
-			registrationType: registration.name,
-		};
+    const registrationInfo: RegistrationInfo = {
+      ...userInfo,
+      subscriptionPlan: capitalizeSubscriptionPlan,
+      planFee: planFee,
+      registrationFee: fee,
+      totalCost: totalCost,
+      provider: capitalizePaymentProvider,
+      registrationType: registration.name,
+      termsAccepted: data.termsAccepted,
+    };
 
     if (paymentProvider === hubtel) {
       const payment = hubtelPay(registrationInfo);
@@ -164,23 +165,23 @@ const RegistrationForm: React.FC = () => {
       return;
     }
 
-		const payment = paystackPay(registrationInfo);
-		payment.initialize(toast, setIsSuccessModalOpen, reset, setDatePickerValue);
-	};
+    const payment = paystackPay(registrationInfo);
+    payment.initialize(toast, setIsSuccessModalOpen, reset, setDatePickerValue);
+  };
 
-	return (
-		<div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm shadow-lg rounded-xl p-6 md:p-8 border border-blue-100 sm">
-			<form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-				<div className="flex flex-col gap-2">
-					<label htmlFor="fullName">Name</label>
-					<input
-						id="fullName"
-						type="text"
-						{...register("fullName")}
-						className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
-					/>
-					<p className="text-red-400">{errors.fullName?.message}</p>
-				</div>
+  return (
+    <div className="w-full max-w-2xl mx-auto bg-white/90 backdrop-blur-sm shadow-lg rounded-xl p-6 md:p-8 border border-blue-100 sm">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
+          <label htmlFor="fullName">Name</label>
+          <input
+            id="fullName"
+            type="text"
+            {...register("fullName")}
+            className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+          />
+          <p className="text-red-400">{errors.fullName?.message}</p>
+        </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex flex-col gap-2 w-full">
@@ -217,62 +218,62 @@ const RegistrationForm: React.FC = () => {
           </div>
         </div>
 
-				<div className="flex flex-col sm:flex-row gap-4">
-					<div className="flex flex-col gap-2 w-full">
-						<label htmlFor="phoneNumber">Mobile</label>
-						<input
-							id="phoneNumber"
-							type="text"
-							{...register("phoneNumber")}
-							className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
-						/>
-						<p className="text-red-400">{errors.phoneNumber?.message}</p>
-					</div>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="phoneNumber">Mobile</label>
+            <input
+              id="phoneNumber"
+              type="text"
+              {...register("phoneNumber")}
+              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+            />
+            <p className="text-red-400">{errors.phoneNumber?.message}</p>
+          </div>
 
-					<div className="flex flex-col gap-2 w-full">
-						<label htmlFor="email">Email</label>
-						<input
-							id="email"
-							type="text"
-							{...register("email")}
-							className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
-						/>
-						<p className="text-red-400">{errors.email?.message}</p>
-					</div>
-				</div>
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="text"
+              {...register("email")}
+              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+            />
+            <p className="text-red-400">{errors.email?.message}</p>
+          </div>
+        </div>
 
-				<div className="flex flex-col gap-2 w-full">
-					<label htmlFor="blockCourt">Block / Court</label>
-					<select
-						{...register("blockCourt")}
-						id="blockCourt"
-						className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
-					>
-						{blockCourtOptions.map((option) => (
-							<option key={option.value} value={option.value}>
-								{option.label}
-							</option>
-						))}
-					</select>
-					<p className="text-red-400">{errors.blockCourt?.message}</p>
-				</div>
+        <div className="flex flex-col gap-2 w-full">
+          <label htmlFor="blockCourt">Block / Court</label>
+          <select
+            {...register("blockCourt")}
+            id="blockCourt"
+            className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+          >
+            {blockCourtOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <p className="text-red-400">{errors.blockCourt?.message}</p>
+        </div>
 
-				<div className="flex flex-col sm:flex-row gap-4">
-					<div className="flex flex-col gap-2 w-full">
-						<label htmlFor="roomType">Room Type</label>
-						<select
-							{...register("roomType")}
-							id="roomType"
-							className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
-						>
-							{roomTypeOptions.map((option) => (
-								<option key={option.value} value={option.value}>
-									{option.label}
-								</option>
-							))}
-						</select>
-						<p className="text-red-400">{errors.roomType?.message}</p>
-					</div>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col gap-2 w-full">
+            <label htmlFor="roomType">Room Type</label>
+            <select
+              {...register("roomType")}
+              id="roomType"
+              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+            >
+              {roomTypeOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <p className="text-red-400">{errors.roomType?.message}</p>
+          </div>
 
           <div className="flex flex-col gap-2 w-full">
             <label htmlFor="roomNumber">Room Number</label>
@@ -498,39 +499,55 @@ const RegistrationForm: React.FC = () => {
             </p>
           </div>
 
-					<div className="self-center text-center w-full md:py-0 pt-4">
-						<p className="text-2xl font-semibold text-primary">
-							Total: GHC {totalCost}
-						</p>
-					</div>
-				</div>
+          <div className="self-center text-center w-full md:py-0 pt-4">
+            <p className="text-2xl font-semibold text-primary">
+              Total: GHC {totalCost}
+            </p>
+          </div>
+        </div>
 
-				<div>
-					<Button
-						disabled={loading}
-						type="submit"
-						className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
-					>
-						{loading ? (
-							"Loading..."
-						) : (
-							<>
-								Connect Me <Check className="h-5 w-5 mr-2" />
-							</>
-						)}
-					</Button>
-				</div>
+        <div>
+          <Button
+            disabled={loading}
+            type="submit"
+            className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
+          >
+            {loading ? (
+              "Loading..."
+            ) : (
+              <>
+                Connect Me <Check className="h-5 w-5 mr-2" />
+              </>
+            )}
+          </Button>
+        </div>
 
-				<TermCondition />
-			</form>
+        <div className="flex flex-col sm:flex-col gap-2 text-center">
+          <div className="pflex flex-col gap-2 w-full justify-center text-center">
+            <input
+              id="termsAccepted"
+              type="checkbox"
+              placeholder="February"
+              {...register("termsAccepted", {})}
+              className="mx-3"
+            />
+            <label htmlFor="termsAccepted">Terms & Conditions Apply</label>
+          </div>
+          {errors.termsAccepted && (
+            <p className="text-red-400">{errors.termsAccepted?.message}</p>
+          )}
+        </div>
 
-			<SuccessModal
-				open={isSuccessModalOpen}
-				onClose={() => setIsSuccessModalOpen(false)}
-				registrationType={registration.name}
-			/>
-		</div>
-	);
+        {/* <TermCondition /> */}
+      </form>
+
+      <SuccessModal
+        open={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        registrationType={registration.name}
+      />
+    </div>
+  );
 };
 
 export default RegistrationForm;

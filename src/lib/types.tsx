@@ -12,6 +12,7 @@ export interface FormData {
   userName?: string;
   password?: string;
   studentId: string;
+  termsAccepted: boolean;
 }
 
 export interface PaystackSuccessReference {
@@ -41,6 +42,7 @@ export interface PaymentInfo {
   provider: string;
   registrationType: string;
   studentId: string;
+  termsAccepted: boolean;
 }
 
 export interface RegistrationInfo {
@@ -63,6 +65,7 @@ export interface RegistrationInfo {
   provider: string;
   registrationType: string;
   studentId: string;
+  termsAccepted: boolean;
 }
 
 export interface SalesPayload {
@@ -90,6 +93,7 @@ export interface SalesPayload {
   transactionId: string;
   externalTransactionId?: string;
   studentId: string;
+  termsAccepted: boolean;
 }
 
 export interface PendingRegistrationPayload {
@@ -114,6 +118,7 @@ export interface PendingRegistrationPayload {
   registrationType: string;
   purchaseInfo: object;
   studentId: string;
+  termsAccepted: boolean;
 }
 
 export interface FailedRegistrationPayload {
@@ -139,6 +144,7 @@ export interface FailedRegistrationPayload {
   registrationType: string;
   purchaseInfo: object;
   studentId: string;
+  termsAccepted: boolean;
 }
 
 export interface TopUpFormData {
@@ -146,6 +152,7 @@ export interface TopUpFormData {
   phoneNumber: string;
   email: string;
   subscriptionPlan: string;
+  termsAccepted: boolean;
 }
 
 export interface FeedbackPayload {
@@ -178,6 +185,7 @@ export interface PendingPaymentPayload {
   registrationType: string;
   purchaseInfo: object;
   studentId: string;
+  termsAccepted: boolean;
 }
 
 export interface CustomerPayload {

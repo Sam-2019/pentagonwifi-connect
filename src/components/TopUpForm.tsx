@@ -15,7 +15,6 @@ import { useForm } from "react-hook-form";
 import SuccessModal from "./SuccessModal";
 import { topupSchema } from "@/lib/schema";
 import { getCustomer } from "@/lib/actions";
-import TermCondition from "./TermCondition";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { Button } from "@/components/ui/button";
 import { paystackPay } from "@/hooks/use-paystack";
@@ -38,6 +37,7 @@ const TopUpForm: React.FC = () => {
       userName: "",
       phoneNumber: "",
       subscriptionPlan: "",
+      termsAccepted: null,
     },
   });
 
@@ -198,7 +198,23 @@ const TopUpForm: React.FC = () => {
           </Button>
         </div>
 
-        <TermCondition />
+        <div className="flex flex-col sm:flex-col gap-2 text-center">
+          <div className="pflex flex-col gap-2 w-full justify-center text-center">
+            <input
+              id="termsAccepted"
+              type="checkbox"
+              placeholder="February"
+              {...register("termsAccepted", {})}
+              className="mx-3"
+            />
+            <label htmlFor="termsAccepted">Terms & Conditions Apply</label>
+          </div>
+          {errors.termsAccepted && (
+            <p className="text-red-400">{errors.termsAccepted?.message}</p>
+          )}
+        </div>
+
+        {/* <TermCondition /> */}
       </form>
 
       <SuccessModal
