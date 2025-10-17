@@ -539,7 +539,9 @@ const RegistrationForm: React.FC = () => {
               {...register("termsAccepted")}
               className="mx-3"
             />
-            <label htmlFor="termsAccepted">Terms & Conditions Apply</label>
+            <label htmlFor="termsAccepted" className="text-base text-gray-500">
+              Terms & Conditions Apply
+            </label>
           </div>
           {errors.termsAccepted && (
             <p className="text-red-400">{errors.termsAccepted?.message}</p>
