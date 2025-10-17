@@ -10,7 +10,7 @@ import {
   registrationType,
   blockCourtOptions,
 } from "@/lib/utils";
-import type React from "react";
+import React from "react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -93,7 +93,6 @@ const RegistrationForm: React.FC = () => {
   const totalCost = fee + planFee;
 
   const onSubmit = async (data: FormData) => {
-    
     if (data.termsAccepted === false) {
       return setError("termsAccepted", {
         type: server,
@@ -187,7 +186,7 @@ const RegistrationForm: React.FC = () => {
             id="fullName"
             type="text"
             {...register("fullName")}
-            className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+            className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
           />
           <p className="text-red-400">{errors.fullName?.message}</p>
         </div>
@@ -199,7 +198,7 @@ const RegistrationForm: React.FC = () => {
               id="studentId"
               type="text"
               {...register("studentId")}
-              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
             <p className="text-red-400">{errors.studentId?.message}</p>
           </div>
@@ -219,7 +218,7 @@ const RegistrationForm: React.FC = () => {
                   useRange={false}
                   asSingle={true}
                   value={datePickerValue}
-                  inputClassName="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+                  inputClassName="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
                 />
               )}
             />
@@ -234,7 +233,7 @@ const RegistrationForm: React.FC = () => {
               id="phoneNumber"
               type="text"
               {...register("phoneNumber")}
-              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
             <p className="text-red-400">{errors.phoneNumber?.message}</p>
           </div>
@@ -245,7 +244,7 @@ const RegistrationForm: React.FC = () => {
               id="email"
               type="text"
               {...register("email")}
-              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
             <p className="text-red-400">{errors.email?.message}</p>
           </div>
@@ -256,7 +255,7 @@ const RegistrationForm: React.FC = () => {
           <select
             {...register("blockCourt")}
             id="blockCourt"
-            className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+            className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
           >
             {blockCourtOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -273,7 +272,7 @@ const RegistrationForm: React.FC = () => {
             <select
               {...register("roomType")}
               id="roomType"
-              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             >
               {roomTypeOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -290,7 +289,7 @@ const RegistrationForm: React.FC = () => {
               id="roomNumber"
               type="text"
               {...register("roomNumber")}
-              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
 
             {errors.roomNumber && (
@@ -301,62 +300,76 @@ const RegistrationForm: React.FC = () => {
 
         <div className="mt-2 mb-2 border-t" />
 
-        <div className="bg-gradient-to-b from-gray-100 to-cyan-200 backdrop-blur-sm shadow-sm rounded-lg p-5 space-y-5">
-          <h3 className="text-xl font-bold text-primary mb-1">
-            Membership Card
-          </h3>
-          <p className="text-sm text-gray-600 ">Select your preferred design</p>
-          <br />
-          {/* Membership Card Design */}
-          <div className="flex flex-col gap-2">
-            {/* <label htmlFor="selectedCard">Membership Card</label> */}
-            <FormField
-              control={control}
-              name="selectedCard"
-              render={({ field }) => (
-                <FormItem className="flex flex-col gap-x-3">
-                  <div className="flex gap-3 flex-col sm:flex-row md:space-x-0 justify-center">
-                    {cards.map((info) => (
-                      <div key={info.id}>
-                        {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-                        <img
-                          onClick={() => field.onChange(info.name)}
-                          src={info.localsrc}
-                          alt={info.name}
-                          className={cn(
-                            "focus:outline-none duration-300 object-cover w-50 md:w-50 h-auto shadow-lg rounded-xl border-transparent",
-                            field.value === info.name
-                              ? "border-primary bg-white shadow border-2 p-1"
-                              : "border-gray-200 hover:border-primary/50",
-                          )}
-                        />
-                      </div>
-                    ))}
-                  </div>
+        <div className="bg-gradient-to-b from-gray-100 to-cyan-200 backdrop-blur-sm shadow-sm rounded-lg p-5 space-y-4">
+          <h3 className="text-xl font-bold text-primary">Membership</h3>
+          <div>
+            <p className="text-sm text-gray-600 max-w-md">
+              Pay a one-time registration fee of GHS 100 to unlock:
+            </p>
+            <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
+              <li>2 weeks of Unlimited Data - FREE .</li>
+              <li>After that, enjoy 24hr Unlimited Data for just GHS20.</li>
+              <li>Access to special subscription plans and offers</li>
+              <li>A Custom Access Card</li>
+              <li>Exclusive branded souvenirs</li>
+            </ul>
+          </div>
 
-                  {errors.selectedCard && (
-                    <p className="text-red-400">
-                      {errors.selectedCard?.message}
-                    </p>
+          <div className="space-y-1">
+            <h3 className="text-l font-bold text-primary">Access Card</h3>
+
+            <div className="space-y-3">
+              <p className="text-sm text-gray-600">
+                Select your preferred design
+              </p>
+              <div className="flex flex-col gap-2">
+                <FormField
+                  control={control}
+                  name="selectedCard"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col gap-x-3">
+                      <div className="flex gap-3 flex-col sm:flex-row md:space-x-0 justify-center">
+                        {cards.map((info) => (
+                          <div key={info.id}>
+                            {/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+                            <img
+                              onClick={() => field.onChange(info.name)}
+                              src={info.localsrc}
+                              alt={info.name}
+                              className={cn(
+                                "focus:outline-none duration-300 object-cover w-50 md:w-50 h-auto shadow-lg rounded-xl border-transparent",
+                                field.value === info.name
+                                  ? "border-primary bg-white shadow border-2 p-1"
+                                  : "border-gray-200 hover:border-primary/50",
+                              )}
+                            />
+                          </div>
+                        ))}
+                      </div>
+
+                      {errors.selectedCard && (
+                        <p className="text-red-400">
+                          {errors.selectedCard?.message}
+                        </p>
+                      )}
+                    </FormItem>
                   )}
-                </FormItem>
-              )}
-            />
+                />
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="mt-2 mb-2 border-t" />
 
-        <div className="bg-gradient-to-b from-cyan-200 to-gray-100  backdrop-blur-sm shadow-sm p-5 rounded-lg space-y-5">
+        <div className="bg-gradient-to-b from-cyan-200 to-gray-100  backdrop-blur-sm shadow-sm p-5 rounded-lg space-y-4">
+          <h3 className="text-xl font-bold text-primary">Choose a Password</h3>
           <div>
-            <h3 className="text-xl font-bold text-primary mb-1">Password</h3>
-            <br />
             <p className="text-sm text-gray-600 max-w-md">Do’s:</p>
             <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
               <li>Create a strong password.</li>
               <li>Store your credentials safely.</li>
               <li>
-                {" "}
                 Keep your credentials confidential — never share them with
                 others.
               </li>
@@ -373,22 +386,7 @@ const RegistrationForm: React.FC = () => {
               </li>
             </ul>
           </div>
-
           <div className="flex flex-col sm:flex-row gap-4">
-            {/* username */}
-            {/* <div className="flex flex-col gap-2 w-full">
-                <label htmlFor="userName">Username</label>
-                <input
-                  id="userName"
-                  type="text"
-                  placeholder="Username"
-                  {...register("userName")}
-                  className="py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
-                />
-                <p className="text-red-400">{errors.userName?.message}</p>
-              </div> */}
-
-            {/* password */}
             <div className="flex flex-col gap-2 w-full">
               <div className="flex items-center rounded-md bg-white outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
                 <input
@@ -396,7 +394,7 @@ const RegistrationForm: React.FC = () => {
                   type={type}
                   placeholder="Password"
                   {...register("password")}
-                  className="py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+                  className="py-2 md:py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
                 />
                 <div className="grid shrink-0 grid-cols-1 focus-within:relative mr-4">
                   {isVisible ? (
@@ -420,8 +418,9 @@ const RegistrationForm: React.FC = () => {
               Host. Lead. Connect.
             </h3>
             <p className="text-sm text-gray-600 max-w-md">
-              Want more than just connection? Become a{" "}
-              <strong>Custodian</strong> and get:
+              Want more than just connection?
+              <br /> Become a <strong>Custodian</strong> and host a router in
+              your room to enjoy:
             </p>
             <ul className="list-disc pl-6 text-sm text-gray-600 mt-2">
               <li>Priority support</li>
@@ -519,7 +518,7 @@ const RegistrationForm: React.FC = () => {
           <Button
             disabled={loading}
             type="submit"
-            className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
+            className="w-full py-2 md:py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
           >
             {loading ? (
               "Loading..."
