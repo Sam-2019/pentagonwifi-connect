@@ -186,7 +186,7 @@ const RegistrationForm: React.FC = () => {
             id="fullName"
             type="text"
             {...register("fullName")}
-            className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+            className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
           />
           <p className="text-red-400">{errors.fullName?.message}</p>
         </div>
@@ -198,7 +198,7 @@ const RegistrationForm: React.FC = () => {
               id="studentId"
               type="text"
               {...register("studentId")}
-              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
             <p className="text-red-400">{errors.studentId?.message}</p>
           </div>
@@ -218,7 +218,7 @@ const RegistrationForm: React.FC = () => {
                   useRange={false}
                   asSingle={true}
                   value={datePickerValue}
-                  inputClassName="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+                  inputClassName="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
                 />
               )}
             />
@@ -233,7 +233,7 @@ const RegistrationForm: React.FC = () => {
               id="phoneNumber"
               type="text"
               {...register("phoneNumber")}
-              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
             <p className="text-red-400">{errors.phoneNumber?.message}</p>
           </div>
@@ -244,7 +244,7 @@ const RegistrationForm: React.FC = () => {
               id="email"
               type="text"
               {...register("email")}
-              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
             <p className="text-red-400">{errors.email?.message}</p>
           </div>
@@ -255,7 +255,7 @@ const RegistrationForm: React.FC = () => {
           <select
             {...register("blockCourt")}
             id="blockCourt"
-            className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+            className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
           >
             {blockCourtOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -272,7 +272,7 @@ const RegistrationForm: React.FC = () => {
             <select
               {...register("roomType")}
               id="roomType"
-              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             >
               {roomTypeOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -289,7 +289,7 @@ const RegistrationForm: React.FC = () => {
               id="roomNumber"
               type="text"
               {...register("roomNumber")}
-              className="py-2 md:py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
 
             {errors.roomNumber && (
@@ -394,7 +394,7 @@ const RegistrationForm: React.FC = () => {
                   type={type}
                   placeholder="Password"
                   {...register("password")}
-                  className="py-2 md:py-3 px-4 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+                  className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-0 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
                 />
                 <div className="grid shrink-0 grid-cols-1 focus-within:relative mr-4">
                   {isVisible ? (
@@ -518,7 +518,7 @@ const RegistrationForm: React.FC = () => {
           <Button
             disabled={loading}
             type="submit"
-            className="w-full py-2 md:py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
+            className="w-full py-2 md:py-3 px-2 md:px-3 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
           >
             {loading ? (
               "Loading..."

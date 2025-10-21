@@ -97,7 +97,7 @@ const FeedbackForm: React.FC<
 								id="fullName"
 								type="text"
 								{...register("fullName")}
-								className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+								className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
 							/>
 							<p className="text-red-400">{errors.fullName?.message}</p>
 						</div>
@@ -108,7 +108,7 @@ const FeedbackForm: React.FC<
 								id="phoneNumber"
 								type="text"
 								{...register("phoneNumber")}
-								className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+								className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
 							/>
 							<p className="text-red-400">{errors.phoneNumber?.message}</p>
 						</div>
@@ -118,7 +118,7 @@ const FeedbackForm: React.FC<
 							<select
 								{...register("category")}
 								id="category"
-								className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+								className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
 							>
 								{feedbackCategories.map((option) => (
 									<option key={option.value} value={option.value}>
@@ -136,7 +136,7 @@ const FeedbackForm: React.FC<
 								rows={6}
 								placeholder="Share your feedback here..."
 								{...register("comment")}
-								className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+								className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
 							/>
 							<p className="text-red-400">{errors.comment?.message}</p>
 						</div>
@@ -145,7 +145,7 @@ const FeedbackForm: React.FC<
 							<Button
 								disabled={loading}
 								type="submit"
-								className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
+								className="w-full py-2 md:py-3 px-2 md:px-3 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
 							>
 								{loading ? "Loading..." : "Submit"}
 							</Button>

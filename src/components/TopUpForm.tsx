@@ -130,7 +130,7 @@ const TopUpForm: React.FC = () => {
             id="userName"
             type="text"
             {...register("userName")}
-            className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+            className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
           />
           <p className="text-red-400">{errors.userName?.message}</p>
         </div>
@@ -142,7 +142,7 @@ const TopUpForm: React.FC = () => {
               id="phoneNumber"
               type="text"
               {...register("phoneNumber")}
-              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
             <p className="text-red-400">{errors.phoneNumber?.message}</p>
           </div>
@@ -153,7 +153,7 @@ const TopUpForm: React.FC = () => {
               id="email"
               type="text"
               {...register("email")}
-              className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+              className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
             />
             <p className="text-red-400">{errors.email?.message}</p>
           </div>
@@ -164,7 +164,7 @@ const TopUpForm: React.FC = () => {
           <select
             {...register("subscriptionPlan")}
             id="subscriptionPlan"
-            className="py-3 px-4 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
+            className="py-2 md:py-3 px-2 md:px-3 w-full rounded-lg border-2 border-gray-200 hover:border-primary/50 focus:border-primary focus:outline-none"
           >
             {dataPlanOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -195,7 +195,7 @@ const TopUpForm: React.FC = () => {
           <Button
             disabled={loading}
             type="submit"
-            className="w-full py-3 px-4 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
+            className="w-full py-2 md:py-3 px-2 md:px-3 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
           >
             {loading ? (
               "Loading..."
