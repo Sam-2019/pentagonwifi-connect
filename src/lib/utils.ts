@@ -13,7 +13,9 @@ export enum PasswordType {
   PASSWORD = "password",
 }
 
+export const home = "Home";
 export const topup = "Top Up";
+export const register = "Register";
 export const feedback = "Feedback";
 export const membership = "Membership";
 export const registration = "Registration";

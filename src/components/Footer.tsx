@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="w-full pt-4 pb-8 md:py-6 text-center text-sm text-gray-500">
+    <footer className="w-full pt-4 pb-8 md:py-6 text-center text-sm text-gray-500 relative">
       {/* <div className="flex justify-center items-center space-x-5 border-2 my-2">
         <p className="items-center">* Terms and Conditions *</p>
         <p>* Privacy *</p>

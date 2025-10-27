@@ -195,13 +195,16 @@ const TopUpForm: React.FC = () => {
           <Button
             disabled={loading}
             type="submit"
-            className="w-full py-2 md:py-3 px-2 md:px-3 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg"
+            className="w-full py-2 md:py-3 px-2 md:px-3 text-lg bg-primary hover:bg-primary/90 transition-all duration-300 hover:shadow-lg 
+            inline-flex justify-center whitespace-nowrap rounded-lg font-medium text-white shadow-sm shadow-indigo-950/10 
+            focus-visible:outline-none focus-visible:ring focus-visible:ring-indigo-300 dark:focus-visible:ring-slate-600 group"
           >
             {loading ? (
               "Loading..."
             ) : (
               <>
-                Connect Me <Check className="h-5 w-5 mr-2" />
+                Connect Me{" "}
+                <Check className="tracking-normal group-hover:translate-x-0.5 transition-transform duration-150 ease-in-out" />
               </>
             )}
           </Button>

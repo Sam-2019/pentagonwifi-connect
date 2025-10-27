@@ -1,14 +1,14 @@
 import {
   Sheet,
+  SheetHeader,
+  SheetFooter,
   SheetContent,
   SheetTrigger,
-  SheetHeader,
   SheetDescription,
-  SheetFooter,
 } from "@/components/ui/sheet";
 import { useState } from "react";
 import Logo from "@/components/Logo";
-import { topup } from "@/lib/utils";
+import { topup, home, register } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import type { FloatButtonProps } from "@/lib/types";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -27,34 +27,52 @@ export default function Header({ modalState }: FloatButtonProps) {
     navigate("/");
   };
 
+  const navigateRegister = () => {
+    navigate("/register");
+  };
+
   const currentPath = location.pathname;
   const homePath = "/";
 
   return (
-    <header className="sticky py-5 mx-auto max-w-screen-lg bg-[hsla(0,0%,93%,0.72)] backdrop-blur-xl rounded-full shadow-sm px-4 md:px-8 top-5 z-50">
+    <header className="sticky py-5 mx-auto max-w-screen-lg bg-[hsla(0,0%,93%,0.72)] backdrop-blur-xl rounded-full shadow-sm px-4 md:px-8 top-5 z-50 w-full">
       <div className="flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2">
           <Logo />
         </Link>
 
         <div className="hidden lg:block">
-          {currentPath === homePath ? (
-            <Button
-              type="button"
-              className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg rounded-full"
-              onClick={navigateTopup}
-            >
-              {topup}
-            </Button>
-          ) : (
-            <button
-              type="button"
-              className="rounded-full shadow-l bg-none"
-              onClick={navigateHome}
-            >
-              <House className="h-8 w-8 text-blue-900 " />
-            </button>
-          )}
+          <div className="space-x-3">
+            {currentPath !== homePath && (
+              <Button
+                type="button"
+                className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg rounded-full"
+                onClick={navigateHome}
+              >
+                {home}
+              </Button>
+            )}
+
+            {currentPath !== "/topup" && (
+              <Button
+                type="button"
+                className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg rounded-full"
+                onClick={navigateTopup}
+              >
+                {topup}
+              </Button>
+            )}
+
+            {currentPath !== "/register" && (
+              <Button
+                type="button"
+                className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg rounded-full"
+                onClick={navigateRegister}
+              >
+                {register}
+              </Button>
+            )}
+          </div>
         </div>
 
         <div className="md:hidden">
