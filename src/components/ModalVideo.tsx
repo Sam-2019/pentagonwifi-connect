@@ -119,10 +119,10 @@ export default function ModalVideo({
 
                 {/** biome-ignore lint/a11y/useMediaCaption: <explanation> */}
                 <video
-                //   width={videoWidth}
-                //   height={videoHeight}
+                  //   width={videoWidth}
+                  //   height={videoHeight}
                   id="player1"
-                  preload='auto'
+                  preload="auto"
                   controls
                   loop
                 >

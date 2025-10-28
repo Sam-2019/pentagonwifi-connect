@@ -10,11 +10,10 @@ import { useState } from "react";
 import Logo from "@/components/Logo";
 import { topup, home, register } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import type { FloatButtonProps } from "@/lib/types";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { House, Menu as MenuIcon, Megaphone, RotateCcw } from "lucide-react";
+import { House, Menu as MenuIcon, RotateCcw } from "lucide-react";
 
-export default function Header({ modalState }: FloatButtonProps) {
+export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
@@ -119,18 +118,6 @@ export default function Header({ modalState }: FloatButtonProps) {
                           Home
                         </button>
                       )}
-
-                      <button
-                        type="button"
-                        className="py-2 px-4 text-lg bg-white hover:bg-gray-100/90 transition-all duration-300 hover:shadow-lg flex flex-row items-center gap-3 border-2 border-gray-200 rounded-lg"
-                        onClick={() => {
-                          setOpen(false);
-                          modalState.setFeedback(true);
-                        }}
-                      >
-                        <Megaphone className="h-8 w-6 text-blue-900" />
-                        Feedback
-                      </button>
                     </div>
                   </SheetDescription>
                 </div>

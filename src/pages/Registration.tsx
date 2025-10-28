@@ -4,7 +4,6 @@ const Registration = () => {
   return (
     <main className="flex-1 flex flex-col items-center justify-center relative">
       <div className="text-center mt-10">
-        
         {/* <div className="relative  font-semibold text-primary items-center">
           <h1 className="-mb-1 text-2xl"> Connect to Pentagon WiFi</h1>
           <div className="flex justify-center">

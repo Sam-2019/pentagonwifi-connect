@@ -1,20 +1,8 @@
-import { useState } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import { Outlet } from "react-router-dom";
-import ScanMeModal from "@/components/ScanMe";
-import { Analytics } from "@vercel/analytics/react";
-import FeedbackForm from "@/components/FeedbackForm";
-import FloatButton from "@/components/FloatingButton";
-import LightningBackground from "@/components/WaveBackground";
-import Navbar from "@/components/Navbar";
 
 const Root = () => {
-  const [isModalOpen, setIsModalOpen] = useState({
-    qrScan: false,
-    feedback: false,
-  });
-
   return (
     <div className="relative min-h-screen w-full px-4">
       <div
@@ -41,16 +29,10 @@ const Root = () => {
           <Navbar />
       </div> */}
         <Header
-          modalState={{
-            setQrScan: null,
-            setFeedback: (open: boolean) =>
-              setIsModalOpen((prev) => ({ ...prev, feedback: open })),
-          }}
         />
 
         <section>
           <Outlet />
-          
         </section>
         <Footer />
       </div>

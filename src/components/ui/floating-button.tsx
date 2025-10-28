@@ -49,43 +49,43 @@ function FloatingButton({ children, triggerContent }: FloatingButtonProps) {
     setIsOpen(false),
   );
 
-	const dragControls = useDragControls();
+  const dragControls = useDragControls();
 
-	function startDrag(event: React.PointerEvent<Element> | PointerEvent) {
-		dragControls.start(event);
-	}
+  function startDrag(event: React.PointerEvent<Element> | PointerEvent) {
+    dragControls.start(event);
+  }
 
-	return (
-		<div className="flex flex-col items-center gap-4">
-			<motion.ul
-				key="list"
-				drag
-				variants={list}
-				initial="hidden"
-				dragListener={false}
-				whileDrag={{ pointerEvents: "none" }}
-				dragControls={dragControls}
-				animate={isOpen ? "visible" : "hidden"}
-				dragConstraints={{ left: -850, right: 50, top: -450, bottom: 550 }}
-			>
-				{children}
-			</motion.ul>
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <motion.ul
+        key="list"
+        drag
+        variants={list}
+        initial="hidden"
+        dragListener={false}
+        whileDrag={{ pointerEvents: "none" }}
+        dragControls={dragControls}
+        animate={isOpen ? "visible" : "hidden"}
+        dragConstraints={{ left: -850, right: 50, top: -450, bottom: 550 }}
+      >
+        {children}
+      </motion.ul>
 
-			<motion.div
-				drag
-				key="button"
-				variants={btn}
-				dragPropagation
-				onPointerDown={startDrag}
-				onClick={() => setIsOpen(!isOpen)}
-				whileDrag={{ pointerEvents: "none" }}
-				animate={isOpen ? "visible" : "hidden"}
-				dragConstraints={{ left: -850, right: 50, top: -450, bottom: 550 }}
-			>
-				{triggerContent}
-			</motion.div>
-		</div>
-	);
+      <motion.div
+        drag
+        key="button"
+        variants={btn}
+        dragPropagation
+        onPointerDown={startDrag}
+        onClick={() => setIsOpen(!isOpen)}
+        whileDrag={{ pointerEvents: "none" }}
+        animate={isOpen ? "visible" : "hidden"}
+        dragConstraints={{ left: -850, right: 50, top: -450, bottom: 550 }}
+      >
+        {triggerContent}
+      </motion.div>
+    </div>
+  );
 }
 
 function FloatingButtonItem({ children }: FloatingButtonItemProps) {

@@ -52,19 +52,22 @@ export const cards = [
     id: 0,
     name: "metaverse",
     localsrc: metaverse,
-    websrc: "https://drive.google.com/file/d/1HNlF56T6oAAdsjk2W5l594Ql8evhfG-N/view?usp=drive_link",
+    websrc:
+      "https://drive.google.com/file/d/1HNlF56T6oAAdsjk2W5l594Ql8evhfG-N/view?usp=drive_link",
   },
   {
     id: 1,
     name: "spiderman",
     localsrc: spiderman,
-    websrc: "https://drive.google.com/file/d/1ur-fo0guxlGTVkGAtyXvuckYM3b3vcGa/view?usp=drive_link",
+    websrc:
+      "https://drive.google.com/file/d/1ur-fo0guxlGTVkGAtyXvuckYM3b3vcGa/view?usp=drive_link",
   },
   {
     id: 2,
     name: "tombraider",
     localsrc: tombraider,
-    websrc: "https://drive.google.com/file/d/1I6041x6xNAckackhJgbWqd_AayBBfJaT/view",
+    websrc:
+      "https://drive.google.com/file/d/1I6041x6xNAckackhJgbWqd_AayBBfJaT/view",
   },
 ];
 
@@ -104,7 +107,10 @@ export const dataPlanOptions = [
     value: `Daily-(GHC ${planPrices.daily})`,
     label: `Daily (GHC ${planPrices.daily})`,
   },
-  { value: `Weekly-(GHC ${planPrices.weekly})`, label: `Weekly (GHC ${planPrices.weekly})` },
+  {
+    value: `Weekly-(GHC ${planPrices.weekly})`,
+    label: `Weekly (GHC ${planPrices.weekly})`,
+  },
   // { value: `Monthly-(GHC ${planPrices.monthly})`, label: `Monthly (GHC ${planPrices.monthly})` }
 ];
 

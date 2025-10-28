@@ -1,45 +1,39 @@
-import Faq1 from "@/components/FAQ";
-import MasonryPage from "@/components/MasonryPage";
-import ModalVideo from "@/components/ModalVideo";
-import Pricing from "@/components/Pricing";
-import RotateText from "@/components/RotateText";
-import RotatingText from "@/components/RotatingText";
-import { Services } from "@/components/Services";
-
-import Image from "next/image";
-import VideoThumb from "../assets/modal-video-thumb.jpg";
-import video from "../assets/video.mp4";
-import ServiceLogos from "@/components/ServiceLogos";
-import Looper from "@/components/Looper";
-import WishList from "@/components/WishList";
-import { motion } from "motion/react";
 import { useState } from "react";
-import noise from "../assets/noise.webp";
+import Faq1 from "@/components/FAQ";
+import { motion } from "motion/react";
+import Pricing from "@/components/Pricing";
+import { Services } from "@/components/Services";
+import MasonryPage from "@/components/MasonryPage";
+import ServiceLogos from "@/components/ServiceLogos";
 
-import { WobbleCard } from "../components/ui/wobble-card";
+export function BackgroundRippleEffectDemo() {
+  return (
+    <div
+      className="relative flex w-full flex-col items-start justify-center overflow-hidden mt-10 
+     mx-auto backdrop-blur-sm shadow-lg rounded-xl p-6 md:p-8 border border-blue-100 sm"
+    >
+      <div className="w-full">
+        <h2 className="relative z-10 mx-auto max-w-5xl text-center text-3xl font-bold text-neutral-800 md:text-4xl lg:text-7xl dark:text-neutral-100">
+          Internet That Never 🚀Sleeps
+        </h2>
+        <p className="relative z-10 mx-auto mt-4 max-w-4xl text-center text-muted-foreground leading-relaxed lg:text-lg">
+          Pentagon WiFi was born from a simple realization: students at African
+          Union Hall needed better internet—faster, more reliable, and built for
+          the demands of modern campus life. We launched with one mission in
+          mind: to eliminate digital barriers for students and provide an
+          always-on connection that supports learning, creativity, and
+          entertainment—day and night.
+        </p>
+      </div>
+    </div>
+  );
+}
 
 const Index = () => {
   return (
     <main className="flex-1 flex flex-col items-center justify-center relative">
-      {/* <div className="flex flex-row items-center space-x-3">
-        <p>Hello</p>
-        <RotatingText
-          texts={["React", "Bits", "Is🚀", "Cool!😙"]}
-          mainClassName="px-2 sm:px-2 md:px-3 text-black overflow-hidden py-0.5 justify-center rounded-lg text-9xl subpixel-antialiased font-bold"
-          staggerFrom={"last"}
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "-120%" }}
-          staggerDuration={0.025}
-          splitLevelClassName="overflow-hidden"
-          transition={{ type: "spring", damping: 30, stiffness: 400 }}
-          rotationInterval={2000}
-        />
-      </div> */}
-
-      <div className="space-y-20 mt-10">
-        <RotateText />
-        <WishList />
+      <div className="space-y-20 mt-20">
+        {/* <WishList /> */}
         {/* <ModalVideo
           thumb={VideoThumb}
           thumbWidth={768}
@@ -50,8 +44,11 @@ const Index = () => {
           videoHeight={1080}
           /> */}
         {/* <Looper /> */}
+        {/* <WobbleCardDemo /> */}
+
+        <BackgroundRippleEffectDemo />
+
         <Pricing />
-        <WobbleCardDemo />
         <ServiceLogos />
         <Services />
         <MasonryPage />
@@ -113,52 +110,3 @@ export const SquigglyUnderline = () => {
     </div>
   );
 };
-
-function WobbleCardDemo() {
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 max-w-7xl mx-auto w-full border-2 border-red-500">
-      <WobbleCard
-        containerClassName="col-span-1 lg:col-span-2 h-full bg-pink-800 min-h-[500px] lg:min-h-[300px]"
-        className=""
-      >
-        <div className="max-w-xs">
-          <h2 className="text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-            Gippity AI powers the entire universe
-          </h2>
-          <p className="mt-4 text-left  text-base/6 text-neutral-200">
-            With over 100,000 mothly active bot users, Gippity AI is the most
-            popular AI platform for developers.
-          </p>
-        </div>
-        {/* <img
-          src={noise}
-          width={500}
-          height={500}
-          alt="lineardemomage"
-          className="absolute -right-4 lg:-right-[40%] grayscale filter -bottom-10 object-contain rounded-2xl"
-        /> */}
-      </WobbleCard>
-      <WobbleCard containerClassName="col-span-1 min-h-[300px]">
-        <h2 className="max-w-80  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-          No shirt, no shoes, no weapons.
-        </h2>
-        <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-          If someone yells “stop!”, goes limp, or taps out, the fight is over.
-        </p>
-      </WobbleCard>
-      <WobbleCard containerClassName="col-span-1 lg:col-span-3 bg-blue-900 min-h-[500px] lg:min-h-[600px] xl:min-h-[300px]">
-        <div className="max-w-sm">
-          <h2 className="max-w-sm md:max-w-lg  text-left text-balance text-base md:text-xl lg:text-3xl font-semibold tracking-[-0.015em] text-white">
-            Signup for blazing-fast cutting-edge state of the art Gippity AI
-            wrapper today!
-          </h2>
-          <p className="mt-4 max-w-[26rem] text-left  text-base/6 text-neutral-200">
-            With over 100,000 mothly active bot users, Gippity AI is the most
-            popular AI platform for developers.
-          </p>
-        </div>
-       
-      </WobbleCard>
-    </div>
-  );
-}

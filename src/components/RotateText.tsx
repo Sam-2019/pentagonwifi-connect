@@ -1,4 +1,5 @@
-const RotateText = () => {  return (
+const RotateText = () => {
+  return (
     <main className="relative flex flex-col justify-center overflow-hidden border-2 border-red-400">
       <div className="w-full max-w-6xl">
         <div className="text-center">

@@ -15,11 +15,10 @@ interface PricingFeature {
 }
 
 interface PricingPlan {
-  id: string;
+  id: number;
   name: string;
   description: string;
-  monthlyPrice: string;
-  yearlyPrice: string;
+  price: string;
   features: PricingFeature[];
   button: {
     text: string;
@@ -35,73 +34,55 @@ interface Pricing2Props {
 }
 
 const Pricing = ({
-  heading = "Pricing",
-  description = "Choose a plan that fits your needs",
+  heading = "Choose a plan that fits your needs",
   subtitle = "No hidden fees. No data caps. Just pure, high speed connection built for students.",
   plans = [
     {
-      id: "plus",
-      name: "Plus",
-      description: "For personal use",
-      monthlyPrice: "$19",
-      yearlyPrice: "$179",
+      id: 0,
+      name: "Weekly",
+      description: "For 24 hours",
+      price: "Ghc 20",
       features: [
-        { text: "Up to 5 team members" },
-        { text: "Basic components library" },
-        { text: "Community support" },
-        { text: "1GB storage space" },
+        { text: "Non-Stop Unlimited Data" },
+        {
+          text: "Enjoy unlimted access to Facebook, Instgram, Youtube , Tiktok and more",
+        },
+        { text: "Perfect for quick, on-the-go connectivity" },
       ],
       button: {
-        text: "Purchase",
-        url: "https://shadcnblocks.com",
+        text: "Go Daily",
+        url: "/register",
       },
     },
     {
-      id: "pro",
-      name: "Pro",
-      description: "For professionals",
-      monthlyPrice: "$49",
-      yearlyPrice: "$359",
+      id: 1,
+      name: "Weekly",
+      description: "For 7 days",
+      price: "Ghc 100",
       features: [
-        { text: "Unlimited team members" },
-        { text: "Advanced components" },
-        { text: "Priority support" },
-        { text: "Unlimited storage" },
+        { text: "Non-Stop Unlimited Data" },
+        {
+          text: "Enjoy unlimted access to Facebook, Instgram, Youtube , Tiktok and more",
+        },
+        {
+          text: "Ideal for heavy users who need uninterrupted access for a full week",
+        },
       ],
       button: {
-        text: "Purchase",
-        url: "https://shadcnblocks.com",
-      },
-    },
-    {
-      id: "access",
-      name: "All Access",
-      description: "For professionals",
-      monthlyPrice: "$49",
-      yearlyPrice: "$359",
-      features: [
-        { text: "Unlimited team members" },
-        { text: "Advanced components" },
-        { text: "Priority support" },
-        { text: "Unlimited storage" },
-      ],
-      button: {
-        text: "Purchase",
-        url: "https://shadcnblocks.com",
+        text: "Go Weekly",
+        url: "/register",
       },
     },
   ],
 }: Pricing2Props) => {
-
   return (
     <section className="">
       <div className="container">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
-          {/* <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+          <h1 className="text-3xl font-semibold text-center text-primary ">
             {heading}
-          </h2> */}
+          </h1>
           <div className="flex flex-col">
-            <p className="text-muted-foreground text-3xl">{description}</p>
             <span className="text-muted-foreground leading-relaxed lg:text-lg">
               {subtitle}
             </span>
@@ -120,18 +101,16 @@ const Pricing = ({
                     {plan.description}
                   </p>
                   <div className="flex items-end">
-                    <span className="text-4xl font-semibold">
-                      {plan.monthlyPrice}
-                    </span>
+                    <span className="text-4xl font-semibold">{plan.price}</span>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <Separator className="mb-6" />
-                  {plan.id === "pro" && (
+                  {/* {plan.id === 1 && (
                     <p className="mb-3 font-semibold">
                       Everything in Plus, and:
                     </p>
-                  )}
+                  )} */}
                   <ul className="space-y-4">
                     {plan.features.map((feature, index) => (
                       <li

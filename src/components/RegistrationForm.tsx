@@ -182,7 +182,7 @@ const RegistrationForm: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <label htmlFor="fullName">Name</label>
-          
+
           <input
             id="fullName"
             type="text"
