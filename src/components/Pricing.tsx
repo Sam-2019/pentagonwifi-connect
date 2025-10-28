@@ -76,7 +76,7 @@ const Pricing = ({
   ],
 }: Pricing2Props) => {
   return (
-    <section className="">
+    <section>
       <div className="container">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 text-center">
           <h1 className="text-3xl font-semibold text-center text-primary ">
@@ -106,11 +106,6 @@ const Pricing = ({
                 </CardHeader>
                 <CardContent>
                   <Separator className="mb-6" />
-                  {/* {plan.id === 1 && (
-                    <p className="mb-3 font-semibold">
-                      Everything in Plus, and:
-                    </p>
-                  )} */}
                   <ul className="space-y-4">
                     {plan.features.map((feature, index) => (
                       <li
@@ -128,7 +123,7 @@ const Pricing = ({
                   <Button
                     asChild
                     className={`w-full 
-                    ${plan.name === "Daily" ? "bg-transparent border-2 border-primary text-primary" : "bg-primary"}`}
+                    ${plan.name === "Daily" ? "bg-transparent border-2 border-primary text-primary hover:text-white" : "bg-primary"}`}
                   >
                     <a href={plan.button.url} target="_blank">
                       {plan.button.text}
