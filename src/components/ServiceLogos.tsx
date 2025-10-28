@@ -1,18 +1,17 @@
-import youtube from "../assets/apps/youtube.svg";
-import apple_music from "../assets/apps/apple_music.svg";
-import apple_tv from "../assets/apps/apple_tv.png";
-import disney from "../assets/apps/disney+.svg";
-import hbo from "../assets/apps/hbo.svg";
-import hulu from "../assets/apps/hulu.svg";
-import kick from "../assets/apps/kick.svg";
-import netflix from "../assets/apps/netflix.png";
-import playstation from "../assets/apps/playstation.png";
-import prime_video from "../assets/apps/prime_video.png";
-import showmax from "../assets/apps/showmax.svg";
-
-import spotify from "../assets/apps/spotify.svg";
-import twitch from "../assets/apps/twitch.svg";
-import xbox from "../assets/apps/xbox.png";
+import hbo from "@/assets/apps/hbo.svg";
+import hulu from "@/assets/apps/hulu.svg";
+import kick from "@/assets/apps/kick.svg";
+import xbox from "@/assets/apps/xbox.png";
+import twitch from "@/assets/apps/twitch.svg";
+import disney from "@/assets/apps/disney+.svg";
+import youtube from "@/assets/apps/youtube.svg";
+import showmax from "@/assets/apps/showmax.svg";
+import netflix from "@/assets/apps/netflix.png";
+import spotify from "@/assets/apps/spotify.svg";
+import apple_tv from "@/assets/apps/apple_tv.png";
+import apple_music from "@/assets/apps/apple_music.svg";
+import playstation from "@/assets/apps/playstation.png";
+import prime_video from "@/assets/apps/prime_video.png";
 
 export default function ServiceLogos() {
   return (
@@ -24,7 +23,7 @@ export default function ServiceLogos() {
               No more waiting, no more buffering -{" "}
             </h1>
             <h1 className="-mb-1 text-3xl text-center">
-              just pure, uninterrupted streaming. It's time to expereince
+              just pure, uninterrupted streaming. It's time to experience
             </h1>
             <div className="flex justify-center">
               {/** biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}

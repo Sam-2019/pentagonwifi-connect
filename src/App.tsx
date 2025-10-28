@@ -1,8 +1,8 @@
-import Root from "./pages/Root";
-import Index from "./pages/Home";
-import TopUp from "./pages/TopUp";
-import NotFound from "./pages/NotFound";
-import Registration from "./pages/Registration";
+import Root from "@/pages/Root";
+import Index from "@/pages/Home";
+import TopUp from "@/pages/TopUp";
+import NotFound from "@/pages/NotFound";
+import Registration from "@/pages/Registration";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster as Sonner } from "@/components/ui/sonner";

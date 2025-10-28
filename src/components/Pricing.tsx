@@ -39,7 +39,7 @@ const Pricing = ({
   plans = [
     {
       id: 0,
-      name: "Weekly",
+      name: "Daily",
       description: "For 24 hours",
       price: "Ghc 20",
       features: [
@@ -125,7 +125,11 @@ const Pricing = ({
                   </ul>
                 </CardContent>
                 <CardFooter className="mt-auto">
-                  <Button asChild className="w-full">
+                  <Button
+                    asChild
+                    className={`w-full 
+                    ${plan.name === "Daily" ? "bg-transparent border-2 border-primary text-primary" : "bg-primary"}`}
+                  >
                     <a href={plan.button.url} target="_blank">
                       {plan.button.text}
                     </a>
