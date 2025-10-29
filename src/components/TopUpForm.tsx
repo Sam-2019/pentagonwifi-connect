@@ -1,6 +1,5 @@
 import {
   topup,
-  hubtel,
   server,
   planPrices,
   registerFirst,
@@ -18,7 +17,6 @@ import { topupSchema } from "@/lib/schema";
 import { getCustomer } from "@/lib/actions";
 import { hubtelPay } from "@/hooks/use-hubtel";
 import { Button } from "@/components/ui/button";
-import { paystackPay } from "@/hooks/use-paystack";
 import { yupResolver } from "@hookform/resolvers/yup";
 import type { RegistrationInfo, TopUpFormData } from "@/lib/types";
 
@@ -104,16 +102,14 @@ const TopUpForm: React.FC = () => {
       registrationType: registrationType.topup.name,
     };
 
-    if (paymentProvider === hubtel) {
-      const payment = hubtelPay(registrationInfo);
-      payment.initialize(toast, setIsSuccessModalOpen, reset, registrant, () =>
-        setLoading(false),
-      );
-      return;
-    }
-
-    const payment = paystackPay(registrationInfo);
-    payment.initialize(toast, setIsSuccessModalOpen, reset);
+    const payment = hubtelPay(registrationInfo);
+    return payment.initialize(
+      toast,
+      setIsSuccessModalOpen,
+      reset,
+      registrant,
+      () => setLoading(false),
+    );
   };
 
   return (

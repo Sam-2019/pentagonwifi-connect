@@ -1,7 +1,6 @@
 import {
   cn,
   cards,
-  hubtel,
   server,
   planPrices,
   PasswordType,
@@ -10,7 +9,6 @@ import {
   registrationType,
   blockCourtOptions,
 } from "@/lib/utils";
-import React from "react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
@@ -21,7 +19,6 @@ import { Button } from "@/components/ui/button";
 import { FormField, FormItem } from "./ui/form";
 import { registrationSchema } from "@/lib/schema";
 import { Check, Eye, EyeOff } from "lucide-react";
-import { paystackPay } from "@/hooks/use-paystack";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Datepicker from "react-tailwindcss-datepicker";
 import { checkUserNameAvailability } from "@/lib/actions";
@@ -77,19 +74,13 @@ const RegistrationForm: React.FC = () => {
   });
 
   const selectedBlockCourt = watch("blockCourt");
-  const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
+  const subscriptionPlan = watch("subscriptionPlan")
   const registration = registrationType.membership;
-
   const fee = registration.fee;
 
-  const planFee = subscriptionPlan.includes("Daily")
-    ? planPrices.daily
-    : subscriptionPlan.includes("Weekly")
-      ? planPrices.weekly
-      : subscriptionPlan.includes("Monthly")
-        ? planPrices.monthly
-        : 0;
-
+  const extractPlan = subscriptionPlan?.split("-")[0]?.toLocaleLowerCase();
+  const priceKey = planPrices[extractPlan];
+  const planFee = priceKey ? priceKey : 0;
   const totalCost = fee + planFee;
 
   const onSubmit = async (data: FormData) => {
@@ -106,7 +97,6 @@ const RegistrationForm: React.FC = () => {
     const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
 
     const credentials = {
-      // userName: data.userName,
       userName: String(uuidv4().slice(0, 5)),
       password: data.password,
     };
@@ -161,20 +151,14 @@ const RegistrationForm: React.FC = () => {
       termsAccepted: data.termsAccepted,
     };
 
-    if (paymentProvider === hubtel) {
-      const payment = hubtelPay(registrationInfo);
-      payment.initialize(
-        toast,
-        setIsSuccessModalOpen,
-        reset,
-        () => setLoading(false),
-        setDatePickerValue,
-      );
-      return;
-    }
-
-    const payment = paystackPay(registrationInfo);
-    payment.initialize(toast, setIsSuccessModalOpen, reset, setDatePickerValue);
+    const payment = hubtelPay(registrationInfo);
+    return payment.initialize(
+      toast,
+      setIsSuccessModalOpen,
+      reset,
+      () => setLoading(false),
+      setDatePickerValue,
+    );
   };
 
   return (
