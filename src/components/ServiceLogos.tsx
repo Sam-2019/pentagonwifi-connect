@@ -44,7 +44,7 @@ export default function ServiceLogos() {
           <div className="md:hidden font-semibold text-primary items-center">
             <h1 className="-mb-1 text-3xl text-center">
               No more waiting, no more buffering - just pure, uninterrupted
-              streaming. It's time to experience what rue smothness feels like.
+              streaming. It's time to experience what true smothness feels like.
             </h1>
           </div>
 
