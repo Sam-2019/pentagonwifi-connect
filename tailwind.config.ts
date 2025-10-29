@@ -66,9 +66,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ["Space Grotesk", "sans-serif"],
-        // inter: ["Inter", "sans-serif"],
-        nycd: ["Nothing You Could Do", "cursive"],
+        sans: ["Roboto Condensed", "sans-serif"],
       },
       borderRadius: {
         lg: "var(--radius)",

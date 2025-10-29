@@ -45,7 +45,7 @@ const Pricing = ({
       features: [
         { text: "Non-Stop Unlimited Data" },
         {
-          text: "Enjoy unlimted access to Facebook, Instgram, Youtube , Tiktok and more",
+          text: "Enjoy unlimted access to Facebook, Instgram, Youtube, Tiktok and more",
         },
       ],
       button: {
@@ -59,7 +59,7 @@ const Pricing = ({
       description: "For 7 days",
       price: "Ghc 100",
       features: [
-        { text: "Everything in Daily, and:" },
+        { text: "Everything in Daily" },
         {
           text: "Ideal for heavy users who need uninterrupted access for a full week",
         },
@@ -75,7 +75,7 @@ const Pricing = ({
       description: "Jan–Apr / Aug–Dec",
       price: "Ghc 1000",
       features: [
-           { text: "Everything in Weekly, and:" },
+           { text: "Everything in Weekly" },
         {
           text: "Competitive pricing",
         },
@@ -94,12 +94,12 @@ const Pricing = ({
       description: "For 10 months",
       price: "Ghc 2000",
       features: [
-        { text: "Everything in Semester, and:" },
-        {
-          text: "Loyalty rewards & bonus months",
-        },
         {
           text: "Best value",
+        },
+        { text: "Everything in Semester" },
+        {
+          text: "Loyalty rewards & bonus months",
         },
       ],
       button: {
@@ -153,7 +153,7 @@ const Pricing = ({
                   <Separator className="mb-6" />
                   <ul className="space-y-4">
                     {plan.features.map((feature) => (
-                      <li key={feature.text} className="flex gap-2 text-sm">
+                      <li key={feature.text} className="flex gap-2 text-sm items-center">
                         <span>
                           <CircleCheck size={15} />
                         </span>

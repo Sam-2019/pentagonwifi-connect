@@ -12,7 +12,7 @@ export function BackgroundRippleEffectDemo() {
     >
       <div className="w-full">
         <h2 className="relative z-10 mx-auto max-w-5xl text-center text-3xl font-bold text-neutral-800 md:text-4xl lg:text-7xl dark:text-neutral-100">
-          Internet That Never 🚀Sleeps
+          Internet That Never #Sleeps
         </h2>
         <p className="relative z-10 mx-auto mt-4 max-w-4xl text-center text-muted-foreground leading-relaxed lg:text-lg">
           Pentagon WiFi was born from a simple realization: students at African
