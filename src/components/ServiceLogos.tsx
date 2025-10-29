@@ -37,7 +37,7 @@ export default function ServiceLogos() {
               </svg>
             </div>
             <h1 className="-mb-1 text-3xl text-center">
-              what rue smothness feels like.
+              what true smothness feels like.
             </h1>
           </div>
 
