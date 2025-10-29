@@ -44,16 +44,11 @@ const TopUpForm: React.FC = () => {
   });
 
   const fee = registrationType.topup.fee;
-  const subscriptionPlan = watch("subscriptionPlan") as keyof typeof planPrices;
+  const subscriptionPlan = watch("subscriptionPlan");
 
-  const planFee = subscriptionPlan.includes("Daily")
-    ? planPrices.daily
-    : subscriptionPlan.includes("Weekly")
-      ? planPrices.weekly
-      : subscriptionPlan.includes("Monthly")
-        ? planPrices.monthly
-        : 0;
-
+  const extractPlan = subscriptionPlan?.split("-")[0]?.toLocaleLowerCase();
+  const priceKey = planPrices[extractPlan];
+  const planFee = priceKey ? priceKey : 0;
   const totalCost = fee + planFee;
 
   const onSubmit = async (data: TopUpFormData) => {

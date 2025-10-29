@@ -47,7 +47,6 @@ const Pricing = ({
         {
           text: "Enjoy unlimted access to Facebook, Instgram, Youtube , Tiktok and more",
         },
-        { text: "Perfect for quick, on-the-go connectivity" },
       ],
       button: {
         text: "Go Daily",
@@ -60,10 +59,7 @@ const Pricing = ({
       description: "For 7 days",
       price: "Ghc 100",
       features: [
-        { text: "Non-Stop Unlimited Data" },
-        {
-          text: "Enjoy unlimted access to Facebook, Instgram, Youtube , Tiktok and more",
-        },
+        { text: "Everything in Daily, and:" },
         {
           text: "Ideal for heavy users who need uninterrupted access for a full week",
         },
@@ -73,8 +69,57 @@ const Pricing = ({
         url: "/register",
       },
     },
+    {
+      id: 2,
+      name: "Semester",
+      description: "Jan–Apr / Aug–Dec",
+      price: "Ghc 1000",
+      features: [
+           { text: "Everything in Weekly, and:" },
+        {
+          text: "Competitive pricing",
+        },
+        {
+          text: "Recommended for all residents",
+        },
+      ],
+      button: {
+         text: "Go Semester",
+        url: "/register",
+      },
+    },
+    {
+      id: 3,
+      name: "Annual",
+      description: "For 10 months",
+      price: "Ghc 2000",
+      features: [
+        { text: "Everything in Semester, and:" },
+        {
+          text: "Loyalty rewards & bonus months",
+        },
+        {
+          text: "Best value",
+        },
+      ],
+      button: {
+        text: "Go Annual",
+        url: "/register",
+      },
+    },
   ],
 }: Pricing2Props) => {
+  const activeButton = (data: any) => {
+    switch (data) {
+      case "Daily":
+      case "Weekly":
+      case "Annual":
+        return true;
+
+      default:
+        return false;
+    }
+  };
   return (
     <section>
       <div className="container">
@@ -107,14 +152,12 @@ const Pricing = ({
                 <CardContent>
                   <Separator className="mb-6" />
                   <ul className="space-y-4">
-                    {plan.features.map((feature, index) => (
-                      <li
-                        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                        key={index}
-                        className="flex items-center gap-2 text-sm"
-                      >
-                        <CircleCheck className="size-4" />
-                        <span>{feature.text}</span>
+                    {plan.features.map((feature) => (
+                      <li key={feature.text} className="flex gap-2 text-sm">
+                        <span>
+                          <CircleCheck size={15} />
+                        </span>
+                        {feature.text}
                       </li>
                     ))}
                   </ul>
@@ -123,7 +166,11 @@ const Pricing = ({
                   <Button
                     asChild
                     className={`w-full 
-                    ${plan.name === "Daily" ? "bg-transparent border-2 border-primary text-primary hover:text-white" : "bg-primary"}`}
+                    ${
+                      activeButton(plan.name)
+                        ? "bg-transparent border-2 border-primary text-primary hover:text-white"
+                        : "bg-primary"
+                    }`}
                   >
                     <a href={plan.button.url} target="_blank">
                       {plan.button.text}

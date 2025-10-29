@@ -93,7 +93,8 @@ export const registrationType = {
 export const planPrices = {
   daily: 20,
   weekly: 100,
-  monthly: 399,
+  semester: 1000,
+  annual: 2000,
   membership: 0,
 };
 
@@ -111,7 +112,14 @@ export const dataPlanOptions = [
     value: `Weekly-(GHC ${planPrices.weekly})`,
     label: `Weekly (GHC ${planPrices.weekly})`,
   },
-  // { value: `Monthly-(GHC ${planPrices.monthly})`, label: `Monthly (GHC ${planPrices.monthly})` }
+  {
+    value: `Semester-(GHC ${planPrices.semester})`,
+    label: `Semester (GHC ${planPrices.semester})`,
+  },
+  {
+    value: `Annual-(GHC ${planPrices.annual})`,
+    label: `Annual (GHC ${planPrices.annual})`,
+  },
 ];
 
 export const feedbackCategories = [
