@@ -18,7 +18,7 @@ export default function ServiceLogos() {
     <section className="">
       <div className="container">
         <div className="mx-auto max-w-5xl space-y-12">
-          <div className="font-semibold text-primary items-center">
+          <div className="hidden md:block font-semibold text-primary items-center">
             <h1 className="-mb-1 text-3xl text-center">
               No more waiting, no more buffering -{" "}
             </h1>
@@ -38,6 +38,13 @@ export default function ServiceLogos() {
             </div>
             <h1 className="-mb-1 text-3xl text-center">
               what rue smothness feels like.
+            </h1>
+          </div>
+
+          <div className="md:hidden font-semibold text-primary items-center">
+            <h1 className="-mb-1 text-3xl text-center">
+              No more waiting, no more buffering - just pure, uninterrupted
+              streaming. It's time to experience what rue smothness feels like.
             </h1>
           </div>
 
