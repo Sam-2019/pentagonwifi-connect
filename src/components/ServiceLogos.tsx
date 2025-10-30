@@ -1,7 +1,9 @@
+/** biome-ignore-all lint/a11y/useAltText: <explanation> */
 import hbo from "@/assets/apps/hbo.svg";
 import hulu from "@/assets/apps/hulu.svg";
 import kick from "@/assets/apps/kick.svg";
 import xbox from "@/assets/apps/xbox.png";
+import tiktok from "@/assets/apps/tiktok.svg";
 import twitch from "@/assets/apps/twitch.svg";
 import disney from "@/assets/apps/disney+.svg";
 import youtube from "@/assets/apps/youtube.svg";
@@ -13,7 +15,27 @@ import apple_music from "@/assets/apps/apple_music.svg";
 import playstation from "@/assets/apps/playstation.png";
 import prime_video from "@/assets/apps/prime_video.png";
 
+const SERVICE_DATA = [
+  { name: "Netflix", logo: netflix, url: "https://www.netflix.com" },
+  { name: "Apple TV", logo: apple_tv, url: "https://tv.apple.com" },
+  { name: "Prime Video", logo: prime_video, url: "https://www.primevideo.com" },
+  { name: "Disney+", logo: disney, url: "https://www.disneyplus.com" },
+  { name: "HBO Max", logo: hbo, url: "https://www.hbo.com" },
+  { name: "YouTube", logo: youtube, url: "https://www.youtube.com" },
+  { name: "Hulu", logo: hulu, url: "https://www.hulu.com" },
+  { name: "Showmax", logo: showmax, url: "https://www.showmax.com" },
+  { name: "Playstation", logo: playstation, url: "https://www.playstation.com", },
+  { name: "Xbox", logo: xbox, url: "https://www.xbox.com" },
+  { name: "Spotify", logo: spotify, url: "https://www.spotify.com" },
+  { name: "Apple Music", logo: apple_music, url: "https://www.applemusic.com" },
+  { name: "Twitch", logo: twitch, url: "https://www.twitch.tv" },
+  { name: "Kick", logo: kick, url: "https://kick.com" },
+  { name: "TikTok", logo: tiktok, url: "https://www.tiktok.com" },
+];
+
 export default function ServiceLogos() {
+  const BASE_CLASSES = "align-baseline text-center py-6 flex justify-center";
+
   return (
     <section className="">
       <div className="container">
@@ -50,66 +72,126 @@ export default function ServiceLogos() {
 
           <div>
             <div className="grid grid-cols-2 md:grid-cols-5 h-auto">
-              <p className="border-b-2 md:border-b-2 border-r-2 md:border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              <a
+                className={`border-b-2 md:border-b-2 border-r-2 md:border-r-2 ${BASE_CLASSES}`}
+                href="https://www.netflix.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={netflix} className="w-50 h-14" />
-              </p>
-              <p className="border-b-2 md:border-b-2 border-r-0 md:border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-2 border-r-0 md:border-r-2 ${BASE_CLASSES}`}
+                href="https://tv.apple.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={apple_tv} className="w-50 h-14" />
-              </p>
-              <p className="border-b-2 md:border-b-2 border-r-2 md:border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-2 border-r-2 md:border-r-2 ${BASE_CLASSES}`}
+                href="https://www.primevideo.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={prime_video} width={170} height="auto" />
-              </p>
-              <p className="border-b-2 md:border-b-2 border-r-0 md:border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-2 border-r-0 md:border-r-2 ${BASE_CLASSES}`}
+                href="https://www.disneyplus.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={disney} width={100} height="auto" />
-              </p>
-              <p className="border-b-2 md:border-b-2 border-r-2 md:border-r-0 text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-2 border-r-2 md:border-r-0 ${BASE_CLASSES}`}
+                href="https://www.hbo.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={hbo} width={150} height="auto" />
-              </p>
-              <p className="border-b-2 md:border-b-2 border-r-0 md:border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-2 border-r-0 md:border-r-2 ${BASE_CLASSES}`}
+                href="https://www.youtube.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={youtube} width={150} height="auto" />
-              </p>
-              <p className="border-b-2 md:border-b-2 border-r-2 md:border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-2 border-r-2 md:border-r-2 ${BASE_CLASSES}`}
+                href="https://www.hulu.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={hulu} width={110} height="auto" />
-              </p>
-              <p className="border-b-2 md:border-b-2 border-r-0 md:border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-2 border-r-0 md:border-r-2 ${BASE_CLASSES}`}
+                href="https://www.showmax.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={showmax} width={130} height="auto" />
-              </p>
-              <p className="border-b-2 md:border-b-2 border-r-2 md:border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-2 border-r-2 md:border-r-2 ${BASE_CLASSES}`}
+                href="https://www.playstation.com/en-us/"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={playstation} width={130} height="auto" />
-              </p>
-              <p className="border-b-2 md:border-b-2 border-r-0 md:border-r-0 text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-2 border-r-0 md:border-r-0 ${BASE_CLASSES}`}
+                href="https://www.xbox.com/en-US/"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={xbox} width={130} height="auto" />
-              </p>
-              <p className="border-b-2 md:border-b-0 md:border-r-2 border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-0 md:border-r-2 border-r-2 ${BASE_CLASSES}`}
+                href="https://open.spotify.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={spotify} width={70} height="auto" />
-              </p>
-              <p className="border-b-2 md:border-b-0 md:border-r-2 border-r-0 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`border-b-2 md:border-b-0 md:border-r-2 border-r-0 ${BASE_CLASSES}`}
+                href="https://music.apple.com/us/new"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={apple_music} width={50} height="auto" />
-              </p>
-              <p className="md:border-r-2 border-r-2 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`md:border-r-2 border-r-2 ${BASE_CLASSES}`}
+                href="https://www.twitch.tv"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={twitch} width={130} height="auto" />
-              </p>
-              <p className="md:border-r-2 border-r-0 align-baseline text-center py-6 flex justify-center">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
+              </a>
+              <a
+                className={`md:border-r-2 border-r-0 ${BASE_CLASSES}`}
+                href="https://www.kick.com"
+                target="_"
+                rel="noopener noreferrer"
+              >
                 <img src={kick} width={130} height="auto" />
-              </p>
-              <p className="hidden text-center py-6 md:flex justify-center border-r-2 md:border-r-0">
-                {/** biome-ignore lint/a11y/useAltText: <explanation> */}
-                <img src={apple_tv} width={130} height="auto" />
-              </p>
+              </a>
+              <a
+                className="hidden text-center py-6 md:flex  border-r-2 md:border-r-0 justify-center"
+                href="https://www.tiktok.com/explore"
+                target="_"
+                rel="noopener noreferrer"
+              >
+                <img src={tiktok} width={130} height="auto" />
+              </a>
             </div>
           </div>
         </div>
