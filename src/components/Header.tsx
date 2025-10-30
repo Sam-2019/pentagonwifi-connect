@@ -94,7 +94,7 @@ export default function Header() {
         <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="secondary" size="icon" className="border-2">
+              <Button variant="secondary" size="icon" className="border-2 rounded-full">
                 <MenuIcon />
               </Button>
             </SheetTrigger>
