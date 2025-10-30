@@ -8,30 +8,39 @@ import {
 } from "@/components/ui/sheet";
 import { useState } from "react";
 import Logo from "@/components/Logo";
-import { topup, home, register } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Menu as MenuIcon } from "lucide-react";
+import { topup, home, register } from "@/lib/utils";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { House, Menu as MenuIcon, RotateCcw } from "lucide-react";
+
+const classNames = (...classes: (string | null | undefined | false)[]) => {
+  return classes.filter(Boolean).join(" ");
+};
+
+const BASE_BUTTON_CLASSES =
+  "py-3 px-4 text-lg transition-all duration-300 hover:shadow-lg rounded-full";
+
+const DESKTOP_INACTIVE_CLASSES = "bg-gray-500 hover:bg-gray-500/90";
+
+const MOBILE_ACTIVE_CLASSES = "bg-yellow-600";
+const MOBILE_INACTIVE_CLASSES = "";
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
 
-  const navigateTopup = () => {
-    navigate("/topup");
+  const mainNavigate = (route: string) => {
+    navigate(`/${route}`);
   };
 
-  const navigateHome = () => {
-    navigate("/");
+  const mobileNvaigate = (route: string) => {
+    setOpen(false);
+    navigate(`/${route}`);
   };
 
-  const navigateRegister = () => {
-    navigate("/register");
-  };
-
-  const currentPath = location.pathname;
   const homePath = "/";
+  const currentPath = location.pathname;
 
   return (
     <header className="sticky py-5 mx-auto max-w-screen-lg bg-[hsla(0,0%,93%,0.72)] backdrop-blur-xl rounded-full shadow-sm px-4 md:px-8 top-5 z-50 w-full">
@@ -40,13 +49,14 @@ export default function Header() {
           <Logo />
         </Link>
 
+        {/* --- Desktop Navigation --- */}
         <div className="hidden lg:block">
           <div className="space-x-3">
             {currentPath !== homePath && (
               <Button
                 type="button"
-                className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg rounded-full"
-                onClick={navigateHome}
+                className={classNames(BASE_BUTTON_CLASSES, DESKTOP_INACTIVE_CLASSES)}
+                onClick={() => mainNavigate("")}
               >
                 {home}
               </Button>
@@ -55,8 +65,8 @@ export default function Header() {
             {currentPath !== "/topup" && (
               <Button
                 type="button"
-                className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg rounded-full"
-                onClick={navigateTopup}
+                className={classNames(BASE_BUTTON_CLASSES, DESKTOP_INACTIVE_CLASSES)}
+                onClick={() => mainNavigate("topup")}
               >
                 {topup}
               </Button>
@@ -65,8 +75,8 @@ export default function Header() {
             {currentPath !== "/register" && (
               <Button
                 type="button"
-                className="py-3 px-4 text-lg bg-gray-500 hover:bg-gray-500/90 transition-all duration-300 hover:shadow-lg rounded-full"
-                onClick={navigateRegister}
+                className={classNames(BASE_BUTTON_CLASSES, DESKTOP_INACTIVE_CLASSES)}
+                onClick={() => mainNavigate("register")}
               >
                 {register}
               </Button>
@@ -74,6 +84,7 @@ export default function Header() {
           </div>
         </div>
 
+        {/* --- Mobile Navigation (Sheet) --- */}
         <div className="md:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -93,31 +104,42 @@ export default function Header() {
                   </SheetHeader>
                   <SheetDescription>
                     <div className="flex flex-col items-start space-y-5 mt-10">
-                      {currentPath === homePath ? (
-                        <button
-                          type="button"
-                          className="py-2 px-4 text-lg bg-white hover:bg-gray-100/90 transition-all duration-300 hover:shadow-lg flex flex-row items-center gap-3 border-2 border-gray-200 rounded-lg"
-                          onClick={() => {
-                            setOpen(false);
-                            navigateTopup();
-                          }}
-                        >
-                          <RotateCcw className="h-8 w-6 text-blue-900" />
-                          {topup}
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          className="py-2 px-4 text-lg bg-white hover:bg-gray-100/90 transition-all duration-300 hover:shadow-lg flex flex-row items-center gap-3 border-2 border-gray-200 rounded-lg"
-                          onClick={() => {
-                            setOpen(false);
-                            navigateHome();
-                          }}
-                        >
-                          <House className="h-8 w-6 text-blue-900" />
-                          Home
-                        </button>
-                      )}
+                      {/* FIX APPLIED: Safely construct class name using classNames helper */}
+                      <Button
+                        type="button"
+                        className={classNames(
+                          BASE_BUTTON_CLASSES,
+                          "hover:bg-gray-500/90",
+                          currentPath === homePath ? MOBILE_ACTIVE_CLASSES : MOBILE_INACTIVE_CLASSES
+                        )}
+                        onClick={() => mobileNvaigate("")}
+                      >
+                        {home}
+                      </Button>
+
+                      <Button
+                        type="button"
+                        className={classNames(
+                          BASE_BUTTON_CLASSES,
+                          "hover:bg-gray-500/90",
+                          currentPath === "/topup" ? MOBILE_ACTIVE_CLASSES : MOBILE_INACTIVE_CLASSES
+                        )}
+                        onClick={() => mobileNvaigate("topup")}
+                      >
+                        {topup}
+                      </Button>
+
+                      <Button
+                        type="button"
+                        className={classNames(
+                          BASE_BUTTON_CLASSES,
+                          "hover:bg-gray-500/90",
+                          currentPath === "/register" ? MOBILE_ACTIVE_CLASSES : MOBILE_INACTIVE_CLASSES
+                        )}
+                        onClick={() => mobileNvaigate("register")}
+                      >
+                        {register}
+                      </Button>
                     </div>
                   </SheetDescription>
                 </div>
