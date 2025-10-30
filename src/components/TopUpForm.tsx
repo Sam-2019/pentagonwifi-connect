@@ -202,7 +202,7 @@ const TopUpForm: React.FC = () => {
         </div>
 
         <div className="flex flex-col sm:flex-col gap-2 text-center">
-          <div className="pflex flex-col gap-2 w-full justify-center text-center">
+          <div className="pflex flex-row gap-2 w-full justify-center text-center">
             <input
               id="termsAccepted"
               type="checkbox"
