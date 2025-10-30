@@ -10,7 +10,7 @@ export default function Footer() {
         <p> * </p>
         <a
           className="px-2 text-base text-primary underline"
-          href="https://drive.google.com/file/d/1Sa48Zz4cwM00RyNyT07Vu_ZloIR6DpUc/view"
+          href="https://drive.google.com/file/d/1m9ApOKYOS-lTv6RDs_7O7H5rA_9n0b2-/view?usp=sharing"
           target="blank"
         >
           Terms & Conditions
