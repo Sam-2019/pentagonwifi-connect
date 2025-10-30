@@ -24,13 +24,10 @@ const Root = () => {
         }}
       />
 
-      <div className="min-h-screen flex flex-col justify-between relative font-inter antialiased">
-        {/* <div className="">
-          <Navbar />
-      </div> */}
+      <div className="min-h-screen flex flex-col justify-between relative antialiased">
         <Header />
 
-        <section>
+        <section className="my-5 md:my-10">
           <Outlet />
         </section>
         <Footer />

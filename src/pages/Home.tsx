@@ -30,7 +30,7 @@ export function BackgroundRippleEffectDemo() {
 const Index = () => {
   return (
     <main className="flex-1 flex flex-col items-center justify-center relative">
-      <div className="space-y-20 mt-20">
+      <div className="space-y-20 mt-5 md:mt-10">
         {/* <WishList /> */}
         {/* <ModalVideo
           thumb={VideoThumb}
