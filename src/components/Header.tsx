@@ -34,7 +34,7 @@ export default function Header() {
     navigate(`/${route}`);
   };
 
-  const mobileNvaigate = (route: string) => {
+  const mobileNavigate = (route: string) => {
     setOpen(false);
     navigate(`/${route}`);
   };
@@ -52,35 +52,47 @@ export default function Header() {
         {/* --- Desktop Navigation --- */}
         <div className="hidden lg:block">
           <div className="space-x-3">
-            {currentPath !== homePath && (
-              <Button
-                type="button"
-                className={classNames(BASE_BUTTON_CLASSES, DESKTOP_INACTIVE_CLASSES)}
-                onClick={() => mainNavigate("")}
-              >
-                {home}
-              </Button>
-            )}
+            <Button
+              type="button"
+              className={classNames(
+                BASE_BUTTON_CLASSES,
+                "hover:bg-gray-500/90",
+                currentPath === homePath
+                  ? MOBILE_ACTIVE_CLASSES
+                  : MOBILE_INACTIVE_CLASSES,
+              )}
+              onClick={() => mainNavigate("")}
+            >
+              {home}
+            </Button>
 
-            {currentPath !== "/topup" && (
-              <Button
-                type="button"
-                className={classNames(BASE_BUTTON_CLASSES, DESKTOP_INACTIVE_CLASSES)}
-                onClick={() => mainNavigate("topup")}
-              >
-                {topup}
-              </Button>
-            )}
+            <Button
+              type="button"
+              className={classNames(
+                BASE_BUTTON_CLASSES,
+                "hover:bg-gray-500/90",
+                currentPath === "/topup"
+                  ? MOBILE_ACTIVE_CLASSES
+                  : MOBILE_INACTIVE_CLASSES,
+              )}
+              onClick={() => mainNavigate("topup")}
+            >
+              {topup}
+            </Button>
 
-            {currentPath !== "/register" && (
-              <Button
-                type="button"
-                className={classNames(BASE_BUTTON_CLASSES, DESKTOP_INACTIVE_CLASSES)}
-                onClick={() => mainNavigate("register")}
-              >
-                {register}
-              </Button>
-            )}
+            <Button
+              type="button"
+              className={classNames(
+                BASE_BUTTON_CLASSES,
+                "hover:bg-gray-500/90",
+                currentPath === "/register"
+                  ? MOBILE_ACTIVE_CLASSES
+                  : MOBILE_INACTIVE_CLASSES,
+              )}
+              onClick={() => mainNavigate("register")}
+            >
+              {register}
+            </Button>
           </div>
         </div>
 
@@ -110,9 +122,11 @@ export default function Header() {
                         className={classNames(
                           BASE_BUTTON_CLASSES,
                           "hover:bg-gray-500/90",
-                          currentPath === homePath ? MOBILE_ACTIVE_CLASSES : MOBILE_INACTIVE_CLASSES
+                          currentPath === homePath
+                            ? MOBILE_ACTIVE_CLASSES
+                            : MOBILE_INACTIVE_CLASSES,
                         )}
-                        onClick={() => mobileNvaigate("")}
+                        onClick={() => mobileNavigate("")}
                       >
                         {home}
                       </Button>
@@ -122,9 +136,11 @@ export default function Header() {
                         className={classNames(
                           BASE_BUTTON_CLASSES,
                           "hover:bg-gray-500/90",
-                          currentPath === "/topup" ? MOBILE_ACTIVE_CLASSES : MOBILE_INACTIVE_CLASSES
+                          currentPath === "/topup"
+                            ? MOBILE_ACTIVE_CLASSES
+                            : MOBILE_INACTIVE_CLASSES,
                         )}
-                        onClick={() => mobileNvaigate("topup")}
+                        onClick={() => mobileNavigate("topup")}
                       >
                         {topup}
                       </Button>
@@ -134,9 +150,11 @@ export default function Header() {
                         className={classNames(
                           BASE_BUTTON_CLASSES,
                           "hover:bg-gray-500/90",
-                          currentPath === "/register" ? MOBILE_ACTIVE_CLASSES : MOBILE_INACTIVE_CLASSES
+                          currentPath === "/register"
+                            ? MOBILE_ACTIVE_CLASSES
+                            : MOBILE_INACTIVE_CLASSES,
                         )}
-                        onClick={() => mobileNvaigate("register")}
+                        onClick={() => mobileNavigate("register")}
                       >
                         {register}
                       </Button>
