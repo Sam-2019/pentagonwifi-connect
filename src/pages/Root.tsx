@@ -28,8 +28,7 @@ const Root = () => {
         {/* <div className="">
           <Navbar />
       </div> */}
-        <Header
-        />
+        <Header />
 
         <section>
           <Outlet />
