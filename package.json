@@ -57,7 +57,6 @@
 		"react-dom": "^18.3.1",
 		"react-hook-form": "^7.62.0",
 		"react-icons": "^5.5.0",
-		"react-paystack": "^6.0.0",
 		"react-resizable-panels": "^2.1.9",
 		"react-router-dom": "^6.30.1",
 		"react-tailwindcss-datepicker": "1.7.3",

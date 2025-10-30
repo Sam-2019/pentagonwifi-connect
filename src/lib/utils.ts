@@ -131,8 +131,6 @@ export const feedbackCategories = [
   { value: "Other", label: "Other" },
 ];
 
-export const hubtel = import.meta.env.VITE_HUBTEL;
-export const paystack = import.meta.env.VITE_PAYSTACK;
 export const auth = import.meta.env.VITE_AUTHORIZATION;
 
 export const baseUrl =
