@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/a11y/useAltText: <explanation> */
+/** biome-ignore-all lint/a11y/noSvgWithoutTitle: <explanation> */
 import hbo from "@/assets/apps/hbo.svg";
 import hulu from "@/assets/apps/hulu.svg";
 import kick from "@/assets/apps/kick.svg";
@@ -48,7 +49,6 @@ export default function ServiceLogos() {
               just pure, uninterrupted streaming. It's time to experience
             </h1>
             <div className="flex justify-center">
-              {/** biome-ignore lint/a11y/noSvgWithoutTitle: <explanation> */}
               <svg
                 className="fill-indigo-300"
                 xmlns="http://www.w3.org/2000/svg"
@@ -59,7 +59,7 @@ export default function ServiceLogos() {
               </svg>
             </div>
             <h1 className="-mb-1 text-3xl text-center">
-              what true smothness feels like.
+              what true smoothness feels like.
             </h1>
           </div>
 
