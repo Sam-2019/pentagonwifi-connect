@@ -17,7 +17,7 @@ interface Faq1Props {
 }
 
 const topup_url = "https://pentagonwifi.vercel.app/topup";
-const Faq1 = ({
+const FAQ = ({
   heading = "Frequently asked questions",
   items = [
     {
@@ -124,4 +124,4 @@ const Faq1 = ({
   </section>
 );
 
-export default Faq1;
+export default FAQ;

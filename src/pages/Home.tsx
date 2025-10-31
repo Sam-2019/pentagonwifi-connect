@@ -1,10 +1,10 @@
-import Faq1 from "@/components/FAQ";
+import FAQ from "@/components/FAQ";
 import Pricing from "@/components/Pricing";
 import { Services } from "@/components/Services";
 import MasonryPage from "@/components/MasonryPage";
 import ServiceLogos from "@/components/ServiceLogos";
 
-export function BackgroundRippleEffectDemo() {
+export function BackgroundRippleEffect() {
   return (
     <div
       className="relative flex w-full flex-col items-start justify-center overflow-hidden mt-10 
@@ -31,26 +31,12 @@ const Index = () => {
   return (
     <main className="flex-1 flex flex-col items-center justify-center relative">
       <div className="space-y-20 mt-5 md:mt-10">
-        {/* <WishList /> */}
-        {/* <ModalVideo
-          thumb={VideoThumb}
-          thumbWidth={768}
-          thumbHeight={432}
-          thumbAlt="Modal video thumbnail"
-          video={video}
-          videoWidth={1920}
-          videoHeight={1080}
-          /> */}
-        {/* <Looper /> */}
-        {/* <WobbleCardDemo /> */}
-
-        <BackgroundRippleEffectDemo />
-
+        <BackgroundRippleEffect />
         <Pricing />
         <ServiceLogos />
         <Services />
         <MasonryPage />
-        <Faq1 />
+        <FAQ />
       </div>
     </main>
   );
