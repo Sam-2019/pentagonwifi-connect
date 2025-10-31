@@ -37,9 +37,7 @@ export const registrationSchema = yup
     password: yup.string().required("Password is required."),
     studentId: yup
       .string()
-      .required("StudentID is required.")
-      .matches(/^(109|11[0-5]|22[0-7])(?!00000)\d{5}$/, "StudentID is invalid")
-      .length(8),
+      .required("StudentID is required."),
     termsAccepted: yup.boolean().required("Required"),
   })
   .required();
