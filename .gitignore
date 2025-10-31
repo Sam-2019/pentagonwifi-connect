@@ -28,3 +28,5 @@ dist-ssr
 .env
 src/components/RegistrationForm copy.tsx
 trash
+src/assets/cards/original
+src/assets/cards/untitled folder

@@ -8,7 +8,7 @@ import {
 interface FaqItem {
   id: number;
   question: string;
-  answer: string;
+  answer: string | JSX.Element;
 }
 
 interface Faq1Props {
@@ -16,6 +16,7 @@ interface Faq1Props {
   items?: FaqItem[];
 }
 
+const topup_url = "https://pentagonwifi.vercel.app/topup";
 const Faq1 = ({
   heading = "Frequently asked questions",
   items = [
@@ -31,17 +32,11 @@ const Faq1 = ({
       answer:
         "Once you’ve subscribed to a package, we’ll send you your login credentials via email or SMS. Just connect to the “PentagonWiFi” network, log in using the credentials, and you're online in seconds!",
     },
-    // {
-    //   id: 3,
-    //   question: "What are the available packages?",
-    //   answer:
-    //     "We currently offer three plans: Student Starter: GHS 399 for 30 days (250GB, 100mb/s); Student Pro: GHS 659 for 60 days (500GB, 100mb/s); Student Premium: GHS 999 for 90 days (1TB, 100mb/s + free printing & premium support). All packages include unlimited downloads and data rollover.",
-    // },
     {
       id: 4,
       question: "Can I roll over unused data?",
       answer:
-        "Yes! Unused data from your current package automatically rolls over into your next subscription if you renew before your current package expires.",
+        "No! Your data allocation is unlimited for the period of the subscription plan.",
     },
     {
       id: 5,
@@ -52,14 +47,26 @@ const Faq1 = ({
     {
       id: 6,
       question: "How do I pay for a subscription?",
-      answer:
-        "We accept mobile money and other common local payment methods. Full payment instructions are sent once you sign up or renew a package.",
+      answer: (
+        <>
+          Visit{" "}
+          <a
+            href={topup_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-indigo-600 hover:underline"
+          >
+            here
+          </a>
+          , complete the form and follow the prompts to pay via mobile money.
+        </>
+      ),
     },
     {
       id: 7,
       question: "Can I use my subscription on multiple devices?",
       answer:
-        "Yes! You can connect multiple personal devices (e.g., phone, laptop, tablet). Just remember: excessive sharing may affect speed or breach fair usage policy.",
+        "No. You can connect one device per session. Logout on your current device to use the service on another device ",
     },
     {
       id: 8,
@@ -70,8 +77,21 @@ const Faq1 = ({
     {
       id: 9,
       question: "What happens when my plan expires?",
-      answer:
-        "Once your plan expires, you’ll be automatically logged out. You can easily renew your subscription via our support team or self-service options.",
+      answer: (
+        <>
+          Once your plan expires, you’ll be automatically logged out. You can
+          easily renew your subscription via{" "}
+          <a
+            href={topup_url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-medium text-indigo-600 hover:underline"
+          >
+            here
+          </a>
+          .
+        </>
+      ),
     },
     // {
     //   id: 10,
@@ -80,30 +100,28 @@ const Faq1 = ({
     //     "Yes, you’ll receive a digital receipt and confirmation email/SMS once payment is completed.",
     // },
   ],
-}: Faq1Props) => {
-  return (
-    <section className="">
-      <div className="container max-w-5xl">
-        <div className="space-y-12">
-          <h1 className="mb-4 text-3xl font-semibold md:mb-11 text-center text-primary">
-            {heading}
-          </h1>
-          <Accordion type="single" collapsible>
-            {items.map((item) => (
-              <AccordionItem key={item.id} value={`item-${item.id}`}>
-                <AccordionTrigger className="font-semibold hover:no-underline">
-                  {item.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
+}: Faq1Props) => (
+  <section className="">
+    <div className="container max-w-5xl">
+      <div className="space-y-12">
+        <h1 className="mb-4 text-3xl font-semibold md:mb-11 text-center text-primary">
+          {heading}
+        </h1>
+        <Accordion type="single" collapsible>
+          {items.map((item) => (
+            <AccordionItem key={item.id} value={`item-${item.id}`}>
+              <AccordionTrigger className="font-semibold hover:no-underline">
+                {item.question}
+              </AccordionTrigger>
+              <AccordionContent className="text-muted-foreground">
+                {item.answer}
+              </AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default Faq1;

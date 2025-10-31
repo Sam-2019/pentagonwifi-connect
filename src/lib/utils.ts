@@ -1,8 +1,8 @@
 import { twMerge } from "tailwind-merge";
 import { clsx, type ClassValue } from "clsx";
-import metaverse from "@/assets/cards/metaverse.png";
-import spiderman from "@/assets/cards/spiderman.jpg";
-import tombraider from "@/assets/cards/tombraider.jpg";
+import metaverse from "@/assets/cards/metaverse.webp";
+import spiderman from "@/assets/cards/spiderman.webp";
+import tombraider from "@/assets/cards/tombraider.webp";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

@@ -74,7 +74,7 @@ const RegistrationForm: React.FC = () => {
   });
 
   const selectedBlockCourt = watch("blockCourt");
-  const subscriptionPlan = watch("subscriptionPlan")
+  const subscriptionPlan = watch("subscriptionPlan");
   const registration = registrationType.membership;
   const fee = registration.fee;
 
@@ -482,13 +482,10 @@ const RegistrationForm: React.FC = () => {
 
         <div className="mt-2 mb-2 border-t" />
 
-        <div className="bg-gray-100 backdrop-blur-sm shadow-sm flex flex-col md:flex-row gap-2 rounded-lg p-6 border-gray-300">
+        <div className="bg-gray-100 backdrop-blur-sm shadow-sm flex flex-col md:flex-row gap-2 items-center rounded-lg p-6 border-gray-300">
           <div className="text-gray-700 w-full">
             <p>
               <strong>Registration Fee:</strong> GHC {fee}
-            </p>
-            <p>
-              <strong>Plan Fee:</strong> GHC {planFee}
             </p>
           </div>
 
