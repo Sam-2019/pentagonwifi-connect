@@ -146,7 +146,7 @@ export default function Header() {
      <nav
        id="menu"
        aria-labelledby="menubutton"
-       className={`mx-auto max-w-screen w-full absolute bg-[hsla(0,0%,93%,0.72)] backdrop-blur-xl z-100 grid text-sm text-slate-600 overflow-hidden transition-all duration-500 ease-[cubic-bezier(.5,.85,.25,1.8)]
+       className={`mx-auto max-w-screen w-full absolute bg-[hsla(0,0%,93%,0.72)] backdrop-blur-xl z-100 grid text-sm text-slate-600 overflow-hidden transition-all duration-500 ease-&lsqb;cubic-bezier(.5,.85,.25,1.8)&rsqb;
            ${expanded ? "grid-rows-[1fr] opacity-100 rounded-b-xl" : "grid-rows-[0fr] opacity-0 invisible"}
            `}
      >
