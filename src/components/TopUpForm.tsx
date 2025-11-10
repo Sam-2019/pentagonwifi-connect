@@ -168,19 +168,15 @@ const TopUpForm: React.FC = () => {
 
         <div className="mt-4 border-t" />
 
-        <div className="flex flex-col md:flex-row gap-2 bg-muted rounded-lg p-6 border-gray-300">
-          <div className="text-gray-700 w-full">
-            <p>
-              <strong>Plan Fee:</strong> GHC {planFee}
-            </p>
-          </div>
+       <div className="bg-gray-100 backdrop-blur-sm shadow-sm flex flex-col md:flex-row gap-2 items-center rounded-lg p-6 border-gray-300">
+         <p className="w-full md:text-center">
+           <strong>Plan Fee:</strong> GHC {planFee}
+         </p>
 
-          <div className="self-center text-center w-full md:py-0 pt-4">
-            <p className="text-2xl font-semibold text-primary">
-              Total: GHC {totalCost}
-            </p>
-          </div>
-        </div>
+         <p className="text-2xl font-semibold text-primary w-full md:py-0 pt-4 text-center">
+           Total: GHC {totalCost}
+         </p>
+       </div>
 
         <div>
           <Button

@@ -1,126 +1,163 @@
-import {
-  Sheet,
-  SheetHeader,
-  SheetFooter,
-  SheetContent,
-  SheetTrigger,
-  SheetDescription,
-} from "@/components/ui/sheet";
+
 import { useState } from "react";
 import Logo from "@/components/Logo";
-import { Button } from "@/components/ui/button";
-import { Menu as MenuIcon } from "lucide-react";
-import { topup, home, register } from "@/lib/utils";
+import { topup, home, register, classNames } from "@/lib/utils";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-
-const classNames = (...classes: (string | null | undefined | false)[]) => {
-  return classes.filter(Boolean).join(" ");
-};
+import { Button } from "./ui/button";
+import { MenuIcon } from "lucide-react";
 
 const BASE_BUTTON_CLASSES =
-  "py-3 px-4 text-lg transition-all duration-300 hover:shadow-lg rounded-full";
-
-const ACTIVE_CLASSES = "bg-yellow-600";
-
-const INACTIVE_BUTTON_COLOR = "bg-gray-500";
-
+ "rounded-full  px-4 py-1.5 font-medium text-slate-500 focus-visible:outline-none transition w-34";
+const ACTIVE_CLASSES = "bg-yellow-600 text-white border border-slate-200";
+const INACTIVE_BUTTON_COLOR = " transparent hover:text-gray-500";
 
 export default function Header() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [open, setOpen] = useState(false);
+ const navigate = useNavigate();
+ const location = useLocation();
+ const [expanded, setExpanded] = useState(false);
 
-  const mainNavigate = (route: string) => {
-    setOpen(false);
-    navigate(`/${route}`);
-  };
+ const toggleMenu = () => {
+   setExpanded((prev) => !prev);
+ };
 
-  const homePath = "/";
-  const currentPath = location.pathname;
+ const mainNavigate = (route: string) => {
+   setExpanded(false);
+   navigate(`/${route}`);
+ };
 
-  const buttons = (
-    <>
-      <Button
-        type="button"
-        className={classNames(
-          BASE_BUTTON_CLASSES,
-          "hover:bg-gray-500/90",
-          currentPath === homePath ? ACTIVE_CLASSES : INACTIVE_BUTTON_COLOR, // Conditional Styling Fix
-        )}
-        onClick={() => mainNavigate("")}
-      >
-        {home}
-      </Button>
+ const homePath = "/";
+ const currentPath = location.pathname;
 
-      <Button
-        type="button"
-        className={classNames(
-          BASE_BUTTON_CLASSES,
-          "hover:bg-gray-500/90",
-          currentPath === "/topup" ? ACTIVE_CLASSES : INACTIVE_BUTTON_COLOR, // Conditional Styling Fix
-        )}
-        onClick={() => mainNavigate("topup")}
-      >
-        {topup}
-      </Button>
+ const buttonsII = (
+   <>
 
-      <Button
-        type="button"
-        className={classNames(
-          BASE_BUTTON_CLASSES,
-          "hover:bg-gray-500/90",
-          currentPath === "/register" ? ACTIVE_CLASSES : INACTIVE_BUTTON_COLOR, // Conditional Styling Fix
-        )}
-        onClick={() => mainNavigate("register")}
-      >
-        {register}
-      </Button>
-    </>
-  );
+     {
+       currentPath !== homePath ? <button
+         type="button"
+         className={classNames(
+           BASE_BUTTON_CLASSES,
+           "",
+           currentPath === homePath ? ACTIVE_CLASSES : INACTIVE_BUTTON_COLOR, // Conditional Styling Fix
+         )}
+         onClick={() => mainNavigate("")}
+       >
+         {home}
+       </button> : null
+     }
 
-  return (
-    <header className="sticky py-5 mx-auto max-w-screen-lg bg-[hsla(0,0%,93%,0.72)] backdrop-blur-xl rounded-full shadow-sm px-4 md:px-8 top-5 z-50 w-full">
-      <div className="flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2">
-          <Logo />
-        </Link>
+     {
+       currentPath !== "/topup" ?
+         <button
+           type="button"
+           className={classNames(
+             BASE_BUTTON_CLASSES,
+             "",
+             currentPath === "/topup" ? ACTIVE_CLASSES : INACTIVE_BUTTON_COLOR, // Conditional Styling Fix
+           )}
+           onClick={() => mainNavigate("topup")}
+         >
+           {topup}
+         </button> : null
+     }
 
-        {/* --- Desktop Navigation --- */}
-        <div className="hidden lg:block">
-          <div className="space-x-3">{buttons}</div>
-        </div>
+     {
+       currentPath !== "/register" ?
+         <button
+           type="button"
+           className={classNames(
+             BASE_BUTTON_CLASSES,
+             "",
+             currentPath === "/register" ? ACTIVE_CLASSES : INACTIVE_BUTTON_COLOR, // Conditional Styling Fix
+           )}
+           onClick={() => mainNavigate("register")}
+         >
+           {register}
+         </button> : null
+     }
+   </>
+ );
 
-        {/* --- Mobile Navigation (Sheet) --- */}
-        <div className="md:hidden">
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant="secondary" size="icon" className="border-2 rounded-full">
-                <MenuIcon />
-              </Button>
-            </SheetTrigger>
+ const buttons = (
+   <>
 
-            <SheetContent
-              side="left"
-              className="bg-white rounded-r-lg flex flex-col"
-            >
-              <div className="flex flex-col justify-between h-full">
-                <div>
-                  <SheetHeader className="flex items-center">
-                    <Logo />
-                  </SheetHeader>
-                  <SheetDescription>
-                    <div className="flex flex-col items-start space-y-5 mt-10">
-                      {buttons}
-                    </div>
-                  </SheetDescription>
-                </div>
+     <button
+       type="button"
+       className={classNames(
+         BASE_BUTTON_CLASSES,
+         "",
+         currentPath === homePath ? ACTIVE_CLASSES : INACTIVE_BUTTON_COLOR, // Conditional Styling Fix
+       )}
+       onClick={() => mainNavigate("")}
+     >
+       {home}
+     </button>
 
-                <SheetFooter className="flex items-center"></SheetFooter>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </div>
-    </header>
-  );
+     <button
+       type="button"
+       className={classNames(
+         BASE_BUTTON_CLASSES,
+         "",
+         currentPath === "/topup" ? ACTIVE_CLASSES : INACTIVE_BUTTON_COLOR, // Conditional Styling Fix
+       )}
+       onClick={() => mainNavigate("topup")}
+     >
+       {topup}
+     </button>
+
+     <button
+       type="button"
+       className={classNames(
+         BASE_BUTTON_CLASSES,
+         "",
+         currentPath === "/register" ? ACTIVE_CLASSES : INACTIVE_BUTTON_COLOR, // Conditional Styling Fix
+       )}
+       onClick={() => mainNavigate("register")}
+     >
+       {register}
+     </button>
+   </>
+ );
+
+ return (
+   <header
+     className={`
+   sticky rounded-xl
+   mx-auto max-w-screen-lg bg-[hsla(0,0%,93%,0.72)]
+    backdrop-blur-xl shadow-sm top-5 z-50 w-full
+   ${expanded ? "before:-inset-0 rounded-b-none" : "before:inset-0"}
+ `}
+   >
+     <div className="flex justify-between items-center p-2 md:p-4">
+       <Link to="/" className="flex items-center">
+         <Logo />
+       </Link>
+
+       <div className="hidden md:block">
+         <div className="space-x-3">{buttons}</div>
+       </div>
+
+       <div className="md:hidden">
+         <Button variant="secondary" size="icon" className="border-2 rounded-full" onClick={toggleMenu}>
+           <MenuIcon />
+         </Button>
+       </div>
+     </div>
+
+     <nav
+       id="menu"
+       aria-labelledby="menubutton"
+       className={`mx-auto max-w-screen w-full absolute bg-[hsla(0,0%,93%,0.72)] backdrop-blur-xl z-100 grid text-sm text-slate-600 overflow-hidden transition-all duration-500 ease-[cubic-bezier(.5,.85,.25,1.8)]
+           ${expanded ? "grid-rows-[1fr] opacity-100 rounded-b-xl" : "grid-rows-[0fr] opacity-0 invisible"}
+           `}
+     >
+       <div className="overflow-hidden before:block before:w-full before:h-px before:bg-gradient-to-r before:from-transparent before:via-slate-200 before:to-transparent">
+         <div className="px-4 py-3">
+           <div className="space-x-3">{buttons}</div>
+         </div>
+       </div>
+     </nav>
+
+   </header>
+ );
 }
+

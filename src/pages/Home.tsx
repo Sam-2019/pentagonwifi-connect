@@ -5,41 +5,40 @@ import MasonryPage from "@/components/MasonryPage";
 import ServiceLogos from "@/components/ServiceLogos";
 
 export function BackgroundRippleEffect() {
-  return (
-    <div
-      className="relative flex w-full flex-col items-start justify-center overflow-hidden mt-10 
-     mx-auto backdrop-blur-sm shadow-lg rounded-xl p-6 md:p-8 border border-blue-100 sm"
-    >
-      <div className="w-full">
-        <h2 className="relative z-10 mx-auto max-w-5xl text-center text-3xl font-bold text-neutral-800 md:text-4xl lg:text-7xl dark:text-neutral-100">
-          Internet That #NeverSleeps
-        </h2>
-        <p className="relative z-10 mx-auto mt-4 max-w-4xl text-center text-muted-foreground leading-relaxed lg:text-lg">
-          Pentagon WiFi was born from a simple realization: students at African
-          Union Hall needed better internet—faster, more reliable, and built for
-          the demands of modern campus life. We launched with one mission in
-          mind: to eliminate digital barriers for students and provide an
-          always-on connection that supports learning, creativity, and
-          entertainment—day and night.
-        </p>
-      </div>
-    </div>
-  );
+ return (
+   <div
+     className="max-w-5xl overflow-hidden mt-10
+    mx-auto backdrop-blur-sm shadow-lg rounded-xl p-6 md:p-8 border border-blue-100 space-y-5"
+   >
+     <h2 className="text-center text-3xl font-bold text-neutral-800 md:text-4xl lg:text-7xl dark:text-neutral-100">
+       Internet That #NeverSleeps
+     </h2>
+     <p className="text-center text-muted-foreground leading-relaxed lg:text-lg">
+       Pentagon WiFi was born from a simple realization: students at African
+       Union Hall needed better internet—faster, more reliable, and built for
+       the demands of modern campus life. We launched with one mission in
+       mind: to eliminate digital barriers for students and provide an
+       always-on connection that supports learning, creativity, and
+       entertainment—day and night.
+     </p>
+   </div>
+ );
 }
 
 const Index = () => {
-  return (
-    <main className="flex-1 flex flex-col items-center justify-center relative">
-      <div className="space-y-20 mt-5 md:mt-10">
-        <BackgroundRippleEffect />
-        <Pricing />
-        <ServiceLogos />
-        <Services />
-        <MasonryPage />
-        <FAQ />
-      </div>
-    </main>
-  );
+ return (
+   <main className="flex-1 flex flex-col items-center justify-center relative">
+     <div className="space-y-20 mt-5 md:mt-10">
+       <BackgroundRippleEffect />
+       <Pricing />
+       <ServiceLogos />
+       <Services />
+       <MasonryPage />
+       <FAQ />
+     </div>
+   </main>
+ );
 };
 
 export default Index;
+

@@ -95,14 +95,12 @@ const RegistrationForm: React.FC = () => {
     const paymentProvider = import.meta.env.VITE_PAYMENT_PROVIDER;
     const capitalizePaymentProvider = String(paymentProvider).toUpperCase();
     const capitalizeSubscriptionPlan = data.subscriptionPlan.toUpperCase();
+    const username = String(Math.floor(Date.now() * Math.random()));
 
     const credentials = {
-      userName: String(uuidv4().slice(0, 5)),
+      userName: username.slice(0, 5),
       password: data.password,
     };
-
-    console.log(credentials.userName);
-    console.log(data.termsAccepted);
 
     const selectedCard = cards.filter(
       (card) => card.name === data.selectedCard,
@@ -482,19 +480,15 @@ const RegistrationForm: React.FC = () => {
 
         <div className="mt-2 mb-2 border-t" />
 
-        <div className="bg-gray-100 backdrop-blur-sm shadow-sm flex flex-col md:flex-row gap-2 items-center rounded-lg p-6 border-gray-300">
-          <div className="text-gray-700 w-full">
-            <p>
-              <strong>Registration Fee:</strong> GHC {fee}
-            </p>
-          </div>
+       <div className="bg-gray-100 backdrop-blur-sm shadow-sm flex flex-col md:flex-row gap-2 items-center rounded-lg p-6 border-gray-300">
+         <p className="w-full md:text-center">
+           <strong>Registration Fee:</strong> GHC {fee}
+         </p>
 
-          <div className="self-center text-center w-full md:py-0 pt-4">
-            <p className="text-2xl font-semibold text-primary">
-              Total: GHC {totalCost}
-            </p>
-          </div>
-        </div>
+         <p className="text-2xl font-semibold text-primary w-full md:py-0 pt-4 text-center">
+           Total: GHC {totalCost}
+         </p>
+       </div>
 
         <div>
           <Button
