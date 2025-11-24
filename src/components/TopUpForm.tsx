@@ -32,6 +32,7 @@ const TopUpForm: React.FC = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(topupSchema),
+    mode: "onTouched",
     defaultValues: {
       email: "",
       userName: "",
