@@ -54,6 +54,7 @@ const RegistrationForm: React.FC = () => {
     formState: { errors },
   } = useForm({
     criteriaMode: "all",
+    mode: "onTouched",
     resolver: yupResolver(registrationSchema),
     defaultValues: {
       fullName: "",
